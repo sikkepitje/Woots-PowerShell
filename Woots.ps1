@@ -123,8 +123,8 @@ function Invoke-MultiPageGet($nextlink) {
     return $data
 }
 #endregion
-# ====================== BASIC FUNCTIONS ======================
-#region basic functions
+# ====================== PROTOTYPE FUNCTIONS ======================
+#region prototype functions
 Function Search-WootsResource($resource, $parameter) {
     <#
         GET /api/v2/search/{resource}/?query={name}:"{value}" {name}:{value}
@@ -232,25 +232,20 @@ function Remove-WootsResourceById ($resource, $id) {
     return $response.content | ConvertFrom-Json
 }
 
-#endregion
-
-<#  Add-WootsClass, Remove-WootsClass, Set-WootsClass
-Ik kan dit niet testen. Ik mag blijkbaar Add-WootsClass, Remove-WootsClass en Set-WootsClass
-niet gebruiken in een Wootsomgeving waar klassen zijn gesynchroniseerd met Magister #>
-
-
-Function Get-ResourceItem($Resource, $Resource_id, $ItemType) {
-    # GET /api/v2/courses/{course_id}/courses_users ; List course users
-    if ($verbose) {Write-Host "$(Get-FunctionName): $resource $name $value" -NoNewline -ForegroundColor Blue}
-    return Invoke-MultiPageGet -nextlink ("$apiurl/$Resource/$Resource_id/$ItemType" -f ($name, $value))
+Function Get-WootsResourceItem($Resource, $id, $ItemType) {
+    # GET /api/v2/{resource}/{resource_id}/{itemtype} ; List resource items
+    if ($verbose) {Write-Host "$(Get-FunctionName): $resource $id $itemtype" -NoNewline -ForegroundColor Blue}
+    $url = "$apiurl/$Resource/$id/$ItemType"
+    if ($verbose) {Write-Host "[$url]"  -NoNewline -ForegroundColor Blue}
+    return Invoke-MultiPageGet -nextlink $url
 }
-Function Add-ResourceItem($resources, $resource_id, $itemtype, $parameter) {
-    # Generic POST /api/v2/resources/{resource_id}/itemtype $parameter ; Add item to resource
+Function Add-WootsResourceItem($resources, $id, $itemtype, $parameter) {
+    # POST /api/v2/{resource}/{resource_id}/{itemtype} $parameter ; Add item to resource
     Assert-WootsInitialized
     if ($verbose) {Write-Host (Get-FunctionName) -NoNewline -ForegroundColor Blue}
     $ProgressPreference = 'SilentlyContinue' 
     Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resources/$resource_id/$itemtype" -Method 'POST' -Headers $requestheader -Body $parameter
+        $response = Invoke-WebRequest -Uri "$apiurl/$resources/$id/$itemtype" -Method 'POST' -Headers $requestheader -Body $parameter
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
@@ -262,13 +257,11 @@ Function Add-ResourceItem($resources, $resource_id, $itemtype, $parameter) {
     return $response.content | ConvertFrom-Json
 }
 
-Function Get-CourseUsers000($course_id) {
-    return Get-ResourceItem -Resource "courses" -Resource_id $course_id -ItemType "course_users"
-}
+#endregion
 
-Function Add-CourseUser000($course_id, $user) {
-    return Add-ResourceItem -resources "courses" -resource_id $course_id -itemtype "courses_users" -item $user
-}
+<#  Add-WootsClass, Remove-WootsClass, Set-WootsClass
+Ik kan dit niet testen. Ik mag blijkbaar Add-WootsClass, Remove-WootsClass en Set-WootsClass
+niet gebruiken in een Wootsomgeving waar klassen zijn gesynchroniseerd met Magister #>
 
 # ====================== CODE GENERATOR OUTPUT ======================
 
