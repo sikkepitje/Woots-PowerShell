@@ -1,0 +1,186 @@
+Resource;Method;URI;Description
+Assignments;GET;/api/v2/assignments/{id};Show assignment
+Assignments;GET;/api/v2/background_jobs;List background jobs
+Assignments;GET;/api/v2/background_jobs/{id};Show background job
+Blueprints;GET;/api/v2/blueprints/{id};Show blueprint
+Classes;GET;/api/v2/classes/{id};Show class
+Comments;GET;/api/v2/comments;List comments
+Comments;GET;/api/v2/comments/{id};Show comment
+Courses;GET;/api/v2/courses/{id};Show course
+Courses users;GET;/api/v2/courses_users/{id};Show courses user
+Departments;GET;/api/v2/departments/{id};Show department
+Domains;GET;/api/v2/domains/{id};Show domain
+Exercises;GET;/api/v2/exercises/{id};Show exercise
+Groups;GET;/api/v2/groups/{id};Show group
+Assignment labels;GET;/api/v2/labels/{id};Show assignment label
+Locations;GET;/api/v2/locations/{id};Show Location
+Notifications;GET;/api/v2/notifications;List notifications
+Notifications;GET;/api/v2/notifications/{id};Show notification
+Objectives;GET;/api/v2/objectives/{id};Show objective
+Periods;GET;/api/v2/periods/{id};Show period
+Plans;GET;/api/v2/plans/{id};Show plan
+Publication timeslots;GET;/api/v2/publication_timeslots/{id};Show publication timeslot
+Qti;GET;/api/v2/qti/results/{id};QTI export
+Question bank assignments;GET;/api/v2/question_bank_assignments/{id};Show question bank assignment
+Question bank exercises;GET;/api/v2/question_bank_exercises/{id};Show question bank exercise
+Question bank labels;GET;/api/v2/question_bank_labels/{id};Show question bank label
+Question banks;GET;/api/v2/question_banks;List question banks
+Question banks;GET;/api/v2/question_banks/{id};Show question bank
+Questions;GET;/api/v2/questions/{id};Show question
+Requirements;GET;/api/v2/requirements/{id}/;Show requirement
+Results;GET;/api/v2/results/{id};Show result
+Schools;GET;/api/v2/schools/{id};Show school
+Score marks;GET;/api/v2/score_marks/{id};Show score mark
+Search;GET;/api/v2/search/assignments;Search assignments
+Search;GET;/api/v2/search/courses;Search courses
+Search;GET;/api/v2/search/groups;Search groups
+Search;GET;/api/v2/search/question_bank_assignments;Search question bank assignments
+Search;GET;/api/v2/search/question_banks;Search question banks
+Search;GET;/api/v2/search/results;Search results
+Search;GET;/api/v2/search/timeslots;Search timeslots
+Search;GET;/api/v2/search/users;Search users
+Studies;GET;/api/v2/studies/{id};Show study
+Submissions;GET;/api/v2/submissions/{id};Show submission
+Subscriptions;GET;/api/v2/subscriptions/{id};Show subscription
+Tasks;GET;/api/v2/tasks/{id};Show task
+Timeslots;GET;/api/v2/timeslots/{id};Show timeslot
+Users;GET;/api/v2/users/{id};Show user
+Webhooks;GET;/api/v2/webhooks/;List webhooks
+Webhooks;GET;/api/v2/webhooks/{id};Show webhook
+Assignments;PATCH;/api/v2/assignments/{id};Update assignment
+Assignments;PATCH;/api/v2/background_jobs/{id};Update background job
+Classes;PATCH;/api/v2/classes/{id};Update class
+Comments;PATCH;/api/v2/comments/{id};Update comment
+Courses;PATCH;/api/v2/courses/{id};Update course
+Courses users;PATCH;/api/v2/courses_users/{id};Update courses user
+Departments;PATCH;/api/v2/departments/{id};Update department
+Domains;PATCH;/api/v2/domains/{id};Update domain
+Exercises;PATCH;/api/v2/exercises/{id};Update exercise
+Groups;PATCH;/api/v2/groups/{id};Update group
+Assignment labels;PATCH;/api/v2/labels/{id};Update assignment label
+Locations;PATCH;/api/v2/locations/{id};Update location
+Objectives;PATCH;/api/v2/objectives/{id};Update objective
+Periods;PATCH;/api/v2/periods/{id};Update period
+Plans;PATCH;/api/v2/plans/{id};Update plan
+Publication timeslots;PATCH;/api/v2/publication_timeslots/{id};Update publication timeslot
+Question bank assignments;PATCH;/api/v2/question_bank_assignments/{id};Update question bank assignment
+Question bank exercises;PATCH;/api/v2/question_bank_exercises/{id};Update question bank exercise
+Question bank labels;PATCH;/api/v2/question_bank_labels/{id};Update question bank label
+Question banks;PATCH;/api/v2/question_banks/{id};Update question bank
+Questions;PATCH;/api/v2/questions/{id};Update question
+Requirements;PATCH;/api/v2/requirements/{id}/;Update requirement
+Results;PATCH;/api/v2/results/{id};Update result
+Schools;PATCH;/api/v2/schools/{id};Update school
+Score marks;PATCH;/api/v2/score_marks/{id};Update score mark
+Studies;PATCH;/api/v2/studies/{id};Update study
+Submissions;PATCH;/api/v2/submissions/{id};Update submission
+Subscriptions;PATCH;/api/v2/subscriptions/{id};Update subscription
+Tasks;PATCH;/api/v2/tasks/{id};Update task
+Timeslots;PATCH;/api/v2/timeslots/{id};Update timeslot
+Users;PATCH;/api/v2/users/{id};Update user
+Webhooks;PATCH;/api/v2/webhooks/{id};Update webhook
+Comments;POST;/api/v2/comments;Create comment
+Question banks;POST;/api/v2/question_banks;Create question bank
+Webhooks;POST;/api/v2/webhooks/;Create webhook
+Exercises;POST;/api/v2/assignments/{assignment_id}/exercises;Create exercise
+Publication timeslots;POST;/api/v2/assignments/{assignment_id}/publication_timeslots;Create publication timeslot
+Requirements;POST;/api/v2/assignments/{assignment_id}/requirements;Create requirement
+Score marks;POST;/api/v2/assignments/{assignment_id}/score_marks;Create score mark
+Tasks;POST;/api/v2/assignments/{assignment_id}/tasks;Create assignment task
+Timeslots;POST;/api/v2/assignments/{assignment_id}/timeslots;Create timeslot
+Assignments;POST;/api/v2/courses/{course_id}/assignments;Create assignment
+Courses users;POST;/api/v2/courses/{course_id}/courses_users;Add user to course
+Domains;POST;/api/v2/courses/{course_id}/domains;Create course domain
+Groups;POST;/api/v2/courses/{course_id}/groups;Create group
+Studies;POST;/api/v2/departments/{department_id}/studies;Create study
+Objectives;POST;/api/v2/domains/{domain_id}/objectives;Create objective
+Questions;POST;/api/v2/exercises/{exercise_id}/questions;Create question
+Groups users;POST;/api/v2/groups/{group_id}/groups_users;Add user to group
+Subscriptions;POST;/api/v2/plans/{plan_id}/subscriptions;Create subscription
+Plans;POST;/api/v2/publishers/{publisher_id}/plans;Create plan
+Score marks;POST;/api/v2/question_bank_assignments/{question_bank_assignment_id}/score_marks;Create question bank assignment score mark
+Domains;POST;/api/v2/question_banks/{question_bank_id}/domains;Create question bank domain
+Question bank assignments;POST;/api/v2/question_banks/{question_bank_id}/question_bank_assignments;Create question bank assignment
+Question bank exercises;POST;/api/v2/question_banks/{question_bank_id}/question_bank_exercises;Create question bank exercise
+Question bank labels;POST;/api/v2/question_banks/{question_bank_id}/question_bank_labels;Create question bank label
+Tasks;POST;/api/v2/question_banks/{question_bank_id}/tasks;Create question bank task
+Courses users;POST;/api/v2/users/{user_id}/courses_users;Add user to course
+Groups users;POST;/api/v2/users/{user_id}/groups_users;Add user to group
+Classes;POST;/api/v2/schools/{school_id}/classes;Create classes
+Courses;POST;/api/v2/schools/{school_id}/courses;Create course
+Departments;POST;/api/v2/schools/{school_id}/departments;Create department
+Assignment labels;POST;/api/v2/schools/{school_id}/labels;Create assignment label
+Locations;POST;/api/v2/schools/{school_id}/locations;Create location
+Periods;POST;/api/v2/schools/{school_id}/periods;Create period
+Users;POST;/api/v2/schools/{school_id}/users;Create user
+Covers;GET;/api/v2/assignments/{assignment_id}/cover;Show cover
+Exercises;GET;/api/v2/assignments/{assignment_id}/exercises;List exercises
+Publications;GET;/api/v2/assignments/{assignment_id}/publication;Show publication
+Publication timeslots;GET;/api/v2/assignments/{assignment_id}/publication_timeslots;List publication timeslots
+Requirements;GET;/api/v2/assignments/{assignment_id}/requirements;List requirements
+Results;GET;/api/v2/assignments/{assignment_id}/results;List results
+Score marks;GET;/api/v2/assignments/{assignment_id}/score_marks;List score marks
+Tasks;GET;/api/v2/assignments/{assignment_id}/tasks;List assignment tasks
+Timeslots;GET;/api/v2/assignments/{assignment_id}/timeslots;List timeslots
+Assignments;GET;/api/v2/courses/{course_id}/assignments;List assignments
+Courses users;GET;/api/v2/courses/{course_id}/courses_users;List course users
+Domains;GET;/api/v2/courses/{course_id}/domains;List course domains
+Groups;GET;/api/v2/courses/{course_id}/groups;List groups
+Studies;GET;/api/v2/departments/{department_id}/studies;List studies
+Objectives;GET;/api/v2/domains/{domain_id}/objectives;List objectives
+Questions;GET;/api/v2/exercises/{exercise_id}/questions;List questions
+Groups users;GET;/api/v2/groups/{group_id}/groups_users;List users in group
+Subscriptions;GET;/api/v2/plans/{plan_id}/subscriptions;List subscriptions
+Plans;GET;/api/v2/publishers/{publisher_id}/plans;List plans
+Covers;GET;/api/v2/question_bank_assignments/{question_bank_assignment_id}/cover;Show cover
+Question bank assignments;GET;/api/v2/question_bank_assignments/{question_bank_assignment_id}/question_bank_assignment_results;List question bank assignment results
+Score marks;GET;/api/v2/question_bank_assignments/{question_bank_assignment_id}/score_marks;List question bank assignment score marks
+Blueprints;GET;/api/v2/question_banks/{question_bank_id}/blueprints;List blueprints
+Domains;GET;/api/v2/question_banks/{question_bank_id}/domains;List question bank domains
+Question bank assignments;GET;/api/v2/question_banks/{question_bank_id}/question_bank_assignments;List question bank assignments
+Question bank exercises;GET;/api/v2/question_banks/{question_bank_id}/question_bank_exercises;List question bank exercises
+Question bank exercises;GET;/api/v2/question_banks/{question_bank_id}/question_bank_exercises/import;Import question bank exercises
+Question bank labels;GET;/api/v2/question_banks/{question_bank_id}/question_bank_labels;List question bank labels
+Tasks;GET;/api/v2/question_banks/{question_bank_id}/tasks;List question bank tasks
+Courses users;GET;/api/v2/users/{user_id}/courses_users;List user courses
+Groups users;GET;/api/v2/users/{user_id}/groups_users;List groups of user
+Classes;GET;/api/v2/schools/{school_id}/classes;List Classes
+Courses;GET;/api/v2/schools/{school_id}/courses;List courses
+Departments;GET;/api/v2/schools/{school_id}/departments;List departments
+Assignment labels;GET;/api/v2/schools/{school_id}/labels;List assignment labels
+Locations;GET;/api/v2/schools/{school_id}/locations;List locations
+Periods;GET;/api/v2/schools/{school_id}/periods;List periods
+Roles;GET;/api/v2/schools/{school_id}/roles;List roles
+Users;GET;/api/v2/schools/{school_id}/users;List users
+Assignments;DELETE;/api/v2/assignments/{id};Delete assignment
+Classes;DELETE;/api/v2/classes/{id};Delete class
+Comments;DELETE;/api/v2/comments/{id};Destroy comment
+Courses;DELETE;/api/v2/courses/{id};Delete course
+Courses users;DELETE;/api/v2/courses_users/{id};Delete courses user
+Departments;DELETE;/api/v2/departments/{id};Delete department
+Domains;DELETE;/api/v2/domains/{id};Delete domain
+Exercises;DELETE;/api/v2/exercises/{id};Delete exercise
+Groups;DELETE;/api/v2/groups/{id};Delete group
+Groups users;DELETE;/api/v2/groups_users/{id};Remove user from group
+Assignment labels;DELETE;/api/v2/labels/{id};Delete assignment label
+Locations;DELETE;/api/v2/locations/{id};Delete location
+Objectives;DELETE;/api/v2/objectives/{id};Delete objective
+Periods;DELETE;/api/v2/periods/{id};Delete period
+Plans;DELETE;/api/v2/plans/{id};Delete plan
+Publication timeslots;DELETE;/api/v2/publication_timeslots/{id};Delete publication timeslot
+Question bank assignments;DELETE;/api/v2/question_bank_assignments/{id};Delete question bank assignment
+Question bank exercises;DELETE;/api/v2/question_bank_exercises/{id};Delete question bank exercise
+Question bank labels;DELETE;/api/v2/question_bank_labels/{id};Delete question bank label
+Question banks;DELETE;/api/v2/question_banks/{id};Delete question bank
+Questions;DELETE;/api/v2/questions/{id};Delete question
+Requirements;DELETE;/api/v2/requirements/{id}/;Delete requirement
+Score marks;DELETE;/api/v2/score_marks/{id};Delete score mark
+Studies;DELETE;/api/v2/studies/{id};Delete study
+Subscriptions;DELETE;/api/v2/subscriptions/{id};Delete subscription
+Tasks;DELETE;/api/v2/tasks/{id};Delete task
+Timeslots;DELETE;/api/v2/timeslots/{id};Delete timeslot
+Users;DELETE;/api/v2/users/{id};Delete user
+Webhooks;DELETE;/api/v2/webhooks/{id};Delete webhook
+Covers;PATCH;/api/v2/assignments/{assignment_id}/cover;Update cover
+Publications;PATCH;/api/v2/assignments/{assignment_id}/publication;Update publication
+Covers;PATCH;/api/v2/question_bank_assignments/{question_bank_assignment_id}/cover;Update cover
