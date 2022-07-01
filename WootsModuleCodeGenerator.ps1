@@ -48,7 +48,7 @@ Function Get-SingleTag($tag) {
 
 Write-Host "========  $(Split-Path -Leaf $MyInvocation.MyCommand.Definition)  ========"
 $herePath = Split-Path -parent $MyInvocation.MyCommand.Definition
-$codefile = (Join-Path $herepath "Woots-generatedcode-V2.ps1")
+$codefile = (Join-Path $herepath "Woots-generatedcode.ps1")
 $api = import-csv -path (Join-Path $herepath "Woots-api-calls.csv") -Delimiter ";" -Encoding UTF8
 
 Write-Code ("##")
@@ -150,7 +150,7 @@ if ($difflist) {
 }
 
 # output 
-#$api = $api | Sort-Object -Property Resource,Method
+$api = $api | Sort-Object -Property URI
 $implementedcounter = 0
 foreach ($call in $api) {
     if ($call.Code) {
