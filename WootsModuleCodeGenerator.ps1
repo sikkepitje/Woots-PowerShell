@@ -16,9 +16,9 @@ $Template3AddSchoolResource = 'Function Add-Woots{resource}($parameter) {return 
 $Template4GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResourceById -resource "{resources}" -id $id }'
 $Template5SetResource = 'Function Set-Woots{resource}($id,$parameter) {return Set-WootsResourceById -resource "{resources}" -id $id -parameter $parameter}'
 $Template6RemoveResource = 'Function Remove-Woots{resource}($id,$parameter) {return Remove-WootsResourceById -resource "{resources}" -id $id -parameter $parameter}'
-$Template7GetResourceItem = 'Function Get-Woots{resource}{item}($id) { return Get-WootsResourceItem -resource "{resources}" -id $id }'
-$Template8AddResourceItem = 'Function Add-Woots{resource}{item}($id,$parameter) {return Add-WootsResourceItem -resource "{resources}" -id $id -parameter $parameter}'
-$Template9SetResourceItem = 'Function Set-Woots{resource}{item}($id,$parameter) {return Set-WootsResourceItem -resource "{resources}" -id $id -parameter $parameter}'
+$Template7GetResourceItem = 'Function Get-Woots{resource}{itemtype}($id) { return Get-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}"}'
+$Template8AddResourceItem = 'Function Add-Woots{resource}{itemtype}($id,$parameter) {return Add-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $parameter}'
+$Template9SetResourceItem = 'Function Set-Woots{resource}{itemtype}($id,$parameter) {return Set-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $parameter}'
 $Template999NotYetImplemented = 'Function Invoke-Woots{apicall}() { Throw "This function is not yet implemented"}'
 
 $code = @()
@@ -117,16 +117,16 @@ foreach ($call in $api) {
         }
     } elseif ($call.deel3 -and !$call.deel4 -and ($call.deel3 -ne "{id}")) {
         $resource = $singletons[$call.deel1]
-        $item = $singletons[$call.deel3]        
+        $itemtype = $singletons[$call.deel3]        
         if ($call.Method -eq "GET") {  
             # GET /api/v2/{resource}/{id}
-            $call.code = $Template7GetResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{item}", $item)
+            $call.code = $Template7GetResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{itemtypes}", $call.deel3).replace("{itemtype}", $itemtype)
         } elseif ($call.Method -eq "POST") {
             # POST /api/v2/{resource}/{id}
-            $call.code = $Template8AddResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{item}", $item)
+            $call.code = $Template8AddResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{itemtypes}", $call.deel3).replace("{itemtype}", $itemtype)
         } elseif ($call.Method -eq "PATCH") {
             # PATCH /api/v2/{resource}/{id}
-            $call.code = $Template9SetResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{item}", $item)
+            $call.code = $Template9SetResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{itemtypes}", $call.deel3).replace("{itemtype}", $itemtype)
         }
     }
     if (!$call.Code) {
@@ -162,6 +162,6 @@ foreach ($call in $api) {
 }
 
 Write-Code ("# {0} functions implemented" -f $implementedcounter)
-Write-Host ("# {0} functions implemented" -f $implementedcounter)
+Write-Host ("{0} functions implemented" -f $implementedcounter)
 $code | Set-Content -Path $codefile -Force 
 Write-Host "Generated code in file: $codefile"

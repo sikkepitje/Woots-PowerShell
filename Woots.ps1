@@ -238,24 +238,19 @@ function Remove-WootsResourceById ($resource, $id) {
 Ik kan dit niet testen. Ik mag blijkbaar Add-WootsClass, Remove-WootsClass en Set-WootsClass
 niet gebruiken in een Wootsomgeving waar klassen zijn gesynchroniseerd met Magister #>
 
-# ====================== CODE GENERATOR OUTPUT ======================
 
-. (Join-Path $PSScriptRoot "Woots-generatedcode.ps1")
-
-# ====================== NOG MEER CODE ======================
-
-Function Get-ResourceItems($Resource, $Resource_id, $ItemType) {
+Function Get-ResourceItem($Resource, $Resource_id, $ItemType) {
     # GET /api/v2/courses/{course_id}/courses_users ; List course users
     if ($verbose) {Write-Host "$(Get-FunctionName): $resource $name $value" -NoNewline -ForegroundColor Blue}
     return Invoke-MultiPageGet -nextlink ("$apiurl/$Resource/$Resource_id/$ItemType" -f ($name, $value))
 }
-Function Add-ResourceItem($resources, $resource_id, $itemtype, $item) {
-    # Generic POST /api/v2/resources/{resource_id}/itemtype $user ; Add item to resource
+Function Add-ResourceItem($resources, $resource_id, $itemtype, $parameter) {
+    # Generic POST /api/v2/resources/{resource_id}/itemtype $parameter ; Add item to resource
     Assert-WootsInitialized
     if ($verbose) {Write-Host (Get-FunctionName) -NoNewline -ForegroundColor Blue}
     $ProgressPreference = 'SilentlyContinue' 
     Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resources/$resource_id/$itemtype" -Method 'POST' -Headers $requestheader -Body $item
+        $response = Invoke-WebRequest -Uri "$apiurl/$resources/$resource_id/$itemtype" -Method 'POST' -Headers $requestheader -Body $parameter
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
@@ -267,11 +262,16 @@ Function Add-ResourceItem($resources, $resource_id, $itemtype, $item) {
     return $response.content | ConvertFrom-Json
 }
 
-Function Get-CourseUsers($course_id) {
-    return Get-ResourceItems -Resource "courses" -Resource_id $course_id -ItemType "course_users"
+Function Get-CourseUsers000($course_id) {
+    return Get-ResourceItem -Resource "courses" -Resource_id $course_id -ItemType "course_users"
 }
 
-Function Add-CourseUser($course_id, $user) {
+Function Add-CourseUser000($course_id, $user) {
     return Add-ResourceItem -resources "courses" -resource_id $course_id -itemtype "courses_users" -item $user
 }
 
+# ====================== CODE GENERATOR OUTPUT ======================
+
+. (Join-Path $PSScriptRoot "Woots-generatedcode.ps1")
+
+# ====================== NOG MEER CODE ======================
