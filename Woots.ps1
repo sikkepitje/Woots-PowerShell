@@ -1,6 +1,6 @@
 <#
     Woots.psm1
-    8-5-2022 p.wiegmans@svok.nl
+    8-5-2022 Paul Wiegmans
 
     Een PowerShell module voor het besturen van de Woots web API
 
