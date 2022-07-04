@@ -66,6 +66,7 @@ $api | Add-Member -MemberType NoteProperty -Name "Deel2" -Value ""
 $api | Add-Member -MemberType NoteProperty -Name "Deel3" -Value "" 
 $api | Add-Member -MemberType NoteProperty -Name "Deel4" -Value "" 
 $api | Add-Member -MemberType NoteProperty -Name "Code" -Value "" 
+$api | Add-Member -MemberType NoteProperty -Name "Category" -Value 0 
 
 foreach ($call in $api) {
     $parts = $call.uri -split "/"
@@ -95,26 +96,32 @@ foreach ($call in $api) {
     if ($call.deel1 -eq "search") {
         # GET /api/v2/search/{resources}
         $call.code = $Template1SearchResource.replace("{resources}",$call.deel2).replace("{resource}",$singletons[$call.deel2])
+        $call.category = 1
     } elseif ($call.deel2 -eq "{school_id}") {
         $resource = $singletons[$call.deel3]
         if ($call.Method -eq "GET") {  
             # GET /api/v2/schools/{school_id}/{resource}
             $call.code = $Template2GetSchoolResources.replace("{resources}", $call.deel3).replace("{resource}", $resource)
+            $call.category = 2
         } elseif ($call.Method -eq "POST") {
             # POST /api/v2/schools/{school_id}/{resource}
             $call.code = $Template3AddSchoolResource.replace("{resources}", $call.deel3).replace("{resource}", $resource)
+            $call.category = 3
         }
     } elseif ($call.deel2 -eq "{id}") {
         $resource = $singletons[$call.deel1]
         if ($call.Method -eq "GET") {  
             # GET /api/v2/{resource}/{id}
             $call.code = $Template4GetResource.replace("{resources}", $call.deel1).replace("{resource}", $resource)
+            $call.category = 4
         } elseif ($call.Method -eq "PATCH") {
             # PATCH /api/v2/{resource}/{id}
             $call.code = $Template5SetResource.replace("{resources}", $call.deel1).replace("{resource}", $resource)
+            $call.category = 5
         } elseif ($call.Method -eq "DELETE") {
             # DELETE /api/v2/{resource}/{id}
             $call.code = $Template6RemoveResource.replace("{resources}", $call.deel1).replace("{resource}", $resource)
+            $call.category = 6
         }
     } elseif ($call.deel3 -and !$call.deel4 -and ($call.deel3 -ne "{id}")) {
         $resource = $singletons[$call.deel1]
@@ -122,12 +129,15 @@ foreach ($call in $api) {
         if ($call.Method -eq "GET") {  
             # GET /api/v2/{resource}/{id}
             $call.code = $Template7GetResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{itemtypes}", $call.deel3).replace("{itemtype}", $itemtype)
+            $call.category = 7
         } elseif ($call.Method -eq "POST") {
             # POST /api/v2/{resource}/{id}
             $call.code = $Template8AddResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{itemtypes}", $call.deel3).replace("{itemtype}", $itemtype)
+            $call.category = 8
         } elseif ($call.Method -eq "PATCH") {
             # PATCH /api/v2/{resource}/{id}
             $call.code = $Template9SetResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{itemtypes}", $call.deel3).replace("{itemtype}", $itemtype)
+            $call.category = 9
         }
     }
     if (!$call.Code) {
@@ -151,12 +161,12 @@ if ($difflist) {
 }
 
 # output 
-$api = $api | Sort-Object -Property URI
+$api = $api | Sort-Object -Property Function
 $implementedcounter = 0
 foreach ($call in $api) {
     if ($call.Code) {
         # generate a comment line for every function
-        write-code ("# {0}: {1} {2} ({3})" -f ($call.Resource, $call.Method, $call.URI, $call.Description))
+        #write-code ("# {0}: {1} {2} ({3})" -f ($call.Resource, $call.Method, $call.URI, $call.Description))
         Write-Code $call.code
         $implementedcounter++
     }

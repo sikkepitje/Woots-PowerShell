@@ -5,374 +5,189 @@
 
 
 
-# Covers: PATCH /api/v2/assignments/{assignment_id}/cover (Update cover)
-Function Set-WootsAssignmentCover($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "cover" -parameter $Parameter}
-# Covers: GET /api/v2/assignments/{assignment_id}/cover (Show cover)
-Function Get-WootsAssignmentCover($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "cover"}
-# Exercises: POST /api/v2/assignments/{assignment_id}/exercises (Create exercise)
 Function Add-WootsAssignmentExercise($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "exercises" -parameter $Parameter}
-# Exercises: GET /api/v2/assignments/{assignment_id}/exercises (List exercises)
-Function Get-WootsAssignmentExercise($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "exercises"}
-# Publications: GET /api/v2/assignments/{assignment_id}/publication (Show publication)
-Function Get-WootsAssignmentPublication($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "publication"}
-# Publications: PATCH /api/v2/assignments/{assignment_id}/publication (Update publication)
-Function Set-WootsAssignmentPublication($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "publication" -parameter $Parameter}
-# Publication timeslots: POST /api/v2/assignments/{assignment_id}/publication_timeslots (Create publication timeslot)
 Function Add-WootsAssignmentPublicationTimeslot($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "publication_timeslots" -parameter $Parameter}
-# Publication timeslots: GET /api/v2/assignments/{assignment_id}/publication_timeslots (List publication timeslots)
-Function Get-WootsAssignmentPublicationTimeslot($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "publication_timeslots"}
-# Requirements: GET /api/v2/assignments/{assignment_id}/requirements (List requirements)
-Function Get-WootsAssignmentRequirement($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "requirements"}
-# Requirements: POST /api/v2/assignments/{assignment_id}/requirements (Create requirement)
 Function Add-WootsAssignmentRequirement($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "requirements" -parameter $Parameter}
-# Results: GET /api/v2/assignments/{assignment_id}/results (List results)
-Function Get-WootsAssignmentResult($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "results"}
-# Score marks: POST /api/v2/assignments/{assignment_id}/score_marks (Create score mark)
 Function Add-WootsAssignmentScoreMark($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "score_marks" -parameter $Parameter}
-# Score marks: GET /api/v2/assignments/{assignment_id}/score_marks (List score marks)
-Function Get-WootsAssignmentScoreMark($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "score_marks"}
-# Tasks: GET /api/v2/assignments/{assignment_id}/tasks (List assignment tasks)
-Function Get-WootsAssignmentTask($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "tasks"}
-# Tasks: POST /api/v2/assignments/{assignment_id}/tasks (Create assignment task)
 Function Add-WootsAssignmentTask($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "tasks" -parameter $Parameter}
-# Timeslots: GET /api/v2/assignments/{assignment_id}/timeslots (List timeslots)
-Function Get-WootsAssignmentTimeslot($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "timeslots"}
-# Timeslots: POST /api/v2/assignments/{assignment_id}/timeslots (Create timeslot)
 Function Add-WootsAssignmentTimeslot($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "timeslots" -parameter $Parameter}
-# Assignments: PATCH /api/v2/assignments/{id} (Update assignment)
-Function Set-WootsAssignment($id,$Parameter) {return Set-WootsResourceById -resource "assignments" -id $id -parameter $Parameter}
-# Assignments: GET /api/v2/assignments/{id} (Show assignment)
-Function Get-WootsAssignment($id) { return Get-WootsResourceById -resource "assignments" -id $id }
-# Assignments: DELETE /api/v2/assignments/{id} (Delete assignment)
-Function Remove-WootsAssignment($id,$Parameter) {return Remove-WootsResourceById -resource "assignments" -id $id -parameter $Parameter}
-# Assignments: GET /api/v2/background_jobs (List background jobs)
-Function Invoke-WootsGET__api_v2_background_jobs() { Throw "This function is not yet implemented"}
-# Assignments: GET /api/v2/background_jobs/{id} (Show background job)
-Function Get-WootsBackgroundJob($id) { return Get-WootsResourceById -resource "background_jobs" -id $id }
-# Assignments: PATCH /api/v2/background_jobs/{id} (Update background job)
-Function Set-WootsBackgroundJob($id,$Parameter) {return Set-WootsResourceById -resource "background_jobs" -id $id -parameter $Parameter}
-# Blueprints: GET /api/v2/blueprints/{id} (Show blueprint)
-Function Get-WootsBlueprint($id) { return Get-WootsResourceById -resource "blueprints" -id $id }
-# Classes: GET /api/v2/classes/{id} (Show class)
-Function Get-WootsClass($id) { return Get-WootsResourceById -resource "classes" -id $id }
-# Classes: DELETE /api/v2/classes/{id} (Delete class)
-Function Remove-WootsClass($id,$Parameter) {return Remove-WootsResourceById -resource "classes" -id $id -parameter $Parameter}
-# Classes: PATCH /api/v2/classes/{id} (Update class)
-Function Set-WootsClass($id,$Parameter) {return Set-WootsResourceById -resource "classes" -id $id -parameter $Parameter}
-# Comments: GET /api/v2/comments (List comments)
-Function Invoke-WootsGET__api_v2_comments() { Throw "This function is not yet implemented"}
-# Comments: POST /api/v2/comments (Create comment)
-Function Invoke-WootsPOST__api_v2_comments() { Throw "This function is not yet implemented"}
-# Comments: PATCH /api/v2/comments/{id} (Update comment)
-Function Set-WootsComment($id,$Parameter) {return Set-WootsResourceById -resource "comments" -id $id -parameter $Parameter}
-# Comments: GET /api/v2/comments/{id} (Show comment)
-Function Get-WootsComment($id) { return Get-WootsResourceById -resource "comments" -id $id }
-# Comments: DELETE /api/v2/comments/{id} (Destroy comment)
-Function Remove-WootsComment($id,$Parameter) {return Remove-WootsResourceById -resource "comments" -id $id -parameter $Parameter}
-# Assignments: GET /api/v2/courses/{course_id}/assignments (List assignments)
-Function Get-WootsCourseAssignment($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "assignments"}
-# Assignments: POST /api/v2/courses/{course_id}/assignments (Create assignment)
-Function Add-WootsCourseAssignment($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "assignments" -parameter $Parameter}
-# Courses users: GET /api/v2/courses/{course_id}/courses_users (List course users)
-Function Get-WootsCourseCoursesUser($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "courses_users"}
-# Courses users: POST /api/v2/courses/{course_id}/courses_users (Add user to course)
-Function Add-WootsCourseCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "courses_users" -parameter $Parameter}
-# Domains: POST /api/v2/courses/{course_id}/domains (Create course domain)
-Function Add-WootsCourseDomain($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "domains" -parameter $Parameter}
-# Domains: GET /api/v2/courses/{course_id}/domains (List course domains)
-Function Get-WootsCourseDomain($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "domains"}
-# Groups: POST /api/v2/courses/{course_id}/groups (Create group)
-Function Add-WootsCourseGroup($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "groups" -parameter $Parameter}
-# Groups: GET /api/v2/courses/{course_id}/groups (List groups)
-Function Get-WootsCourseGroup($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "groups"}
-# Courses: PATCH /api/v2/courses/{id} (Update course)
-Function Set-WootsCourse($id,$Parameter) {return Set-WootsResourceById -resource "courses" -id $id -parameter $Parameter}
-# Courses: GET /api/v2/courses/{id} (Show course)
-Function Get-WootsCourse($id) { return Get-WootsResourceById -resource "courses" -id $id }
-# Courses: DELETE /api/v2/courses/{id} (Delete course)
-Function Remove-WootsCourse($id,$Parameter) {return Remove-WootsResourceById -resource "courses" -id $id -parameter $Parameter}
-# Courses users: PATCH /api/v2/courses_users/{id} (Update courses user)
-Function Set-WootsCoursesUser($id,$Parameter) {return Set-WootsResourceById -resource "courses_users" -id $id -parameter $Parameter}
-# Courses users: GET /api/v2/courses_users/{id} (Show courses user)
-Function Get-WootsCoursesUser($id) { return Get-WootsResourceById -resource "courses_users" -id $id }
-# Courses users: DELETE /api/v2/courses_users/{id} (Delete courses user)
-Function Remove-WootsCoursesUser($id,$Parameter) {return Remove-WootsResourceById -resource "courses_users" -id $id -parameter $Parameter}
-# Studies: GET /api/v2/departments/{department_id}/studies (List studies)
-Function Get-WootsDepartmentStudy($id) { return Get-WootsResourceItem -resource "departments" -id $id -itemtype "studies"}
-# Studies: POST /api/v2/departments/{department_id}/studies (Create study)
-Function Add-WootsDepartmentStudy($id,$Parameter) {return Add-WootsResourceItem -resource "departments" -id $id -itemtype "studies" -parameter $Parameter}
-# Departments: GET /api/v2/departments/{id} (Show department)
-Function Get-WootsDepartment($id) { return Get-WootsResourceById -resource "departments" -id $id }
-# Departments: DELETE /api/v2/departments/{id} (Delete department)
-Function Remove-WootsDepartment($id,$Parameter) {return Remove-WootsResourceById -resource "departments" -id $id -parameter $Parameter}
-# Departments: PATCH /api/v2/departments/{id} (Update department)
-Function Set-WootsDepartment($id,$Parameter) {return Set-WootsResourceById -resource "departments" -id $id -parameter $Parameter}
-# Objectives: GET /api/v2/domains/{domain_id}/objectives (List objectives)
-Function Get-WootsDomainObjective($id) { return Get-WootsResourceItem -resource "domains" -id $id -itemtype "objectives"}
-# Objectives: POST /api/v2/domains/{domain_id}/objectives (Create objective)
-Function Add-WootsDomainObjective($id,$Parameter) {return Add-WootsResourceItem -resource "domains" -id $id -itemtype "objectives" -parameter $Parameter}
-# Domains: PATCH /api/v2/domains/{id} (Update domain)
-Function Set-WootsDomain($id,$Parameter) {return Set-WootsResourceById -resource "domains" -id $id -parameter $Parameter}
-# Domains: DELETE /api/v2/domains/{id} (Delete domain)
-Function Remove-WootsDomain($id,$Parameter) {return Remove-WootsResourceById -resource "domains" -id $id -parameter $Parameter}
-# Domains: GET /api/v2/domains/{id} (Show domain)
-Function Get-WootsDomain($id) { return Get-WootsResourceById -resource "domains" -id $id }
-# Questions: GET /api/v2/exercises/{exercise_id}/questions (List questions)
-Function Get-WootsExerciseQuestion($id) { return Get-WootsResourceItem -resource "exercises" -id $id -itemtype "questions"}
-# Questions: POST /api/v2/exercises/{exercise_id}/questions (Create question)
-Function Add-WootsExerciseQuestion($id,$Parameter) {return Add-WootsResourceItem -resource "exercises" -id $id -itemtype "questions" -parameter $Parameter}
-# Exercises: PATCH /api/v2/exercises/{id} (Update exercise)
-Function Set-WootsExercise($id,$Parameter) {return Set-WootsResourceById -resource "exercises" -id $id -parameter $Parameter}
-# Exercises: GET /api/v2/exercises/{id} (Show exercise)
-Function Get-WootsExercise($id) { return Get-WootsResourceById -resource "exercises" -id $id }
-# Exercises: DELETE /api/v2/exercises/{id} (Delete exercise)
-Function Remove-WootsExercise($id,$Parameter) {return Remove-WootsResourceById -resource "exercises" -id $id -parameter $Parameter}
-# Groups users: GET /api/v2/groups/{group_id}/groups_users (List users in group)
-Function Get-WootsGroupGroupsUser($id) { return Get-WootsResourceItem -resource "groups" -id $id -itemtype "groups_users"}
-# Groups users: POST /api/v2/groups/{group_id}/groups_users (Add user to group)
-Function Add-WootsGroupGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "groups" -id $id -itemtype "groups_users" -parameter $Parameter}
-# Groups: DELETE /api/v2/groups/{id} (Delete group)
-Function Remove-WootsGroup($id,$Parameter) {return Remove-WootsResourceById -resource "groups" -id $id -parameter $Parameter}
-# Groups: GET /api/v2/groups/{id} (Show group)
-Function Get-WootsGroup($id) { return Get-WootsResourceById -resource "groups" -id $id }
-# Groups: PATCH /api/v2/groups/{id} (Update group)
-Function Set-WootsGroup($id,$Parameter) {return Set-WootsResourceById -resource "groups" -id $id -parameter $Parameter}
-# Groups users: DELETE /api/v2/groups_users/{id} (Remove user from group)
-Function Remove-WootsGroupsUser($id,$Parameter) {return Remove-WootsResourceById -resource "groups_users" -id $id -parameter $Parameter}
-# Assignment labels: GET /api/v2/labels/{id} (Show assignment label)
-Function Get-WootsLabel($id) { return Get-WootsResourceById -resource "labels" -id $id }
-# Assignment labels: PATCH /api/v2/labels/{id} (Update assignment label)
-Function Set-WootsLabel($id,$Parameter) {return Set-WootsResourceById -resource "labels" -id $id -parameter $Parameter}
-# Assignment labels: DELETE /api/v2/labels/{id} (Delete assignment label)
-Function Remove-WootsLabel($id,$Parameter) {return Remove-WootsResourceById -resource "labels" -id $id -parameter $Parameter}
-# Locations: GET /api/v2/locations/{id} (Show Location)
-Function Get-WootsLocation($id) { return Get-WootsResourceById -resource "locations" -id $id }
-# Locations: DELETE /api/v2/locations/{id} (Delete location)
-Function Remove-WootsLocation($id,$Parameter) {return Remove-WootsResourceById -resource "locations" -id $id -parameter $Parameter}
-# Locations: PATCH /api/v2/locations/{id} (Update location)
-Function Set-WootsLocation($id,$Parameter) {return Set-WootsResourceById -resource "locations" -id $id -parameter $Parameter}
-# Notifications: GET /api/v2/notifications (List notifications)
-Function Invoke-WootsGET__api_v2_notifications() { Throw "This function is not yet implemented"}
-# Notifications: GET /api/v2/notifications/{id} (Show notification)
-Function Get-WootsNotification($id) { return Get-WootsResourceById -resource "notifications" -id $id }
-# Objectives: PATCH /api/v2/objectives/{id} (Update objective)
-Function Set-WootsObjective($id,$Parameter) {return Set-WootsResourceById -resource "objectives" -id $id -parameter $Parameter}
-# Objectives: GET /api/v2/objectives/{id} (Show objective)
-Function Get-WootsObjective($id) { return Get-WootsResourceById -resource "objectives" -id $id }
-# Objectives: DELETE /api/v2/objectives/{id} (Delete objective)
-Function Remove-WootsObjective($id,$Parameter) {return Remove-WootsResourceById -resource "objectives" -id $id -parameter $Parameter}
-# Periods: PATCH /api/v2/periods/{id} (Update period)
-Function Set-WootsPeriod($id,$Parameter) {return Set-WootsResourceById -resource "periods" -id $id -parameter $Parameter}
-# Periods: GET /api/v2/periods/{id} (Show period)
-Function Get-WootsPeriod($id) { return Get-WootsResourceById -resource "periods" -id $id }
-# Periods: DELETE /api/v2/periods/{id} (Delete period)
-Function Remove-WootsPeriod($id,$Parameter) {return Remove-WootsResourceById -resource "periods" -id $id -parameter $Parameter}
-# Plans: GET /api/v2/plans/{id} (Show plan)
-Function Get-WootsPlan($id) { return Get-WootsResourceById -resource "plans" -id $id }
-# Plans: DELETE /api/v2/plans/{id} (Delete plan)
-Function Remove-WootsPlan($id,$Parameter) {return Remove-WootsResourceById -resource "plans" -id $id -parameter $Parameter}
-# Plans: PATCH /api/v2/plans/{id} (Update plan)
-Function Set-WootsPlan($id,$Parameter) {return Set-WootsResourceById -resource "plans" -id $id -parameter $Parameter}
-# Subscriptions: POST /api/v2/plans/{plan_id}/subscriptions (Create subscription)
-Function Add-WootsPlanSubscription($id,$Parameter) {return Add-WootsResourceItem -resource "plans" -id $id -itemtype "subscriptions" -parameter $Parameter}
-# Subscriptions: GET /api/v2/plans/{plan_id}/subscriptions (List subscriptions)
-Function Get-WootsPlanSubscription($id) { return Get-WootsResourceItem -resource "plans" -id $id -itemtype "subscriptions"}
-# Publication timeslots: GET /api/v2/publication_timeslots/{id} (Show publication timeslot)
-Function Get-WootsPublicationTimeslot($id) { return Get-WootsResourceById -resource "publication_timeslots" -id $id }
-# Publication timeslots: PATCH /api/v2/publication_timeslots/{id} (Update publication timeslot)
-Function Set-WootsPublicationTimeslot($id,$Parameter) {return Set-WootsResourceById -resource "publication_timeslots" -id $id -parameter $Parameter}
-# Publication timeslots: DELETE /api/v2/publication_timeslots/{id} (Delete publication timeslot)
-Function Remove-WootsPublicationTimeslot($id,$Parameter) {return Remove-WootsResourceById -resource "publication_timeslots" -id $id -parameter $Parameter}
-# Plans: GET /api/v2/publishers/{publisher_id}/plans (List plans)
-Function Get-WootsPublisherPlan($id) { return Get-WootsResourceItem -resource "publishers" -id $id -itemtype "plans"}
-# Plans: POST /api/v2/publishers/{publisher_id}/plans (Create plan)
-Function Add-WootsPublisherPlan($id,$Parameter) {return Add-WootsResourceItem -resource "publishers" -id $id -itemtype "plans" -parameter $Parameter}
-# Qti: GET /api/v2/qti/results/{id} (QTI export)
-Function Invoke-WootsGET__api_v2_qti_results__id_() { Throw "This function is not yet implemented"}
-# Question bank assignments: PATCH /api/v2/question_bank_assignments/{id} (Update question bank assignment)
-Function Set-WootsQuestionBankAssignment($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_assignments" -id $id -parameter $Parameter}
-# Question bank assignments: GET /api/v2/question_bank_assignments/{id} (Show question bank assignment)
-Function Get-WootsQuestionBankAssignment($id) { return Get-WootsResourceById -resource "question_bank_assignments" -id $id }
-# Question bank assignments: DELETE /api/v2/question_bank_assignments/{id} (Delete question bank assignment)
-Function Remove-WootsQuestionBankAssignment($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_assignments" -id $id -parameter $Parameter}
-# Covers: PATCH /api/v2/question_bank_assignments/{question_bank_assignment_id}/cover (Update cover)
-Function Set-WootsQuestionBankAssignmentCover($id,$Parameter) {return Set-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "cover" -parameter $Parameter}
-# Covers: GET /api/v2/question_bank_assignments/{question_bank_assignment_id}/cover (Show cover)
-Function Get-WootsQuestionBankAssignmentCover($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "cover"}
-# Question bank assignments: GET /api/v2/question_bank_assignments/{question_bank_assignment_id}/question_bank_assignment_results (List question bank assignment results)
-Function Get-WootsQuestionBankAssignmentQuestionBankAssignmentResult($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "question_bank_assignment_results"}
-# Score marks: POST /api/v2/question_bank_assignments/{question_bank_assignment_id}/score_marks (Create question bank assignment score mark)
-Function Add-WootsQuestionBankAssignmentScoreMark($id,$Parameter) {return Add-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "score_marks" -parameter $Parameter}
-# Score marks: GET /api/v2/question_bank_assignments/{question_bank_assignment_id}/score_marks (List question bank assignment score marks)
-Function Get-WootsQuestionBankAssignmentScoreMark($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "score_marks"}
-# Question bank exercises: DELETE /api/v2/question_bank_exercises/{id} (Delete question bank exercise)
-Function Remove-WootsQuestionBankExercise($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_exercises" -id $id -parameter $Parameter}
-# Question bank exercises: GET /api/v2/question_bank_exercises/{id} (Show question bank exercise)
-Function Get-WootsQuestionBankExercise($id) { return Get-WootsResourceById -resource "question_bank_exercises" -id $id }
-# Question bank exercises: PATCH /api/v2/question_bank_exercises/{id} (Update question bank exercise)
-Function Set-WootsQuestionBankExercise($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_exercises" -id $id -parameter $Parameter}
-# Question bank labels: PATCH /api/v2/question_bank_labels/{id} (Update question bank label)
-Function Set-WootsQuestionBankLabel($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_labels" -id $id -parameter $Parameter}
-# Question bank labels: GET /api/v2/question_bank_labels/{id} (Show question bank label)
-Function Get-WootsQuestionBankLabel($id) { return Get-WootsResourceById -resource "question_bank_labels" -id $id }
-# Question bank labels: DELETE /api/v2/question_bank_labels/{id} (Delete question bank label)
-Function Remove-WootsQuestionBankLabel($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_labels" -id $id -parameter $Parameter}
-# Question banks: GET /api/v2/question_banks (List question banks)
-Function Invoke-WootsGET__api_v2_question_banks() { Throw "This function is not yet implemented"}
-# Question banks: POST /api/v2/question_banks (Create question bank)
-Function Invoke-WootsPOST__api_v2_question_banks() { Throw "This function is not yet implemented"}
-# Question banks: GET /api/v2/question_banks/{id} (Show question bank)
-Function Get-WootsQuestionBank($id) { return Get-WootsResourceById -resource "question_banks" -id $id }
-# Question banks: DELETE /api/v2/question_banks/{id} (Delete question bank)
-Function Remove-WootsQuestionBank($id,$Parameter) {return Remove-WootsResourceById -resource "question_banks" -id $id -parameter $Parameter}
-# Question banks: PATCH /api/v2/question_banks/{id} (Update question bank)
-Function Set-WootsQuestionBank($id,$Parameter) {return Set-WootsResourceById -resource "question_banks" -id $id -parameter $Parameter}
-# Blueprints: GET /api/v2/question_banks/{question_bank_id}/blueprints (List blueprints)
-Function Get-WootsQuestionBankBlueprint($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "blueprints"}
-# Domains: GET /api/v2/question_banks/{question_bank_id}/domains (List question bank domains)
-Function Get-WootsQuestionBankDomain($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "domains"}
-# Domains: POST /api/v2/question_banks/{question_bank_id}/domains (Create question bank domain)
-Function Add-WootsQuestionBankDomain($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "domains" -parameter $Parameter}
-# Question bank assignments: POST /api/v2/question_banks/{question_bank_id}/question_bank_assignments (Create question bank assignment)
-Function Add-WootsQuestionBankQuestionBankAssignment($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_assignments" -parameter $Parameter}
-# Question bank assignments: GET /api/v2/question_banks/{question_bank_id}/question_bank_assignments (List question bank assignments)
-Function Get-WootsQuestionBankQuestionBankAssignment($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_assignments"}
-# Question bank exercises: POST /api/v2/question_banks/{question_bank_id}/question_bank_exercises (Create question bank exercise)
-Function Add-WootsQuestionBankQuestionBankExercise($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_exercises" -parameter $Parameter}
-# Question bank exercises: GET /api/v2/question_banks/{question_bank_id}/question_bank_exercises (List question bank exercises)
-Function Get-WootsQuestionBankQuestionBankExercise($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_exercises"}
-# Question bank exercises: GET /api/v2/question_banks/{question_bank_id}/question_bank_exercises/import (Import question bank exercises)
-Function Invoke-WootsGET__api_v2_question_banks__question_bank_id__question_bank_exercises_import() { Throw "This function is not yet implemented"}
-# Question bank labels: POST /api/v2/question_banks/{question_bank_id}/question_bank_labels (Create question bank label)
-Function Add-WootsQuestionBankQuestionBankLabel($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_labels" -parameter $Parameter}
-# Question bank labels: GET /api/v2/question_banks/{question_bank_id}/question_bank_labels (List question bank labels)
-Function Get-WootsQuestionBankQuestionBankLabel($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_labels"}
-# Tasks: GET /api/v2/question_banks/{question_bank_id}/tasks (List question bank tasks)
-Function Get-WootsQuestionBankTask($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "tasks"}
-# Tasks: POST /api/v2/question_banks/{question_bank_id}/tasks (Create question bank task)
-Function Add-WootsQuestionBankTask($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "tasks" -parameter $Parameter}
-# Questions: DELETE /api/v2/questions/{id} (Delete question)
-Function Remove-WootsQuestion($id,$Parameter) {return Remove-WootsResourceById -resource "questions" -id $id -parameter $Parameter}
-# Questions: PATCH /api/v2/questions/{id} (Update question)
-Function Set-WootsQuestion($id,$Parameter) {return Set-WootsResourceById -resource "questions" -id $id -parameter $Parameter}
-# Questions: GET /api/v2/questions/{id} (Show question)
-Function Get-WootsQuestion($id) { return Get-WootsResourceById -resource "questions" -id $id }
-# Requirements: PATCH /api/v2/requirements/{id}/ (Update requirement)
-Function Set-WootsRequirement($id,$Parameter) {return Set-WootsResourceById -resource "requirements" -id $id -parameter $Parameter}
-# Requirements: GET /api/v2/requirements/{id}/ (Show requirement)
-Function Get-WootsRequirement($id) { return Get-WootsResourceById -resource "requirements" -id $id }
-# Requirements: DELETE /api/v2/requirements/{id}/ (Delete requirement)
-Function Remove-WootsRequirement($id,$Parameter) {return Remove-WootsResourceById -resource "requirements" -id $id -parameter $Parameter}
-# Results: PATCH /api/v2/results/{id} (Update result)
-Function Set-WootsResult($id,$Parameter) {return Set-WootsResourceById -resource "results" -id $id -parameter $Parameter}
-# Results: GET /api/v2/results/{id} (Show result)
-Function Get-WootsResult($id) { return Get-WootsResourceById -resource "results" -id $id }
-# Schools: PATCH /api/v2/schools/{id} (Update school)
-Function Set-WootsSchool($id,$Parameter) {return Set-WootsResourceById -resource "schools" -id $id -parameter $Parameter}
-# Schools: GET /api/v2/schools/{id} (Show school)
-Function Get-WootsSchool($id) { return Get-WootsResourceById -resource "schools" -id $id }
-# Classes: POST /api/v2/schools/{school_id}/classes (Create classes)
 Function Add-WootsClass($Parameter) {return Add-WootsSchoolResource -resource "classes" -parameter $Parameter}
-# Classes: GET /api/v2/schools/{school_id}/classes (List Classes)
-Function Get-WootsAllClass($MaxItems=50) { return Get-WootsSchoolResources -resource "classes" -MaxItem $MaxItems}
-# Courses: POST /api/v2/schools/{school_id}/courses (Create course)
 Function Add-WootsCourse($Parameter) {return Add-WootsSchoolResource -resource "courses" -parameter $Parameter}
-# Courses: GET /api/v2/schools/{school_id}/courses (List courses)
-Function Get-WootsAllCourse($MaxItems=50) { return Get-WootsSchoolResources -resource "courses" -MaxItem $MaxItems}
-# Departments: POST /api/v2/schools/{school_id}/departments (Create department)
+Function Add-WootsCourseAssignment($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "assignments" -parameter $Parameter}
+Function Add-WootsCourseCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "courses_users" -parameter $Parameter}
+Function Add-WootsCourseDomain($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "domains" -parameter $Parameter}
+Function Add-WootsCourseGroup($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "groups" -parameter $Parameter}
 Function Add-WootsDepartment($Parameter) {return Add-WootsSchoolResource -resource "departments" -parameter $Parameter}
-# Departments: GET /api/v2/schools/{school_id}/departments (List departments)
-Function Get-WootsAllDepartment($MaxItems=50) { return Get-WootsSchoolResources -resource "departments" -MaxItem $MaxItems}
-# Assignment labels: POST /api/v2/schools/{school_id}/labels (Create assignment label)
+Function Add-WootsDepartmentStudy($id,$Parameter) {return Add-WootsResourceItem -resource "departments" -id $id -itemtype "studies" -parameter $Parameter}
+Function Add-WootsDomainObjective($id,$Parameter) {return Add-WootsResourceItem -resource "domains" -id $id -itemtype "objectives" -parameter $Parameter}
+Function Add-WootsExerciseQuestion($id,$Parameter) {return Add-WootsResourceItem -resource "exercises" -id $id -itemtype "questions" -parameter $Parameter}
+Function Add-WootsGroupGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "groups" -id $id -itemtype "groups_users" -parameter $Parameter}
 Function Add-WootsLabel($Parameter) {return Add-WootsSchoolResource -resource "labels" -parameter $Parameter}
-# Assignment labels: GET /api/v2/schools/{school_id}/labels (List assignment labels)
-Function Get-WootsAllLabel($MaxItems=50) { return Get-WootsSchoolResources -resource "labels" -MaxItem $MaxItems}
-# Locations: GET /api/v2/schools/{school_id}/locations (List locations)
-Function Get-WootsAllLocation($MaxItems=50) { return Get-WootsSchoolResources -resource "locations" -MaxItem $MaxItems}
-# Locations: POST /api/v2/schools/{school_id}/locations (Create location)
 Function Add-WootsLocation($Parameter) {return Add-WootsSchoolResource -resource "locations" -parameter $Parameter}
-# Periods: GET /api/v2/schools/{school_id}/periods (List periods)
-Function Get-WootsAllPeriod($MaxItems=50) { return Get-WootsSchoolResources -resource "periods" -MaxItem $MaxItems}
-# Periods: POST /api/v2/schools/{school_id}/periods (Create period)
 Function Add-WootsPeriod($Parameter) {return Add-WootsSchoolResource -resource "periods" -parameter $Parameter}
-# Roles: GET /api/v2/schools/{school_id}/roles (List roles)
-Function Get-WootsAllRol($MaxItems=50) { return Get-WootsSchoolResources -resource "roles" -MaxItem $MaxItems}
-# Users: GET /api/v2/schools/{school_id}/users (List users)
-Function Get-WootsAllUser($MaxItems=50) { return Get-WootsSchoolResources -resource "users" -MaxItem $MaxItems}
-# Users: POST /api/v2/schools/{school_id}/users (Create user)
+Function Add-WootsPlanSubscription($id,$Parameter) {return Add-WootsResourceItem -resource "plans" -id $id -itemtype "subscriptions" -parameter $Parameter}
+Function Add-WootsPublisherPlan($id,$Parameter) {return Add-WootsResourceItem -resource "publishers" -id $id -itemtype "plans" -parameter $Parameter}
+Function Add-WootsQuestionBankAssignmentScoreMark($id,$Parameter) {return Add-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "score_marks" -parameter $Parameter}
+Function Add-WootsQuestionBankDomain($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "domains" -parameter $Parameter}
+Function Add-WootsQuestionBankQuestionBankAssignment($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_assignments" -parameter $Parameter}
+Function Add-WootsQuestionBankQuestionBankExercise($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_exercises" -parameter $Parameter}
+Function Add-WootsQuestionBankQuestionBankLabel($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_labels" -parameter $Parameter}
+Function Add-WootsQuestionBankTask($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "tasks" -parameter $Parameter}
 Function Add-WootsUser($Parameter) {return Add-WootsSchoolResource -resource "users" -parameter $Parameter}
-# Score marks: DELETE /api/v2/score_marks/{id} (Delete score mark)
-Function Remove-WootsScoreMark($id,$Parameter) {return Remove-WootsResourceById -resource "score_marks" -id $id -parameter $Parameter}
-# Score marks: PATCH /api/v2/score_marks/{id} (Update score mark)
-Function Set-WootsScoreMark($id,$Parameter) {return Set-WootsResourceById -resource "score_marks" -id $id -parameter $Parameter}
-# Score marks: GET /api/v2/score_marks/{id} (Show score mark)
-Function Get-WootsScoreMark($id) { return Get-WootsResourceById -resource "score_marks" -id $id }
-# Search: GET /api/v2/search/assignments (Search assignments)
-Function Search-WootsAssignment($Parameter,$MaxItems=50) {return Search-WootsResource -resource "assignments" -parameter $Parameter -MaxItem $MaxItems}
-# Search: GET /api/v2/search/courses (Search courses)
-Function Search-WootsCourse($Parameter,$MaxItems=50) {return Search-WootsResource -resource "courses" -parameter $Parameter -MaxItem $MaxItems}
-# Search: GET /api/v2/search/groups (Search groups)
-Function Search-WootsGroup($Parameter,$MaxItems=50) {return Search-WootsResource -resource "groups" -parameter $Parameter -MaxItem $MaxItems}
-# Search: GET /api/v2/search/question_bank_assignments (Search question bank assignments)
-Function Search-WootsQuestionBankAssignment($Parameter,$MaxItems=50) {return Search-WootsResource -resource "question_bank_assignments" -parameter $Parameter -MaxItem $MaxItems}
-# Search: GET /api/v2/search/question_banks (Search question banks)
-Function Search-WootsQuestionBank($Parameter,$MaxItems=50) {return Search-WootsResource -resource "question_banks" -parameter $Parameter -MaxItem $MaxItems}
-# Search: GET /api/v2/search/results (Search results)
-Function Search-WootsResult($Parameter,$MaxItems=50) {return Search-WootsResource -resource "results" -parameter $Parameter -MaxItem $MaxItems}
-# Search: GET /api/v2/search/timeslots (Search timeslots)
-Function Search-WootsTimeslot($Parameter,$MaxItems=50) {return Search-WootsResource -resource "timeslots" -parameter $Parameter -MaxItem $MaxItems}
-# Search: GET /api/v2/search/users (Search users)
-Function Search-WootsUser($Parameter,$MaxItems=50) {return Search-WootsResource -resource "users" -parameter $Parameter -MaxItem $MaxItems}
-# Studies: GET /api/v2/studies/{id} (Show study)
-Function Get-WootsStudy($id) { return Get-WootsResourceById -resource "studies" -id $id }
-# Studies: DELETE /api/v2/studies/{id} (Delete study)
-Function Remove-WootsStudy($id,$Parameter) {return Remove-WootsResourceById -resource "studies" -id $id -parameter $Parameter}
-# Studies: PATCH /api/v2/studies/{id} (Update study)
-Function Set-WootsStudy($id,$Parameter) {return Set-WootsResourceById -resource "studies" -id $id -parameter $Parameter}
-# Submissions: GET /api/v2/submissions/{id} (Show submission)
-Function Get-WootsSubmission($id) { return Get-WootsResourceById -resource "submissions" -id $id }
-# Submissions: PATCH /api/v2/submissions/{id} (Update submission)
-Function Set-WootsSubmission($id,$Parameter) {return Set-WootsResourceById -resource "submissions" -id $id -parameter $Parameter}
-# Subscriptions: GET /api/v2/subscriptions/{id} (Show subscription)
-Function Get-WootsSubscription($id) { return Get-WootsResourceById -resource "subscriptions" -id $id }
-# Subscriptions: DELETE /api/v2/subscriptions/{id} (Delete subscription)
-Function Remove-WootsSubscription($id,$Parameter) {return Remove-WootsResourceById -resource "subscriptions" -id $id -parameter $Parameter}
-# Subscriptions: PATCH /api/v2/subscriptions/{id} (Update subscription)
-Function Set-WootsSubscription($id,$Parameter) {return Set-WootsResourceById -resource "subscriptions" -id $id -parameter $Parameter}
-# Tasks: DELETE /api/v2/tasks/{id} (Delete task)
-Function Remove-WootsTask($id,$Parameter) {return Remove-WootsResourceById -resource "tasks" -id $id -parameter $Parameter}
-# Tasks: GET /api/v2/tasks/{id} (Show task)
-Function Get-WootsTask($id) { return Get-WootsResourceById -resource "tasks" -id $id }
-# Tasks: PATCH /api/v2/tasks/{id} (Update task)
-Function Set-WootsTask($id,$Parameter) {return Set-WootsResourceById -resource "tasks" -id $id -parameter $Parameter}
-# Timeslots: PATCH /api/v2/timeslots/{id} (Update timeslot)
-Function Set-WootsTimeslot($id,$Parameter) {return Set-WootsResourceById -resource "timeslots" -id $id -parameter $Parameter}
-# Timeslots: GET /api/v2/timeslots/{id} (Show timeslot)
-Function Get-WootsTimeslot($id) { return Get-WootsResourceById -resource "timeslots" -id $id }
-# Timeslots: DELETE /api/v2/timeslots/{id} (Delete timeslot)
-Function Remove-WootsTimeslot($id,$Parameter) {return Remove-WootsResourceById -resource "timeslots" -id $id -parameter $Parameter}
-# Users: DELETE /api/v2/users/{id} (Delete user)
-Function Remove-WootsUser($id,$Parameter) {return Remove-WootsResourceById -resource "users" -id $id -parameter $Parameter}
-# Users: PATCH /api/v2/users/{id} (Update user)
-Function Set-WootsUser($id,$Parameter) {return Set-WootsResourceById -resource "users" -id $id -parameter $Parameter}
-# Users: GET /api/v2/users/{id} (Show user)
-Function Get-WootsUser($id) { return Get-WootsResourceById -resource "users" -id $id }
-# Courses users: POST /api/v2/users/{user_id}/courses_users (Add user to course)
 Function Add-WootsUserCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "courses_users" -parameter $Parameter}
-# Courses users: GET /api/v2/users/{user_id}/courses_users (List user courses)
-Function Get-WootsUserCoursesUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "courses_users"}
-# Groups users: GET /api/v2/users/{user_id}/groups_users (List groups of user)
-Function Get-WootsUserGroupsUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "groups_users"}
-# Groups users: POST /api/v2/users/{user_id}/groups_users (Add user to group)
 Function Add-WootsUserGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "groups_users" -parameter $Parameter}
-# Webhooks: POST /api/v2/webhooks/ (Create webhook)
-Function Invoke-WootsPOST__api_v2_webhooks_() { Throw "This function is not yet implemented"}
-# Webhooks: GET /api/v2/webhooks/ (List webhooks)
-Function Invoke-WootsGET__api_v2_webhooks_() { Throw "This function is not yet implemented"}
-# Webhooks: GET /api/v2/webhooks/{id} (Show webhook)
+Function Get-WootsAllClass($MaxItems=50) { return Get-WootsSchoolResources -resource "classes" -MaxItem $MaxItems}
+Function Get-WootsAllCourse($MaxItems=50) { return Get-WootsSchoolResources -resource "courses" -MaxItem $MaxItems}
+Function Get-WootsAllDepartment($MaxItems=50) { return Get-WootsSchoolResources -resource "departments" -MaxItem $MaxItems}
+Function Get-WootsAllLabel($MaxItems=50) { return Get-WootsSchoolResources -resource "labels" -MaxItem $MaxItems}
+Function Get-WootsAllLocation($MaxItems=50) { return Get-WootsSchoolResources -resource "locations" -MaxItem $MaxItems}
+Function Get-WootsAllPeriod($MaxItems=50) { return Get-WootsSchoolResources -resource "periods" -MaxItem $MaxItems}
+Function Get-WootsAllRol($MaxItems=50) { return Get-WootsSchoolResources -resource "roles" -MaxItem $MaxItems}
+Function Get-WootsAllUser($MaxItems=50) { return Get-WootsSchoolResources -resource "users" -MaxItem $MaxItems}
+Function Get-WootsAssignment($id) { return Get-WootsResourceById -resource "assignments" -id $id }
+Function Get-WootsAssignmentCover($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "cover"}
+Function Get-WootsAssignmentExercise($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "exercises"}
+Function Get-WootsAssignmentPublication($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "publication"}
+Function Get-WootsAssignmentPublicationTimeslot($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "publication_timeslots"}
+Function Get-WootsAssignmentRequirement($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "requirements"}
+Function Get-WootsAssignmentResult($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "results"}
+Function Get-WootsAssignmentScoreMark($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "score_marks"}
+Function Get-WootsAssignmentTask($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "tasks"}
+Function Get-WootsAssignmentTimeslot($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "timeslots"}
+Function Get-WootsBackgroundJob($id) { return Get-WootsResourceById -resource "background_jobs" -id $id }
+Function Get-WootsBlueprint($id) { return Get-WootsResourceById -resource "blueprints" -id $id }
+Function Get-WootsClass($id) { return Get-WootsResourceById -resource "classes" -id $id }
+Function Get-WootsComment($id) { return Get-WootsResourceById -resource "comments" -id $id }
+Function Get-WootsCourse($id) { return Get-WootsResourceById -resource "courses" -id $id }
+Function Get-WootsCourseAssignment($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "assignments"}
+Function Get-WootsCourseCoursesUser($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "courses_users"}
+Function Get-WootsCourseDomain($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "domains"}
+Function Get-WootsCourseGroup($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "groups"}
+Function Get-WootsCoursesUser($id) { return Get-WootsResourceById -resource "courses_users" -id $id }
+Function Get-WootsDepartment($id) { return Get-WootsResourceById -resource "departments" -id $id }
+Function Get-WootsDepartmentStudy($id) { return Get-WootsResourceItem -resource "departments" -id $id -itemtype "studies"}
+Function Get-WootsDomain($id) { return Get-WootsResourceById -resource "domains" -id $id }
+Function Get-WootsDomainObjective($id) { return Get-WootsResourceItem -resource "domains" -id $id -itemtype "objectives"}
+Function Get-WootsExercise($id) { return Get-WootsResourceById -resource "exercises" -id $id }
+Function Get-WootsExerciseQuestion($id) { return Get-WootsResourceItem -resource "exercises" -id $id -itemtype "questions"}
+Function Get-WootsGroup($id) { return Get-WootsResourceById -resource "groups" -id $id }
+Function Get-WootsGroupGroupsUser($id) { return Get-WootsResourceItem -resource "groups" -id $id -itemtype "groups_users"}
+Function Get-WootsLabel($id) { return Get-WootsResourceById -resource "labels" -id $id }
+Function Get-WootsLocation($id) { return Get-WootsResourceById -resource "locations" -id $id }
+Function Get-WootsNotification($id) { return Get-WootsResourceById -resource "notifications" -id $id }
+Function Get-WootsObjective($id) { return Get-WootsResourceById -resource "objectives" -id $id }
+Function Get-WootsPeriod($id) { return Get-WootsResourceById -resource "periods" -id $id }
+Function Get-WootsPlan($id) { return Get-WootsResourceById -resource "plans" -id $id }
+Function Get-WootsPlanSubscription($id) { return Get-WootsResourceItem -resource "plans" -id $id -itemtype "subscriptions"}
+Function Get-WootsPublicationTimeslot($id) { return Get-WootsResourceById -resource "publication_timeslots" -id $id }
+Function Get-WootsPublisherPlan($id) { return Get-WootsResourceItem -resource "publishers" -id $id -itemtype "plans"}
+Function Get-WootsQuestion($id) { return Get-WootsResourceById -resource "questions" -id $id }
+Function Get-WootsQuestionBank($id) { return Get-WootsResourceById -resource "question_banks" -id $id }
+Function Get-WootsQuestionBankAssignment($id) { return Get-WootsResourceById -resource "question_bank_assignments" -id $id }
+Function Get-WootsQuestionBankAssignmentCover($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "cover"}
+Function Get-WootsQuestionBankAssignmentQuestionBankAssignmentResult($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "question_bank_assignment_results"}
+Function Get-WootsQuestionBankAssignmentScoreMark($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "score_marks"}
+Function Get-WootsQuestionBankBlueprint($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "blueprints"}
+Function Get-WootsQuestionBankDomain($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "domains"}
+Function Get-WootsQuestionBankExercise($id) { return Get-WootsResourceById -resource "question_bank_exercises" -id $id }
+Function Get-WootsQuestionBankLabel($id) { return Get-WootsResourceById -resource "question_bank_labels" -id $id }
+Function Get-WootsQuestionBankQuestionBankAssignment($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_assignments"}
+Function Get-WootsQuestionBankQuestionBankExercise($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_exercises"}
+Function Get-WootsQuestionBankQuestionBankLabel($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_labels"}
+Function Get-WootsQuestionBankTask($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "tasks"}
+Function Get-WootsRequirement($id) { return Get-WootsResourceById -resource "requirements" -id $id }
+Function Get-WootsResult($id) { return Get-WootsResourceById -resource "results" -id $id }
+Function Get-WootsSchool($id) { return Get-WootsResourceById -resource "schools" -id $id }
+Function Get-WootsScoreMark($id) { return Get-WootsResourceById -resource "score_marks" -id $id }
+Function Get-WootsStudy($id) { return Get-WootsResourceById -resource "studies" -id $id }
+Function Get-WootsSubmission($id) { return Get-WootsResourceById -resource "submissions" -id $id }
+Function Get-WootsSubscription($id) { return Get-WootsResourceById -resource "subscriptions" -id $id }
+Function Get-WootsTask($id) { return Get-WootsResourceById -resource "tasks" -id $id }
+Function Get-WootsTimeslot($id) { return Get-WootsResourceById -resource "timeslots" -id $id }
+Function Get-WootsUser($id) { return Get-WootsResourceById -resource "users" -id $id }
+Function Get-WootsUserCoursesUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "courses_users"}
+Function Get-WootsUserGroupsUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "groups_users"}
 Function Get-WootsWebhook($id) { return Get-WootsResourceById -resource "webhooks" -id $id }
-# Webhooks: DELETE /api/v2/webhooks/{id} (Delete webhook)
+Function Invoke-WootsGET__api_v2_background_jobs() { Throw "This function is not yet implemented"}
+Function Invoke-WootsGET__api_v2_comments() { Throw "This function is not yet implemented"}
+Function Invoke-WootsGET__api_v2_notifications() { Throw "This function is not yet implemented"}
+Function Invoke-WootsGET__api_v2_qti_results__id_() { Throw "This function is not yet implemented"}
+Function Invoke-WootsGET__api_v2_question_banks() { Throw "This function is not yet implemented"}
+Function Invoke-WootsGET__api_v2_question_banks__question_bank_id__question_bank_exercises_import() { Throw "This function is not yet implemented"}
+Function Invoke-WootsGET__api_v2_webhooks_() { Throw "This function is not yet implemented"}
+Function Invoke-WootsPOST__api_v2_comments() { Throw "This function is not yet implemented"}
+Function Invoke-WootsPOST__api_v2_question_banks() { Throw "This function is not yet implemented"}
+Function Invoke-WootsPOST__api_v2_webhooks_() { Throw "This function is not yet implemented"}
+Function Remove-WootsAssignment($id,$Parameter) {return Remove-WootsResourceById -resource "assignments" -id $id -parameter $Parameter}
+Function Remove-WootsClass($id,$Parameter) {return Remove-WootsResourceById -resource "classes" -id $id -parameter $Parameter}
+Function Remove-WootsComment($id,$Parameter) {return Remove-WootsResourceById -resource "comments" -id $id -parameter $Parameter}
+Function Remove-WootsCourse($id,$Parameter) {return Remove-WootsResourceById -resource "courses" -id $id -parameter $Parameter}
+Function Remove-WootsCoursesUser($id,$Parameter) {return Remove-WootsResourceById -resource "courses_users" -id $id -parameter $Parameter}
+Function Remove-WootsDepartment($id,$Parameter) {return Remove-WootsResourceById -resource "departments" -id $id -parameter $Parameter}
+Function Remove-WootsDomain($id,$Parameter) {return Remove-WootsResourceById -resource "domains" -id $id -parameter $Parameter}
+Function Remove-WootsExercise($id,$Parameter) {return Remove-WootsResourceById -resource "exercises" -id $id -parameter $Parameter}
+Function Remove-WootsGroup($id,$Parameter) {return Remove-WootsResourceById -resource "groups" -id $id -parameter $Parameter}
+Function Remove-WootsGroupsUser($id,$Parameter) {return Remove-WootsResourceById -resource "groups_users" -id $id -parameter $Parameter}
+Function Remove-WootsLabel($id,$Parameter) {return Remove-WootsResourceById -resource "labels" -id $id -parameter $Parameter}
+Function Remove-WootsLocation($id,$Parameter) {return Remove-WootsResourceById -resource "locations" -id $id -parameter $Parameter}
+Function Remove-WootsObjective($id,$Parameter) {return Remove-WootsResourceById -resource "objectives" -id $id -parameter $Parameter}
+Function Remove-WootsPeriod($id,$Parameter) {return Remove-WootsResourceById -resource "periods" -id $id -parameter $Parameter}
+Function Remove-WootsPlan($id,$Parameter) {return Remove-WootsResourceById -resource "plans" -id $id -parameter $Parameter}
+Function Remove-WootsPublicationTimeslot($id,$Parameter) {return Remove-WootsResourceById -resource "publication_timeslots" -id $id -parameter $Parameter}
+Function Remove-WootsQuestion($id,$Parameter) {return Remove-WootsResourceById -resource "questions" -id $id -parameter $Parameter}
+Function Remove-WootsQuestionBank($id,$Parameter) {return Remove-WootsResourceById -resource "question_banks" -id $id -parameter $Parameter}
+Function Remove-WootsQuestionBankAssignment($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_assignments" -id $id -parameter $Parameter}
+Function Remove-WootsQuestionBankExercise($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_exercises" -id $id -parameter $Parameter}
+Function Remove-WootsQuestionBankLabel($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_labels" -id $id -parameter $Parameter}
+Function Remove-WootsRequirement($id,$Parameter) {return Remove-WootsResourceById -resource "requirements" -id $id -parameter $Parameter}
+Function Remove-WootsScoreMark($id,$Parameter) {return Remove-WootsResourceById -resource "score_marks" -id $id -parameter $Parameter}
+Function Remove-WootsStudy($id,$Parameter) {return Remove-WootsResourceById -resource "studies" -id $id -parameter $Parameter}
+Function Remove-WootsSubscription($id,$Parameter) {return Remove-WootsResourceById -resource "subscriptions" -id $id -parameter $Parameter}
+Function Remove-WootsTask($id,$Parameter) {return Remove-WootsResourceById -resource "tasks" -id $id -parameter $Parameter}
+Function Remove-WootsTimeslot($id,$Parameter) {return Remove-WootsResourceById -resource "timeslots" -id $id -parameter $Parameter}
+Function Remove-WootsUser($id,$Parameter) {return Remove-WootsResourceById -resource "users" -id $id -parameter $Parameter}
 Function Remove-WootsWebhook($id,$Parameter) {return Remove-WootsResourceById -resource "webhooks" -id $id -parameter $Parameter}
-# Webhooks: PATCH /api/v2/webhooks/{id} (Update webhook)
+Function Search-WootsAssignment($Parameter,$MaxItems=50) {return Search-WootsResource -resource "assignments" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsCourse($Parameter,$MaxItems=50) {return Search-WootsResource -resource "courses" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsGroup($Parameter,$MaxItems=50) {return Search-WootsResource -resource "groups" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsQuestionBank($Parameter,$MaxItems=50) {return Search-WootsResource -resource "question_banks" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsQuestionBankAssignment($Parameter,$MaxItems=50) {return Search-WootsResource -resource "question_bank_assignments" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsResult($Parameter,$MaxItems=50) {return Search-WootsResource -resource "results" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsTimeslot($Parameter,$MaxItems=50) {return Search-WootsResource -resource "timeslots" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsUser($Parameter,$MaxItems=50) {return Search-WootsResource -resource "users" -parameter $Parameter -MaxItem $MaxItems}
+Function Set-WootsAssignment($id,$Parameter) {return Set-WootsResourceById -resource "assignments" -id $id -parameter $Parameter}
+Function Set-WootsAssignmentCover($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "cover" -parameter $Parameter}
+Function Set-WootsAssignmentPublication($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "publication" -parameter $Parameter}
+Function Set-WootsBackgroundJob($id,$Parameter) {return Set-WootsResourceById -resource "background_jobs" -id $id -parameter $Parameter}
+Function Set-WootsClass($id,$Parameter) {return Set-WootsResourceById -resource "classes" -id $id -parameter $Parameter}
+Function Set-WootsComment($id,$Parameter) {return Set-WootsResourceById -resource "comments" -id $id -parameter $Parameter}
+Function Set-WootsCourse($id,$Parameter) {return Set-WootsResourceById -resource "courses" -id $id -parameter $Parameter}
+Function Set-WootsCoursesUser($id,$Parameter) {return Set-WootsResourceById -resource "courses_users" -id $id -parameter $Parameter}
+Function Set-WootsDepartment($id,$Parameter) {return Set-WootsResourceById -resource "departments" -id $id -parameter $Parameter}
+Function Set-WootsDomain($id,$Parameter) {return Set-WootsResourceById -resource "domains" -id $id -parameter $Parameter}
+Function Set-WootsExercise($id,$Parameter) {return Set-WootsResourceById -resource "exercises" -id $id -parameter $Parameter}
+Function Set-WootsGroup($id,$Parameter) {return Set-WootsResourceById -resource "groups" -id $id -parameter $Parameter}
+Function Set-WootsLabel($id,$Parameter) {return Set-WootsResourceById -resource "labels" -id $id -parameter $Parameter}
+Function Set-WootsLocation($id,$Parameter) {return Set-WootsResourceById -resource "locations" -id $id -parameter $Parameter}
+Function Set-WootsObjective($id,$Parameter) {return Set-WootsResourceById -resource "objectives" -id $id -parameter $Parameter}
+Function Set-WootsPeriod($id,$Parameter) {return Set-WootsResourceById -resource "periods" -id $id -parameter $Parameter}
+Function Set-WootsPlan($id,$Parameter) {return Set-WootsResourceById -resource "plans" -id $id -parameter $Parameter}
+Function Set-WootsPublicationTimeslot($id,$Parameter) {return Set-WootsResourceById -resource "publication_timeslots" -id $id -parameter $Parameter}
+Function Set-WootsQuestion($id,$Parameter) {return Set-WootsResourceById -resource "questions" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBank($id,$Parameter) {return Set-WootsResourceById -resource "question_banks" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBankAssignment($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_assignments" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBankAssignmentCover($id,$Parameter) {return Set-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "cover" -parameter $Parameter}
+Function Set-WootsQuestionBankExercise($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_exercises" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBankLabel($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_labels" -id $id -parameter $Parameter}
+Function Set-WootsRequirement($id,$Parameter) {return Set-WootsResourceById -resource "requirements" -id $id -parameter $Parameter}
+Function Set-WootsResult($id,$Parameter) {return Set-WootsResourceById -resource "results" -id $id -parameter $Parameter}
+Function Set-WootsSchool($id,$Parameter) {return Set-WootsResourceById -resource "schools" -id $id -parameter $Parameter}
+Function Set-WootsScoreMark($id,$Parameter) {return Set-WootsResourceById -resource "score_marks" -id $id -parameter $Parameter}
+Function Set-WootsStudy($id,$Parameter) {return Set-WootsResourceById -resource "studies" -id $id -parameter $Parameter}
+Function Set-WootsSubmission($id,$Parameter) {return Set-WootsResourceById -resource "submissions" -id $id -parameter $Parameter}
+Function Set-WootsSubscription($id,$Parameter) {return Set-WootsResourceById -resource "subscriptions" -id $id -parameter $Parameter}
+Function Set-WootsTask($id,$Parameter) {return Set-WootsResourceById -resource "tasks" -id $id -parameter $Parameter}
+Function Set-WootsTimeslot($id,$Parameter) {return Set-WootsResourceById -resource "timeslots" -id $id -parameter $Parameter}
+Function Set-WootsUser($id,$Parameter) {return Set-WootsResourceById -resource "users" -id $id -parameter $Parameter}
 Function Set-WootsWebhook($id,$Parameter) {return Set-WootsResourceById -resource "webhooks" -id $id -parameter $Parameter}
 # 185 functions implemented
