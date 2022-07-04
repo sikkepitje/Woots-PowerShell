@@ -274,31 +274,31 @@ Function Get-WootsSchool($id) { return Get-WootsResourceById -resource "schools"
 # Classes: POST /api/v2/schools/{school_id}/classes (Create classes)
 Function Add-WootsClass($Parameter) {return Add-WootsSchoolResource -resource "classes" -parameter $Parameter}
 # Classes: GET /api/v2/schools/{school_id}/classes (List Classes)
-Function Get-WootsAllClass($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "classes" -MaxItem $MaxItems}
+Function Get-WootsAllClass($MaxItems=50) { return Get-WootsSchoolResources -resource "classes" -MaxItem $MaxItems}
 # Courses: POST /api/v2/schools/{school_id}/courses (Create course)
 Function Add-WootsCourse($Parameter) {return Add-WootsSchoolResource -resource "courses" -parameter $Parameter}
 # Courses: GET /api/v2/schools/{school_id}/courses (List courses)
-Function Get-WootsAllCourse($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "courses" -MaxItem $MaxItems}
+Function Get-WootsAllCourse($MaxItems=50) { return Get-WootsSchoolResources -resource "courses" -MaxItem $MaxItems}
 # Departments: POST /api/v2/schools/{school_id}/departments (Create department)
 Function Add-WootsDepartment($Parameter) {return Add-WootsSchoolResource -resource "departments" -parameter $Parameter}
 # Departments: GET /api/v2/schools/{school_id}/departments (List departments)
-Function Get-WootsAllDepartment($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "departments" -MaxItem $MaxItems}
+Function Get-WootsAllDepartment($MaxItems=50) { return Get-WootsSchoolResources -resource "departments" -MaxItem $MaxItems}
 # Assignment labels: POST /api/v2/schools/{school_id}/labels (Create assignment label)
 Function Add-WootsLabel($Parameter) {return Add-WootsSchoolResource -resource "labels" -parameter $Parameter}
 # Assignment labels: GET /api/v2/schools/{school_id}/labels (List assignment labels)
-Function Get-WootsAllLabel($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "labels" -MaxItem $MaxItems}
+Function Get-WootsAllLabel($MaxItems=50) { return Get-WootsSchoolResources -resource "labels" -MaxItem $MaxItems}
 # Locations: GET /api/v2/schools/{school_id}/locations (List locations)
-Function Get-WootsAllLocation($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "locations" -MaxItem $MaxItems}
+Function Get-WootsAllLocation($MaxItems=50) { return Get-WootsSchoolResources -resource "locations" -MaxItem $MaxItems}
 # Locations: POST /api/v2/schools/{school_id}/locations (Create location)
 Function Add-WootsLocation($Parameter) {return Add-WootsSchoolResource -resource "locations" -parameter $Parameter}
 # Periods: GET /api/v2/schools/{school_id}/periods (List periods)
-Function Get-WootsAllPeriod($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "periods" -MaxItem $MaxItems}
+Function Get-WootsAllPeriod($MaxItems=50) { return Get-WootsSchoolResources -resource "periods" -MaxItem $MaxItems}
 # Periods: POST /api/v2/schools/{school_id}/periods (Create period)
 Function Add-WootsPeriod($Parameter) {return Add-WootsSchoolResource -resource "periods" -parameter $Parameter}
 # Roles: GET /api/v2/schools/{school_id}/roles (List roles)
-Function Get-WootsAllRol($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "roles" -MaxItem $MaxItems}
+Function Get-WootsAllRol($MaxItems=50) { return Get-WootsSchoolResources -resource "roles" -MaxItem $MaxItems}
 # Users: GET /api/v2/schools/{school_id}/users (List users)
-Function Get-WootsAllUser($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "users" -MaxItem $MaxItems}
+Function Get-WootsAllUser($MaxItems=50) { return Get-WootsSchoolResources -resource "users" -MaxItem $MaxItems}
 # Users: POST /api/v2/schools/{school_id}/users (Create user)
 Function Add-WootsUser($Parameter) {return Add-WootsSchoolResource -resource "users" -parameter $Parameter}
 # Score marks: DELETE /api/v2/score_marks/{id} (Delete score mark)

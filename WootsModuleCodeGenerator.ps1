@@ -12,7 +12,7 @@
 #>
 
 $Template1SearchResource = 'Function Search-Woots{resource}($Parameter,$MaxItems=50) {return Search-WootsResource -resource "{resources}" -parameter $Parameter -MaxItem $MaxItems}'
-$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "{resources}" -MaxItem $MaxItems}'
+$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($MaxItems=50) { return Get-WootsSchoolResources -resource "{resources}" -MaxItem $MaxItems}'
 $Template3AddSchoolResource = 'Function Add-Woots{resource}($Parameter) {return Add-WootsSchoolResource -resource "{resources}" -parameter $Parameter}'
 $Template4GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResourceById -resource "{resources}" -id $id }'
 $Template5SetResource = 'Function Set-Woots{resource}($id,$Parameter) {return Set-WootsResourceById -resource "{resources}" -id $id -parameter $Parameter}'
