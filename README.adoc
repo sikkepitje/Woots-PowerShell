@@ -20,7 +20,12 @@ of
 Import-Module "$PSScriptRoot\Woots.ps"
 ----
 
-Initializeer Woots door een aanroep naar 
+Initializeer Woots door een aanroep naar ``Initialize-Woots``. Deze functie verwacht 3 parameters:
+* ``$Hostname``  : dit is de hostname van het endpoint, meestal 'app.woots.nl' . Dit wordt aangevuld tot 'https://app.woots.nl/api/v2'.
+* ``$School_id`` : numerieke ID van de school.
+* ``$Token`` : een string met het authorizatietoken voor de web API.
+
+
 == Documentatie 
 
 Werp een blik op de functiedefinities in ``Woots-generatedCode.ps1`` om te zien welke functies er allemaal gedefinieerd zijn. 
@@ -35,7 +40,7 @@ Alle functies slechts één of meer van de volgende parameters.
 
 * ``$Parameter`` : een hastable met de in te stellen attributen van een resource (alle functies van de categorie Add-Resource, Add-ResourceItem, Set-Resource, Set-ResourceItem), of een hashtable met naam-waarde-paren die het filter definieren voor een zoekactie (alle functies van de categorie Search-Resource).
 
-* ``$MaxItems`` : indien groter dan 0, dan geeft deze parameter het hoogste aantal items aan, dat moeten worden geretourneerd. Bij weglating van deze parameter of bij een negatieve waarde, wordt het maximum aantal beschikbare items geretourneerd (alle functies van de categorie Search-Resource, Get-AllResources).
+* ``$MaxItems`` : een getal , dat indien groter dan 0, het hoogste aantal items aangeeft, dat moeten worden opgehaald. Bij weglating van deze parameter of bij een negatieve waarde, wordt het maximum aantal beschikbare items geretourneerd (alle functies van de categorie Search-Resource, Get-AllResources).
 
 Alle parameters zijn PowerShell objecten, behalve waar het gaat om booleaanse waarden; in dat geval volstaat de string ``"false"`` of ``"true"``. 
 

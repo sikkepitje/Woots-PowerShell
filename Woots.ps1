@@ -37,12 +37,12 @@ $school_id = $null
 $authorizationheader = $null
 $verbose = $True
 
-# ====================== UTILITY FUNCTIONS ======================
-#region utility functions
-function Get-FunctionName ([int]$StackNumber = 1) {
+# ====================== UTILITY Functions ======================
+#region utility Functions
+Function Get-FunctionName ([int]$StackNumber = 1) {
     return [string]$(Get-PSCallStack)[$StackNumber].FunctionName
 }
-function Initialize-Woots ($hostname, $school_id, $token) {
+Function Initialize-Woots ($hostname, $school_id, $token) {
     if ($hostname) {
         $script:apiurl =  "https://$hostname/api/v2"
     }
@@ -53,40 +53,24 @@ function Initialize-Woots ($hostname, $school_id, $token) {
     }
     $ProgressPreference = 'SilentlyContinue'    # Subsequent calls do not display UI. Inschakelen voor hele script ??
 }
-function Initialize-WootsIniFile ($Path) {
+Function Initialize-WootsIniFile ($Path) {
     if (!(test-path -path $Path)) {
         Throw "$(Get-FunctionName): Path not found: $Path "
     }
     $config = Get-Content -Path $Path | ConvertFrom-StringData
     Initialize-Woots -hostname $config.hostname -School_Id $config.School_id -Token $config.Token    
 }
-function Assert-WootsInitialized(){
+Function Assert-WootsInitialized(){
     if (!$school_id) { Throw "Geen School_id"}
     if (!$authorizationheader) { Throw "Geen token"}
     if (!$apiurl) { Throw "Geen APIURL"} 
 }
-function Show-Status($StatusCode, $StatusDescription, $count) {
+Function Show-Status($StatusCode, $StatusDescription, $count) {
     if ($verbose) {
         Write-Host (" {0} {1} ({2} records)" -f ($StatusCode, $StatusDescription, $count)) -ForegroundColor Blue
     }
 }
-function boolstring($b) { if ($b) {"true"} else {"false"}}
-function Write-HeaderInfo ($resphead) {
-    Write-Host ("Pages:{0,6} {1,6} {2,6} " -f 
-        $resphead["current-page"], $resphead["page-items"], $resphead["total-pages"]) -NoNewline
-    Write-Host ("Rates:{0,6} {1,6} {2,6}" -f 
-        $resphead["ratelimit-limit"], $resphead["ratelimit-remaining"], $resphead["ratelimit-reset"])
-}
-function Get-ReponseLinks ($resphead) {
-    $links = @{}
-    $resphead["link"] -split ',' | ForEach-Object { # construct links hash table
-        $link = $_.trim(" ") -split ";"
-        $tag = ($link[1] -split "=")[1].Trim("`"")
-        $links[$tag] = $link[0].trim("< >")
-    }
-    return $links    
-}
-function Limit-Rate ($resphead) {
+Function Limit-Rate ($resphead) {
     # Beperk de 
     if ($resphead["ratelimit-remaining"] -le 0) {
         $hersteltijd = [int]$resphead["ratelimit-reset"]
@@ -111,7 +95,7 @@ Function NotYetImplemented {
 .OUTPUTS 
     retourneert een lijst (array) met items.
 #>
-function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
+Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
     Assert-WootsInitialized
     #if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
     $getpage = 1
@@ -133,14 +117,12 @@ function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
             return $data
         } 
         $data += $response.content | ConvertFrom-Json
-        #$links = Get-ReponseLinks $response.Headers
         $links = @{}
         $response.Headers["link"] -split ',' | ForEach-Object { # construct links hash table
             $link = $_.trim(" ") -split ";"
             $tag = ($link[1] -split "=")[1].Trim("`"")
             $links[$tag] = $link[0].trim("< >")
-        }
-        #return $links    
+        } 
     
         Limit-Rate $response.Headers
         $getpage = [int]($response.Headers["current-page"]) + 1    
@@ -187,8 +169,8 @@ Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
     return $response.content | ConvertFrom-Json
 }
 #endregion
-# ====================== PROTOTYPE FUNCTIONS ======================
-#region prototype functions
+# ====================== PROTOTYPE FunctionS ======================
+#region prototype Functions
 Function Search-WootsResource($resource, $parameter, $MaxItems = -1) {
     <#
         GET /api/v2/search/{resource}/?query={name}:"{value}" {name}:{value}
@@ -230,7 +212,7 @@ Function Set-WootsResource($resource, $id, $parameter) {
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'PATCH' -Body $parameter
 }
 
-function Remove-WootsResource ($resource, $id) {
+Function Remove-WootsResource ($resource, $id) {
     # DELETE /api/v2/{resource}/{id}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'DELETE'
 }
