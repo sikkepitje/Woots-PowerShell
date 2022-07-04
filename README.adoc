@@ -1,7 +1,52 @@
-== Woots PowerShell
+= Woots PowerShell
 
-=== Abstract
+== Abstract
 
 Op deze Github vind je een PowerShell module voor het interfacing met Woots Web API v2. Dit is gebaseerd op de https://app.woots.nl/api/docs/index.html#/[Woots API documentatie].
 
 
+== Gebruik
+
+De module bestaat uit twee bestaden:  ``Woots.ps1`` en  ``Woots-generatedcode.ps1``. Download beide bestanden in je werkmap. 
+Je kunt de module in je scripts gebruiken door de module te importeren bijvoorbeeld als volgt.
+
+[source,PowerShell]
+----
+Import-Module .\Woots.ps1
+----
+of 
+[source,PowerShell]
+----
+Import-Module "$PSScriptRoot\Woots.ps"
+----
+
+== Documentatie 
+
+Geen tijd. Werp een blik op de functiedefinities in ``Woots-generatedCode.ps1`` om te zien welke functies er allemaal gedefinieerd zijn. 
+
+
+=== Standaard Functieparameters
+
+In het algemeen hebben alle functies slechts één of meer van de volgende parameters. 
+
+* ``$Id`` : een numeriek ID van een resource
+
+* ``$Parameter`` : een [PSCustomObject] met de in te stellen attributen van een resource (Set-Xxx), of een [PSCustomObject] met de naam-waarde-paren die het filter definieren voor een zoekactie (Search-Xxx)
+
+Alle parameters zijn PowerShell objecten, behalve waar het gaat om Boolean waarde; in dat geval volstaat ``"false"`` of ``"true"``.
+
+Voorbeeld: 
+
+----
+$filter = @{ 
+    name = "Aardrijkskunde"
+    trashed = "false"
+}
+$result = Search-WootsCourse -Parameter $filter
+----
+
+== Extra's 
+
+Een deel van de code in de module 
+``WootsModuleCodeGenerator.ps1`` : dit script is gebruikt voor het genereren van ``Woots-generatedcode.ps1``. 
+``Woots-api-calls.csv`` : dit bestand wordt gebruikt door ``WootsModuleCodeGenerator.ps1``. 
