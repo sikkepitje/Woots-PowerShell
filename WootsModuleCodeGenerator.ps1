@@ -4,7 +4,8 @@
 
     The smart code generator for the Woots PowerShell module. 
     INPUT:
-    Woots-api-calls.csv : ';' delimited list of (Resource,Method, URI, Description) 
+    Woots-api-calls.csv : ';' delimited list of (Resource,Method, URI, Description) of Woots API,
+    extracted manually from https://stage.woots.nl/api/docs/index.html#/
 
     OUTPUT:
     woots-generatedcode.ps1 : a PowerShell function for every Woots API call, to be part of the PowerShell Woots module Woots.ps1.

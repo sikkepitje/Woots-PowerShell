@@ -23,10 +23,18 @@
     * toegevoegd: Get-ResourceItem
     * generieke parameternamen $parameter
     
+    https://www.youtube.com/watch?v=7mEmQgGowMY
+    gebruik Invoke-RestMethod 
+    try {
+        Invoke-RestMethod
+    }
+    Catch {
+        $_.exception.response
+    }
 #>
-$script:apiurl = $null # "https://app.woots.nl/api/v2"
-$script:school_id = $null
-$script:requestheader = $null
+$apiurl = $null # "https://app.woots.nl/api/v2"
+$school_id = $null
+$authorizationheader = $null
 $verbose = $True
 
 # ====================== UTILITY FUNCTIONS ======================
@@ -39,7 +47,7 @@ function Initialize-Woots ($hostname, $school_id, $token) {
         $script:apiurl =  "https://$hostname/api/v2"
     }
     $script:school_id = $school_id
-    $script:requestheader = @{
+    $script:authorizationheader = @{
         "accept" = "application/json"
         "authorization" = "Bearer $token" 
     }
@@ -53,9 +61,9 @@ function Initialize-WootsIniFile ($Path) {
     Initialize-Woots -hostname $config.hostname -School_Id $config.School_id -Token $config.Token    
 }
 function Assert-WootsInitialized(){
-    if (!$script:school_id) { Throw "Geen School_id"}
-    if (!$script:requestheader) { Throw "Geen token"}
-    if (!$script:apiurl) { Throw "Geen APIURL"} 
+    if (!$school_id) { Throw "Geen School_id"}
+    if (!$authorizationheader) { Throw "Geen token"}
+    if (!$apiurl) { Throw "Geen APIURL"} 
 }
 function Show-Status($StatusCode, $StatusDescription, $count) {
     if ($verbose) {
@@ -89,9 +97,10 @@ function Limit-Rate ($resphead) {
 Function NotYetImplemented {
     Throw "{0} is not yet implemented" -f (Get-FunctionName -StackNumber 2)
 }
+
 function Invoke-MultiPageGet($nextlink) {
     Assert-WootsInitialized
-    #if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
+    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
     $getpage = 1
     $data = @()
     $done = $False
@@ -99,7 +108,7 @@ function Invoke-MultiPageGet($nextlink) {
         if ($verbose) {write-host "." -NoNewline -ForegroundColor Blue}
         $ProgressPreference = 'SilentlyContinue' 
         Try {
-            $response = Invoke-WebRequest -Uri $nextlink -Method 'GET' -Headers $requestheader 
+            $response = Invoke-WebRequest -Uri $nextlink -Method 'GET' -Headers $authorizationheader 
         }
         catch [System.Net.WebException] {
             Write-Error ("{0}: Exception caught! {1} {2}" -f (
@@ -133,10 +142,14 @@ Function Search-WootsResource($resource, $parameter) {
             trashed = "false"
         }
     #>    
-    $query = ($parameter.GetEnumerator() | ForEach-Object { "{0}:`"{1}`"" -f ($_.name, $_.value)}) -join " "
+    Try {
+        $query = ($parameter.GetEnumerator() | ForEach-Object { "{0}:`"{1}`"" -f ($_.name, $_.value)}) -join " "
+    } 
+    Catch { # bescherm tegen verouderde functieparameters
+        Throw "Verkeerde parameters. Gebruik Search-WootsResource(`$resource, `$parameter)"
+    }
     if ($verbose) {Write-Host "$(Get-FunctionName): ($resource) $query" -NoNewline -ForegroundColor Blue}
-    $data = Invoke-MultiPageGet -nextlink ("$apiurl/search/$resource/?query=$query" -f ($name, $value))
-    return $data
+    return Invoke-MultiPageGet -nextlink ("$apiurl/search/$resource/?query=$query" -f ($name, $value))
 }
 
 Function Get-WootsSchoolResources ($resource) {
@@ -144,23 +157,29 @@ Function Get-WootsSchoolResources ($resource) {
     # haal data op, gebruik pagination, respecteer de ratelimit
     # $resource is één van:  roles, labels, classes, courses, departments, locations, periods, users
     Assert-WootsInitialized
-    if ($resource -notin $validGetSchoolResources) {
-        Throw "Invalid resource: $resource"
-    }
     if ($verbose) {Write-Host "$(Get-FunctionName) : $resource " -NoNewline -ForegroundColor Blue}
     return Invoke-MultiPageGet -nextlink "$apiurl/schools/$school_id/$resource"
 }
-Function Add-WootsSchoolResource ($resource, $parameter) {
-    # POST /api/v2/schools/{school_id}/{resource} $parameter
+Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
+    <#
+    .INPUT $Uri 
+        Uri is het endpoint van de API.
+    .INPUT $method
+        Method bevat httpd-method, één van: GET, POST, PUT, PATCH, DELETE
+    .INPUT $Body
+        Body is een hashtable. Deze wordt meegestuurd in body van de aanvraag.
+    #>
     Assert-WootsInitialized
-    if ($verbose) {Write-Host (Get-FunctionName) -NoNewline -ForegroundColor Blue}
-    $ProgressPreference = 'SilentlyContinue' 
+    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
+    $ProgressPreference = "SilentlyContinue"
     Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/schools/$school_id/$resource" -Method 'POST' -Headers $requestheader -Body $parameter
+        $response = Invoke-WebRequest -Uri $Uri -Method $Method `
+            -Headers $authorizationheader `
+            -Body ($Body | ConvertTo-Json) -ContentType "application/json"
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
-            (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
+            (Get-FunctionName -StackNumber 2), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
         return $null
     }
     Show-Status $response.StatusCode $response.StatusDescription $response.content.count
@@ -169,15 +188,13 @@ Function Add-WootsSchoolResource ($resource, $parameter) {
 }
 Function Get-WootsResourceById ($resource, $id) {
     # GET /api/v2/{resource}/{id}
+    return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'GET' 
     Assert-WootsInitialized
-    if ($verbose) {Write-Host (Get-FunctionName) -NoNewline -ForegroundColor Blue}
-    if ($resource -notin @($validGetResources)) {
-        Throw "$(Get-FunctionName) Invalid resource: $resource. Must be one of: $($validGetResources -join ',')"
-    }
-    $ProgressPreference = 'SilentlyContinue' 
+    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
+    $ProgressPreference = 'SilentlyContinue'
     Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" `
-            -Method 'GET' -Headers $requestheader
+        $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" -Method 'GET' `
+            -Headers $authorizationheader
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
@@ -189,17 +206,16 @@ Function Get-WootsResourceById ($resource, $id) {
     return $response.content | ConvertFrom-Json
 }
 
-Function Set-WootsResourceById($resource, $id, $parameter) {
-    # PATCH /api/v2/{resource}/{id} $parameter
+Function Add-WootsSchoolResource ($resource, $parameter) {
+    # POST /api/v2/schools/{school_id}/{resource} $parameter
+    return Invoke-WootsApiCall -Uri  "$apiurl/schools/$school_id/$resource"  `
+        -Method 'POST' -Body $parameter
     Assert-WootsInitialized
-    if ($verbose) {Write-Host (Get-FunctionName) -NoNewline -ForegroundColor Blue}
-    if ($resource -notin @($validSetResources)) {
-        Throw "$(Get-FunctionName) Invalid resource: $resource. Must be one of: $($validSetResources -join ',')"
-    }
-    $ProgressPreference = 'SilentlyContinue' 
+    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
+    $ProgressPreference = 'SilentlyContinue'
     Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" `
-            -Method 'PATCH' -Headers $requestheader -body $parameter
+        $response = Invoke-WebRequest -Uri "$apiurl/schools/$school_id/$resource" -Method 'POST' `
+        -Headers $authorizationheader -Body ($parameter | ConvertTo-Json) -ContentType "application/json" 
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
@@ -210,17 +226,36 @@ Function Set-WootsResourceById($resource, $id, $parameter) {
     Limit-Rate $response.Headers
     return $response.content | ConvertFrom-Json
 }
-function Remove-WootsResourceById ($resource, $id) {
-    # DELETE /api/v2/{resource}/{id}
+Function Set-WootsResourceById($resource, $id, $parameter) {
+    # PATCH /api/v2/{resource}/{id} $parameter
+    return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'PATCH' -Body $parameter
     Assert-WootsInitialized
-    if ($verbose) {Write-Host (Get-FunctionName) -NoNewline -ForegroundColor Blue}
-    if ($resource -notin @($validRemoveResources)) {
-        Throw "$(Get-FunctionName) Invalid resource: $resource. Must be one of: $($validRemoveResources -join ',')"
-    }
-    $ProgressPreference = 'SilentlyContinue' 
+    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
+    $ProgressPreference = 'SilentlyContinue'
     Try {
         $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" `
-            -Method 'DELETE' -Headers $requestheader
+            -Method 'PATCH' -Headers $authorizationheader `
+            -Body ($parameter | ConvertTo-Json) -ContentType "application/json"
+    }
+    catch [System.Net.WebException] {
+        Write-Error ("{0}: Exception caught! {1} {2}" -f (
+            (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
+        return $null
+    }
+    Show-Status $response.StatusCode $response.StatusDescription $response.content.count
+    Limit-Rate $response.Headers
+    return $response.content | ConvertFrom-Json
+}
+
+function Remove-WootsResourceById ($resource, $id) {
+    # DELETE /api/v2/{resource}/{id}
+    return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'DELETE'
+    Assert-WootsInitialized
+    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
+    $ProgressPreference = 'SilentlyContinue'
+    Try {
+        $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" `
+            -Method 'DELETE' -Headers $authorizationheader
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
@@ -240,12 +275,15 @@ Function Get-WootsResourceItem($Resource, $id, $ItemType) {
     return Invoke-MultiPageGet -nextlink $url
 }
 Function Add-WootsResourceItem($resources, $id, $itemtype, $parameter) {
+    return Invoke-WootsApiCall -Uri "$apiurl/$resources/$id/$itemtype" -Method 'PATCH' -Body $parameter
     # POST /api/v2/{resource}/{resource_id}/{itemtype} $parameter ; Add item to resource
     Assert-WootsInitialized
-    if ($verbose) {Write-Host (Get-FunctionName) -NoNewline -ForegroundColor Blue}
-    $ProgressPreference = 'SilentlyContinue' 
+    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
+    $ProgressPreference = 'SilentlyContinue'
     Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resources/$id/$itemtype" -Method 'POST' -Headers $requestheader -Body $parameter
+        $response = Invoke-WebRequest -Uri "$apiurl/$resources/$id/$itemtype" -Method 'POST' `
+            -Headers $authorizationheader `
+            -Body ($parameter | ConvertTo-Json) -ContentType "application/json"
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
@@ -256,7 +294,6 @@ Function Add-WootsResourceItem($resources, $id, $itemtype, $parameter) {
     Limit-Rate $response.Headers
     return $response.content | ConvertFrom-Json
 }
-
 #endregion
 
 <#  Add-WootsClass, Remove-WootsClass, Set-WootsClass
