@@ -20,20 +20,24 @@ of
 Import-Module "$PSScriptRoot\Woots.ps"
 ----
 
+Initializeer Woots door een aanroep naar 
 == Documentatie 
 
-Geen tijd. Werp een blik op de functiedefinities in ``Woots-generatedCode.ps1`` om te zien welke functies er allemaal gedefinieerd zijn. 
+Werp een blik op de functiedefinities in ``Woots-generatedCode.ps1`` om te zien welke functies er allemaal gedefinieerd zijn. 
 
 
 === Standaard Functieparameters
 
-In het algemeen hebben alle functies slechts één of meer van de volgende parameters. 
+Alle functies slechts één of meer van de volgende parameters. 
 
-* ``$Id`` : een numeriek ID van een resource
 
-* ``$Parameter`` : een [PSCustomObject] met de in te stellen attributen van een resource (Set-Xxx), of een [PSCustomObject] met de naam-waarde-paren die het filter definieren voor een zoekactie (Search-Xxx)
+* ``$Id`` : het numeriek ID van de resource waarop de bewerking betrekking heeft (alle functies van de categorie Get-Resource, Get-ResourceItem, Set-Resource, Add-ResourceItem, Remove-Resource).
 
-Alle parameters zijn PowerShell objecten, behalve waar het gaat om Boolean waarde; in dat geval volstaat ``"false"`` of ``"true"``.
+* ``$Parameter`` : een hastable met de in te stellen attributen van een resource (alle functies van de categorie Add-Resource, Add-ResourceItem, Set-Resource, Set-ResourceItem), of een hashtable met naam-waarde-paren die het filter definieren voor een zoekactie (alle functies van de categorie Search-Resource).
+
+* ``$MaxItems`` : indien groter dan 0, dan geeft deze parameter het hoogste aantal items aan, dat moeten worden geretourneerd. Bij weglating van deze parameter of bij een negatieve waarde, wordt het maximum aantal beschikbare items geretourneerd (alle functies van de categorie Search-Resource, Get-AllResources).
+
+Alle parameters zijn PowerShell objecten, behalve waar het gaat om booleaanse waarden; in dat geval volstaat de string ``"false"`` of ``"true"``. 
 
 Voorbeeld: 
 
@@ -47,6 +51,6 @@ $result = Search-WootsCourse -Parameter $filter
 
 == Extra's 
 
-Een deel van de code in de module 
-``WootsModuleCodeGenerator.ps1`` : dit script is gebruikt voor het genereren van ``Woots-generatedcode.ps1``. 
-``Woots-api-calls.csv`` : dit bestand wordt gebruikt door ``WootsModuleCodeGenerator.ps1``. 
+Een deel van de code in de module is gegenereerd door een codegenerator. 
+* ``WootsModuleCodeGenerator.ps1`` : dit script genereert de code in ``Woots-generatedcode.ps1``. 
+* ``Woots-api-calls.csv`` : dit bestand wordt ingelezen door ``WootsModuleCodeGenerator.ps1``. 

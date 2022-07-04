@@ -21,11 +21,7 @@ Function Resultaat($tekst, $is, $verwacht) {
         write-host "Faalt" -ForegroundColor red 
     }
 }
-function PadNumber($n) {
-    $n = $n.ToString()
-    $n = $n.PadLeft(5, "0")
-    return $n
-}
+
 $users = Search-WootsUser @{last_name = "Abernathy"}
 Resultaat "Search-WootsUser zoek users" $users.count "6"
 

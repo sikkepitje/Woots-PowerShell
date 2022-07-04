@@ -11,20 +11,20 @@ Function Add-WootsAssignmentRequirement($id,$Parameter) {return Add-WootsResourc
 Function Add-WootsAssignmentScoreMark($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "score_marks" -parameter $Parameter}
 Function Add-WootsAssignmentTask($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "tasks" -parameter $Parameter}
 Function Add-WootsAssignmentTimeslot($id,$Parameter) {return Add-WootsResourceItem -resource "assignments" -id $id -itemtype "timeslots" -parameter $Parameter}
-Function Add-WootsClass($Parameter) {return Add-WootsSchoolResource -resource "classes" -parameter $Parameter}
-Function Add-WootsCourse($Parameter) {return Add-WootsSchoolResource -resource "courses" -parameter $Parameter}
+Function Add-WootsClass($Parameter) {return Add-WootsResource -resource "classes" -parameter $Parameter}
+Function Add-WootsCourse($Parameter) {return Add-WootsResource -resource "courses" -parameter $Parameter}
 Function Add-WootsCourseAssignment($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "assignments" -parameter $Parameter}
 Function Add-WootsCourseCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "courses_users" -parameter $Parameter}
 Function Add-WootsCourseDomain($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "domains" -parameter $Parameter}
 Function Add-WootsCourseGroup($id,$Parameter) {return Add-WootsResourceItem -resource "courses" -id $id -itemtype "groups" -parameter $Parameter}
-Function Add-WootsDepartment($Parameter) {return Add-WootsSchoolResource -resource "departments" -parameter $Parameter}
+Function Add-WootsDepartment($Parameter) {return Add-WootsResource -resource "departments" -parameter $Parameter}
 Function Add-WootsDepartmentStudy($id,$Parameter) {return Add-WootsResourceItem -resource "departments" -id $id -itemtype "studies" -parameter $Parameter}
 Function Add-WootsDomainObjective($id,$Parameter) {return Add-WootsResourceItem -resource "domains" -id $id -itemtype "objectives" -parameter $Parameter}
 Function Add-WootsExerciseQuestion($id,$Parameter) {return Add-WootsResourceItem -resource "exercises" -id $id -itemtype "questions" -parameter $Parameter}
 Function Add-WootsGroupGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "groups" -id $id -itemtype "groups_users" -parameter $Parameter}
-Function Add-WootsLabel($Parameter) {return Add-WootsSchoolResource -resource "labels" -parameter $Parameter}
-Function Add-WootsLocation($Parameter) {return Add-WootsSchoolResource -resource "locations" -parameter $Parameter}
-Function Add-WootsPeriod($Parameter) {return Add-WootsSchoolResource -resource "periods" -parameter $Parameter}
+Function Add-WootsLabel($Parameter) {return Add-WootsResource -resource "labels" -parameter $Parameter}
+Function Add-WootsLocation($Parameter) {return Add-WootsResource -resource "locations" -parameter $Parameter}
+Function Add-WootsPeriod($Parameter) {return Add-WootsResource -resource "periods" -parameter $Parameter}
 Function Add-WootsPlanSubscription($id,$Parameter) {return Add-WootsResourceItem -resource "plans" -id $id -itemtype "subscriptions" -parameter $Parameter}
 Function Add-WootsPublisherPlan($id,$Parameter) {return Add-WootsResourceItem -resource "publishers" -id $id -itemtype "plans" -parameter $Parameter}
 Function Add-WootsQuestionBankAssignmentScoreMark($id,$Parameter) {return Add-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "score_marks" -parameter $Parameter}
@@ -33,18 +33,18 @@ Function Add-WootsQuestionBankQuestionBankAssignment($id,$Parameter) {return Add
 Function Add-WootsQuestionBankQuestionBankExercise($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_exercises" -parameter $Parameter}
 Function Add-WootsQuestionBankQuestionBankLabel($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_labels" -parameter $Parameter}
 Function Add-WootsQuestionBankTask($id,$Parameter) {return Add-WootsResourceItem -resource "question_banks" -id $id -itemtype "tasks" -parameter $Parameter}
-Function Add-WootsUser($Parameter) {return Add-WootsSchoolResource -resource "users" -parameter $Parameter}
+Function Add-WootsUser($Parameter) {return Add-WootsResource -resource "users" -parameter $Parameter}
 Function Add-WootsUserCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "courses_users" -parameter $Parameter}
 Function Add-WootsUserGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "groups_users" -parameter $Parameter}
-Function Get-WootsAllClass($MaxItems=50) { return Get-WootsSchoolResources -resource "classes" -MaxItem $MaxItems}
-Function Get-WootsAllCourse($MaxItems=50) { return Get-WootsSchoolResources -resource "courses" -MaxItem $MaxItems}
-Function Get-WootsAllDepartment($MaxItems=50) { return Get-WootsSchoolResources -resource "departments" -MaxItem $MaxItems}
-Function Get-WootsAllLabel($MaxItems=50) { return Get-WootsSchoolResources -resource "labels" -MaxItem $MaxItems}
-Function Get-WootsAllLocation($MaxItems=50) { return Get-WootsSchoolResources -resource "locations" -MaxItem $MaxItems}
-Function Get-WootsAllPeriod($MaxItems=50) { return Get-WootsSchoolResources -resource "periods" -MaxItem $MaxItems}
-Function Get-WootsAllRol($MaxItems=50) { return Get-WootsSchoolResources -resource "roles" -MaxItem $MaxItems}
-Function Get-WootsAllUser($MaxItems=50) { return Get-WootsSchoolResources -resource "users" -MaxItem $MaxItems}
-Function Get-WootsAssignment($id) { return Get-WootsResourceById -resource "assignments" -id $id }
+Function Get-WootsAllClass($MaxItems=50) { return Get-WootsAllResources -resource "classes" -MaxItem $MaxItems}
+Function Get-WootsAllCourse($MaxItems=50) { return Get-WootsAllResources -resource "courses" -MaxItem $MaxItems}
+Function Get-WootsAllDepartment($MaxItems=50) { return Get-WootsAllResources -resource "departments" -MaxItem $MaxItems}
+Function Get-WootsAllLabel($MaxItems=50) { return Get-WootsAllResources -resource "labels" -MaxItem $MaxItems}
+Function Get-WootsAllLocation($MaxItems=50) { return Get-WootsAllResources -resource "locations" -MaxItem $MaxItems}
+Function Get-WootsAllPeriod($MaxItems=50) { return Get-WootsAllResources -resource "periods" -MaxItem $MaxItems}
+Function Get-WootsAllRol($MaxItems=50) { return Get-WootsAllResources -resource "roles" -MaxItem $MaxItems}
+Function Get-WootsAllUser($MaxItems=50) { return Get-WootsAllResources -resource "users" -MaxItem $MaxItems}
+Function Get-WootsAssignment($id) { return Get-WootsResource -resource "assignments" -id $id }
 Function Get-WootsAssignmentCover($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "cover"}
 Function Get-WootsAssignmentExercise($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "exercises"}
 Function Get-WootsAssignmentPublication($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "publication"}
@@ -54,60 +54,60 @@ Function Get-WootsAssignmentResult($id) { return Get-WootsResourceItem -resource
 Function Get-WootsAssignmentScoreMark($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "score_marks"}
 Function Get-WootsAssignmentTask($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "tasks"}
 Function Get-WootsAssignmentTimeslot($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "timeslots"}
-Function Get-WootsBackgroundJob($id) { return Get-WootsResourceById -resource "background_jobs" -id $id }
-Function Get-WootsBlueprint($id) { return Get-WootsResourceById -resource "blueprints" -id $id }
-Function Get-WootsClass($id) { return Get-WootsResourceById -resource "classes" -id $id }
-Function Get-WootsComment($id) { return Get-WootsResourceById -resource "comments" -id $id }
-Function Get-WootsCourse($id) { return Get-WootsResourceById -resource "courses" -id $id }
+Function Get-WootsBackgroundJob($id) { return Get-WootsResource -resource "background_jobs" -id $id }
+Function Get-WootsBlueprint($id) { return Get-WootsResource -resource "blueprints" -id $id }
+Function Get-WootsClass($id) { return Get-WootsResource -resource "classes" -id $id }
+Function Get-WootsComment($id) { return Get-WootsResource -resource "comments" -id $id }
+Function Get-WootsCourse($id) { return Get-WootsResource -resource "courses" -id $id }
 Function Get-WootsCourseAssignment($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "assignments"}
 Function Get-WootsCourseCoursesUser($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "courses_users"}
 Function Get-WootsCourseDomain($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "domains"}
 Function Get-WootsCourseGroup($id) { return Get-WootsResourceItem -resource "courses" -id $id -itemtype "groups"}
-Function Get-WootsCoursesUser($id) { return Get-WootsResourceById -resource "courses_users" -id $id }
-Function Get-WootsDepartment($id) { return Get-WootsResourceById -resource "departments" -id $id }
+Function Get-WootsCoursesUser($id) { return Get-WootsResource -resource "courses_users" -id $id }
+Function Get-WootsDepartment($id) { return Get-WootsResource -resource "departments" -id $id }
 Function Get-WootsDepartmentStudy($id) { return Get-WootsResourceItem -resource "departments" -id $id -itemtype "studies"}
-Function Get-WootsDomain($id) { return Get-WootsResourceById -resource "domains" -id $id }
+Function Get-WootsDomain($id) { return Get-WootsResource -resource "domains" -id $id }
 Function Get-WootsDomainObjective($id) { return Get-WootsResourceItem -resource "domains" -id $id -itemtype "objectives"}
-Function Get-WootsExercise($id) { return Get-WootsResourceById -resource "exercises" -id $id }
+Function Get-WootsExercise($id) { return Get-WootsResource -resource "exercises" -id $id }
 Function Get-WootsExerciseQuestion($id) { return Get-WootsResourceItem -resource "exercises" -id $id -itemtype "questions"}
-Function Get-WootsGroup($id) { return Get-WootsResourceById -resource "groups" -id $id }
+Function Get-WootsGroup($id) { return Get-WootsResource -resource "groups" -id $id }
 Function Get-WootsGroupGroupsUser($id) { return Get-WootsResourceItem -resource "groups" -id $id -itemtype "groups_users"}
-Function Get-WootsLabel($id) { return Get-WootsResourceById -resource "labels" -id $id }
-Function Get-WootsLocation($id) { return Get-WootsResourceById -resource "locations" -id $id }
-Function Get-WootsNotification($id) { return Get-WootsResourceById -resource "notifications" -id $id }
-Function Get-WootsObjective($id) { return Get-WootsResourceById -resource "objectives" -id $id }
-Function Get-WootsPeriod($id) { return Get-WootsResourceById -resource "periods" -id $id }
-Function Get-WootsPlan($id) { return Get-WootsResourceById -resource "plans" -id $id }
+Function Get-WootsLabel($id) { return Get-WootsResource -resource "labels" -id $id }
+Function Get-WootsLocation($id) { return Get-WootsResource -resource "locations" -id $id }
+Function Get-WootsNotification($id) { return Get-WootsResource -resource "notifications" -id $id }
+Function Get-WootsObjective($id) { return Get-WootsResource -resource "objectives" -id $id }
+Function Get-WootsPeriod($id) { return Get-WootsResource -resource "periods" -id $id }
+Function Get-WootsPlan($id) { return Get-WootsResource -resource "plans" -id $id }
 Function Get-WootsPlanSubscription($id) { return Get-WootsResourceItem -resource "plans" -id $id -itemtype "subscriptions"}
-Function Get-WootsPublicationTimeslot($id) { return Get-WootsResourceById -resource "publication_timeslots" -id $id }
+Function Get-WootsPublicationTimeslot($id) { return Get-WootsResource -resource "publication_timeslots" -id $id }
 Function Get-WootsPublisherPlan($id) { return Get-WootsResourceItem -resource "publishers" -id $id -itemtype "plans"}
-Function Get-WootsQuestion($id) { return Get-WootsResourceById -resource "questions" -id $id }
-Function Get-WootsQuestionBank($id) { return Get-WootsResourceById -resource "question_banks" -id $id }
-Function Get-WootsQuestionBankAssignment($id) { return Get-WootsResourceById -resource "question_bank_assignments" -id $id }
+Function Get-WootsQuestion($id) { return Get-WootsResource -resource "questions" -id $id }
+Function Get-WootsQuestionBank($id) { return Get-WootsResource -resource "question_banks" -id $id }
+Function Get-WootsQuestionBankAssignment($id) { return Get-WootsResource -resource "question_bank_assignments" -id $id }
 Function Get-WootsQuestionBankAssignmentCover($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "cover"}
 Function Get-WootsQuestionBankAssignmentQuestionBankAssignmentResult($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "question_bank_assignment_results"}
 Function Get-WootsQuestionBankAssignmentScoreMark($id) { return Get-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "score_marks"}
 Function Get-WootsQuestionBankBlueprint($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "blueprints"}
 Function Get-WootsQuestionBankDomain($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "domains"}
-Function Get-WootsQuestionBankExercise($id) { return Get-WootsResourceById -resource "question_bank_exercises" -id $id }
-Function Get-WootsQuestionBankLabel($id) { return Get-WootsResourceById -resource "question_bank_labels" -id $id }
+Function Get-WootsQuestionBankExercise($id) { return Get-WootsResource -resource "question_bank_exercises" -id $id }
+Function Get-WootsQuestionBankLabel($id) { return Get-WootsResource -resource "question_bank_labels" -id $id }
 Function Get-WootsQuestionBankQuestionBankAssignment($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_assignments"}
 Function Get-WootsQuestionBankQuestionBankExercise($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_exercises"}
 Function Get-WootsQuestionBankQuestionBankLabel($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "question_bank_labels"}
 Function Get-WootsQuestionBankTask($id) { return Get-WootsResourceItem -resource "question_banks" -id $id -itemtype "tasks"}
-Function Get-WootsRequirement($id) { return Get-WootsResourceById -resource "requirements" -id $id }
-Function Get-WootsResult($id) { return Get-WootsResourceById -resource "results" -id $id }
-Function Get-WootsSchool($id) { return Get-WootsResourceById -resource "schools" -id $id }
-Function Get-WootsScoreMark($id) { return Get-WootsResourceById -resource "score_marks" -id $id }
-Function Get-WootsStudy($id) { return Get-WootsResourceById -resource "studies" -id $id }
-Function Get-WootsSubmission($id) { return Get-WootsResourceById -resource "submissions" -id $id }
-Function Get-WootsSubscription($id) { return Get-WootsResourceById -resource "subscriptions" -id $id }
-Function Get-WootsTask($id) { return Get-WootsResourceById -resource "tasks" -id $id }
-Function Get-WootsTimeslot($id) { return Get-WootsResourceById -resource "timeslots" -id $id }
-Function Get-WootsUser($id) { return Get-WootsResourceById -resource "users" -id $id }
+Function Get-WootsRequirement($id) { return Get-WootsResource -resource "requirements" -id $id }
+Function Get-WootsResult($id) { return Get-WootsResource -resource "results" -id $id }
+Function Get-WootsSchool($id) { return Get-WootsResource -resource "schools" -id $id }
+Function Get-WootsScoreMark($id) { return Get-WootsResource -resource "score_marks" -id $id }
+Function Get-WootsStudy($id) { return Get-WootsResource -resource "studies" -id $id }
+Function Get-WootsSubmission($id) { return Get-WootsResource -resource "submissions" -id $id }
+Function Get-WootsSubscription($id) { return Get-WootsResource -resource "subscriptions" -id $id }
+Function Get-WootsTask($id) { return Get-WootsResource -resource "tasks" -id $id }
+Function Get-WootsTimeslot($id) { return Get-WootsResource -resource "timeslots" -id $id }
+Function Get-WootsUser($id) { return Get-WootsResource -resource "users" -id $id }
 Function Get-WootsUserCoursesUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "courses_users"}
 Function Get-WootsUserGroupsUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "groups_users"}
-Function Get-WootsWebhook($id) { return Get-WootsResourceById -resource "webhooks" -id $id }
+Function Get-WootsWebhook($id) { return Get-WootsResource -resource "webhooks" -id $id }
 Function Invoke-WootsGET__api_v2_background_jobs() { Throw "This function is not yet implemented"}
 Function Invoke-WootsGET__api_v2_comments() { Throw "This function is not yet implemented"}
 Function Invoke-WootsGET__api_v2_notifications() { Throw "This function is not yet implemented"}
@@ -118,35 +118,35 @@ Function Invoke-WootsGET__api_v2_webhooks_() { Throw "This function is not yet i
 Function Invoke-WootsPOST__api_v2_comments() { Throw "This function is not yet implemented"}
 Function Invoke-WootsPOST__api_v2_question_banks() { Throw "This function is not yet implemented"}
 Function Invoke-WootsPOST__api_v2_webhooks_() { Throw "This function is not yet implemented"}
-Function Remove-WootsAssignment($id,$Parameter) {return Remove-WootsResourceById -resource "assignments" -id $id -parameter $Parameter}
-Function Remove-WootsClass($id,$Parameter) {return Remove-WootsResourceById -resource "classes" -id $id -parameter $Parameter}
-Function Remove-WootsComment($id,$Parameter) {return Remove-WootsResourceById -resource "comments" -id $id -parameter $Parameter}
-Function Remove-WootsCourse($id,$Parameter) {return Remove-WootsResourceById -resource "courses" -id $id -parameter $Parameter}
-Function Remove-WootsCoursesUser($id,$Parameter) {return Remove-WootsResourceById -resource "courses_users" -id $id -parameter $Parameter}
-Function Remove-WootsDepartment($id,$Parameter) {return Remove-WootsResourceById -resource "departments" -id $id -parameter $Parameter}
-Function Remove-WootsDomain($id,$Parameter) {return Remove-WootsResourceById -resource "domains" -id $id -parameter $Parameter}
-Function Remove-WootsExercise($id,$Parameter) {return Remove-WootsResourceById -resource "exercises" -id $id -parameter $Parameter}
-Function Remove-WootsGroup($id,$Parameter) {return Remove-WootsResourceById -resource "groups" -id $id -parameter $Parameter}
-Function Remove-WootsGroupsUser($id,$Parameter) {return Remove-WootsResourceById -resource "groups_users" -id $id -parameter $Parameter}
-Function Remove-WootsLabel($id,$Parameter) {return Remove-WootsResourceById -resource "labels" -id $id -parameter $Parameter}
-Function Remove-WootsLocation($id,$Parameter) {return Remove-WootsResourceById -resource "locations" -id $id -parameter $Parameter}
-Function Remove-WootsObjective($id,$Parameter) {return Remove-WootsResourceById -resource "objectives" -id $id -parameter $Parameter}
-Function Remove-WootsPeriod($id,$Parameter) {return Remove-WootsResourceById -resource "periods" -id $id -parameter $Parameter}
-Function Remove-WootsPlan($id,$Parameter) {return Remove-WootsResourceById -resource "plans" -id $id -parameter $Parameter}
-Function Remove-WootsPublicationTimeslot($id,$Parameter) {return Remove-WootsResourceById -resource "publication_timeslots" -id $id -parameter $Parameter}
-Function Remove-WootsQuestion($id,$Parameter) {return Remove-WootsResourceById -resource "questions" -id $id -parameter $Parameter}
-Function Remove-WootsQuestionBank($id,$Parameter) {return Remove-WootsResourceById -resource "question_banks" -id $id -parameter $Parameter}
-Function Remove-WootsQuestionBankAssignment($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_assignments" -id $id -parameter $Parameter}
-Function Remove-WootsQuestionBankExercise($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_exercises" -id $id -parameter $Parameter}
-Function Remove-WootsQuestionBankLabel($id,$Parameter) {return Remove-WootsResourceById -resource "question_bank_labels" -id $id -parameter $Parameter}
-Function Remove-WootsRequirement($id,$Parameter) {return Remove-WootsResourceById -resource "requirements" -id $id -parameter $Parameter}
-Function Remove-WootsScoreMark($id,$Parameter) {return Remove-WootsResourceById -resource "score_marks" -id $id -parameter $Parameter}
-Function Remove-WootsStudy($id,$Parameter) {return Remove-WootsResourceById -resource "studies" -id $id -parameter $Parameter}
-Function Remove-WootsSubscription($id,$Parameter) {return Remove-WootsResourceById -resource "subscriptions" -id $id -parameter $Parameter}
-Function Remove-WootsTask($id,$Parameter) {return Remove-WootsResourceById -resource "tasks" -id $id -parameter $Parameter}
-Function Remove-WootsTimeslot($id,$Parameter) {return Remove-WootsResourceById -resource "timeslots" -id $id -parameter $Parameter}
-Function Remove-WootsUser($id,$Parameter) {return Remove-WootsResourceById -resource "users" -id $id -parameter $Parameter}
-Function Remove-WootsWebhook($id,$Parameter) {return Remove-WootsResourceById -resource "webhooks" -id $id -parameter $Parameter}
+Function Remove-WootsAssignment($id) {return Remove-WootsResource -resource "assignments" -id $id}
+Function Remove-WootsClass($id) {return Remove-WootsResource -resource "classes" -id $id}
+Function Remove-WootsComment($id) {return Remove-WootsResource -resource "comments" -id $id}
+Function Remove-WootsCourse($id) {return Remove-WootsResource -resource "courses" -id $id}
+Function Remove-WootsCoursesUser($id) {return Remove-WootsResource -resource "courses_users" -id $id}
+Function Remove-WootsDepartment($id) {return Remove-WootsResource -resource "departments" -id $id}
+Function Remove-WootsDomain($id) {return Remove-WootsResource -resource "domains" -id $id}
+Function Remove-WootsExercise($id) {return Remove-WootsResource -resource "exercises" -id $id}
+Function Remove-WootsGroup($id) {return Remove-WootsResource -resource "groups" -id $id}
+Function Remove-WootsGroupsUser($id) {return Remove-WootsResource -resource "groups_users" -id $id}
+Function Remove-WootsLabel($id) {return Remove-WootsResource -resource "labels" -id $id}
+Function Remove-WootsLocation($id) {return Remove-WootsResource -resource "locations" -id $id}
+Function Remove-WootsObjective($id) {return Remove-WootsResource -resource "objectives" -id $id}
+Function Remove-WootsPeriod($id) {return Remove-WootsResource -resource "periods" -id $id}
+Function Remove-WootsPlan($id) {return Remove-WootsResource -resource "plans" -id $id}
+Function Remove-WootsPublicationTimeslot($id) {return Remove-WootsResource -resource "publication_timeslots" -id $id}
+Function Remove-WootsQuestion($id) {return Remove-WootsResource -resource "questions" -id $id}
+Function Remove-WootsQuestionBank($id) {return Remove-WootsResource -resource "question_banks" -id $id}
+Function Remove-WootsQuestionBankAssignment($id) {return Remove-WootsResource -resource "question_bank_assignments" -id $id}
+Function Remove-WootsQuestionBankExercise($id) {return Remove-WootsResource -resource "question_bank_exercises" -id $id}
+Function Remove-WootsQuestionBankLabel($id) {return Remove-WootsResource -resource "question_bank_labels" -id $id}
+Function Remove-WootsRequirement($id) {return Remove-WootsResource -resource "requirements" -id $id}
+Function Remove-WootsScoreMark($id) {return Remove-WootsResource -resource "score_marks" -id $id}
+Function Remove-WootsStudy($id) {return Remove-WootsResource -resource "studies" -id $id}
+Function Remove-WootsSubscription($id) {return Remove-WootsResource -resource "subscriptions" -id $id}
+Function Remove-WootsTask($id) {return Remove-WootsResource -resource "tasks" -id $id}
+Function Remove-WootsTimeslot($id) {return Remove-WootsResource -resource "timeslots" -id $id}
+Function Remove-WootsUser($id) {return Remove-WootsResource -resource "users" -id $id}
+Function Remove-WootsWebhook($id) {return Remove-WootsResource -resource "webhooks" -id $id}
 Function Search-WootsAssignment($Parameter,$MaxItems=50) {return Search-WootsResource -resource "assignments" -parameter $Parameter -MaxItem $MaxItems}
 Function Search-WootsCourse($Parameter,$MaxItems=50) {return Search-WootsResource -resource "courses" -parameter $Parameter -MaxItem $MaxItems}
 Function Search-WootsGroup($Parameter,$MaxItems=50) {return Search-WootsResource -resource "groups" -parameter $Parameter -MaxItem $MaxItems}
@@ -155,39 +155,39 @@ Function Search-WootsQuestionBankAssignment($Parameter,$MaxItems=50) {return Sea
 Function Search-WootsResult($Parameter,$MaxItems=50) {return Search-WootsResource -resource "results" -parameter $Parameter -MaxItem $MaxItems}
 Function Search-WootsTimeslot($Parameter,$MaxItems=50) {return Search-WootsResource -resource "timeslots" -parameter $Parameter -MaxItem $MaxItems}
 Function Search-WootsUser($Parameter,$MaxItems=50) {return Search-WootsResource -resource "users" -parameter $Parameter -MaxItem $MaxItems}
-Function Set-WootsAssignment($id,$Parameter) {return Set-WootsResourceById -resource "assignments" -id $id -parameter $Parameter}
+Function Set-WootsAssignment($id,$Parameter) {return Set-WootsResource -resource "assignments" -id $id -parameter $Parameter}
 Function Set-WootsAssignmentCover($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "cover" -parameter $Parameter}
 Function Set-WootsAssignmentPublication($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "publication" -parameter $Parameter}
-Function Set-WootsBackgroundJob($id,$Parameter) {return Set-WootsResourceById -resource "background_jobs" -id $id -parameter $Parameter}
-Function Set-WootsClass($id,$Parameter) {return Set-WootsResourceById -resource "classes" -id $id -parameter $Parameter}
-Function Set-WootsComment($id,$Parameter) {return Set-WootsResourceById -resource "comments" -id $id -parameter $Parameter}
-Function Set-WootsCourse($id,$Parameter) {return Set-WootsResourceById -resource "courses" -id $id -parameter $Parameter}
-Function Set-WootsCoursesUser($id,$Parameter) {return Set-WootsResourceById -resource "courses_users" -id $id -parameter $Parameter}
-Function Set-WootsDepartment($id,$Parameter) {return Set-WootsResourceById -resource "departments" -id $id -parameter $Parameter}
-Function Set-WootsDomain($id,$Parameter) {return Set-WootsResourceById -resource "domains" -id $id -parameter $Parameter}
-Function Set-WootsExercise($id,$Parameter) {return Set-WootsResourceById -resource "exercises" -id $id -parameter $Parameter}
-Function Set-WootsGroup($id,$Parameter) {return Set-WootsResourceById -resource "groups" -id $id -parameter $Parameter}
-Function Set-WootsLabel($id,$Parameter) {return Set-WootsResourceById -resource "labels" -id $id -parameter $Parameter}
-Function Set-WootsLocation($id,$Parameter) {return Set-WootsResourceById -resource "locations" -id $id -parameter $Parameter}
-Function Set-WootsObjective($id,$Parameter) {return Set-WootsResourceById -resource "objectives" -id $id -parameter $Parameter}
-Function Set-WootsPeriod($id,$Parameter) {return Set-WootsResourceById -resource "periods" -id $id -parameter $Parameter}
-Function Set-WootsPlan($id,$Parameter) {return Set-WootsResourceById -resource "plans" -id $id -parameter $Parameter}
-Function Set-WootsPublicationTimeslot($id,$Parameter) {return Set-WootsResourceById -resource "publication_timeslots" -id $id -parameter $Parameter}
-Function Set-WootsQuestion($id,$Parameter) {return Set-WootsResourceById -resource "questions" -id $id -parameter $Parameter}
-Function Set-WootsQuestionBank($id,$Parameter) {return Set-WootsResourceById -resource "question_banks" -id $id -parameter $Parameter}
-Function Set-WootsQuestionBankAssignment($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_assignments" -id $id -parameter $Parameter}
+Function Set-WootsBackgroundJob($id,$Parameter) {return Set-WootsResource -resource "background_jobs" -id $id -parameter $Parameter}
+Function Set-WootsClass($id,$Parameter) {return Set-WootsResource -resource "classes" -id $id -parameter $Parameter}
+Function Set-WootsComment($id,$Parameter) {return Set-WootsResource -resource "comments" -id $id -parameter $Parameter}
+Function Set-WootsCourse($id,$Parameter) {return Set-WootsResource -resource "courses" -id $id -parameter $Parameter}
+Function Set-WootsCoursesUser($id,$Parameter) {return Set-WootsResource -resource "courses_users" -id $id -parameter $Parameter}
+Function Set-WootsDepartment($id,$Parameter) {return Set-WootsResource -resource "departments" -id $id -parameter $Parameter}
+Function Set-WootsDomain($id,$Parameter) {return Set-WootsResource -resource "domains" -id $id -parameter $Parameter}
+Function Set-WootsExercise($id,$Parameter) {return Set-WootsResource -resource "exercises" -id $id -parameter $Parameter}
+Function Set-WootsGroup($id,$Parameter) {return Set-WootsResource -resource "groups" -id $id -parameter $Parameter}
+Function Set-WootsLabel($id,$Parameter) {return Set-WootsResource -resource "labels" -id $id -parameter $Parameter}
+Function Set-WootsLocation($id,$Parameter) {return Set-WootsResource -resource "locations" -id $id -parameter $Parameter}
+Function Set-WootsObjective($id,$Parameter) {return Set-WootsResource -resource "objectives" -id $id -parameter $Parameter}
+Function Set-WootsPeriod($id,$Parameter) {return Set-WootsResource -resource "periods" -id $id -parameter $Parameter}
+Function Set-WootsPlan($id,$Parameter) {return Set-WootsResource -resource "plans" -id $id -parameter $Parameter}
+Function Set-WootsPublicationTimeslot($id,$Parameter) {return Set-WootsResource -resource "publication_timeslots" -id $id -parameter $Parameter}
+Function Set-WootsQuestion($id,$Parameter) {return Set-WootsResource -resource "questions" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBank($id,$Parameter) {return Set-WootsResource -resource "question_banks" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBankAssignment($id,$Parameter) {return Set-WootsResource -resource "question_bank_assignments" -id $id -parameter $Parameter}
 Function Set-WootsQuestionBankAssignmentCover($id,$Parameter) {return Set-WootsResourceItem -resource "question_bank_assignments" -id $id -itemtype "cover" -parameter $Parameter}
-Function Set-WootsQuestionBankExercise($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_exercises" -id $id -parameter $Parameter}
-Function Set-WootsQuestionBankLabel($id,$Parameter) {return Set-WootsResourceById -resource "question_bank_labels" -id $id -parameter $Parameter}
-Function Set-WootsRequirement($id,$Parameter) {return Set-WootsResourceById -resource "requirements" -id $id -parameter $Parameter}
-Function Set-WootsResult($id,$Parameter) {return Set-WootsResourceById -resource "results" -id $id -parameter $Parameter}
-Function Set-WootsSchool($id,$Parameter) {return Set-WootsResourceById -resource "schools" -id $id -parameter $Parameter}
-Function Set-WootsScoreMark($id,$Parameter) {return Set-WootsResourceById -resource "score_marks" -id $id -parameter $Parameter}
-Function Set-WootsStudy($id,$Parameter) {return Set-WootsResourceById -resource "studies" -id $id -parameter $Parameter}
-Function Set-WootsSubmission($id,$Parameter) {return Set-WootsResourceById -resource "submissions" -id $id -parameter $Parameter}
-Function Set-WootsSubscription($id,$Parameter) {return Set-WootsResourceById -resource "subscriptions" -id $id -parameter $Parameter}
-Function Set-WootsTask($id,$Parameter) {return Set-WootsResourceById -resource "tasks" -id $id -parameter $Parameter}
-Function Set-WootsTimeslot($id,$Parameter) {return Set-WootsResourceById -resource "timeslots" -id $id -parameter $Parameter}
-Function Set-WootsUser($id,$Parameter) {return Set-WootsResourceById -resource "users" -id $id -parameter $Parameter}
-Function Set-WootsWebhook($id,$Parameter) {return Set-WootsResourceById -resource "webhooks" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBankExercise($id,$Parameter) {return Set-WootsResource -resource "question_bank_exercises" -id $id -parameter $Parameter}
+Function Set-WootsQuestionBankLabel($id,$Parameter) {return Set-WootsResource -resource "question_bank_labels" -id $id -parameter $Parameter}
+Function Set-WootsRequirement($id,$Parameter) {return Set-WootsResource -resource "requirements" -id $id -parameter $Parameter}
+Function Set-WootsResult($id,$Parameter) {return Set-WootsResource -resource "results" -id $id -parameter $Parameter}
+Function Set-WootsSchool($id,$Parameter) {return Set-WootsResource -resource "schools" -id $id -parameter $Parameter}
+Function Set-WootsScoreMark($id,$Parameter) {return Set-WootsResource -resource "score_marks" -id $id -parameter $Parameter}
+Function Set-WootsStudy($id,$Parameter) {return Set-WootsResource -resource "studies" -id $id -parameter $Parameter}
+Function Set-WootsSubmission($id,$Parameter) {return Set-WootsResource -resource "submissions" -id $id -parameter $Parameter}
+Function Set-WootsSubscription($id,$Parameter) {return Set-WootsResource -resource "subscriptions" -id $id -parameter $Parameter}
+Function Set-WootsTask($id,$Parameter) {return Set-WootsResource -resource "tasks" -id $id -parameter $Parameter}
+Function Set-WootsTimeslot($id,$Parameter) {return Set-WootsResource -resource "timeslots" -id $id -parameter $Parameter}
+Function Set-WootsUser($id,$Parameter) {return Set-WootsResource -resource "users" -id $id -parameter $Parameter}
+Function Set-WootsWebhook($id,$Parameter) {return Set-WootsResource -resource "webhooks" -id $id -parameter $Parameter}
 # 185 functions implemented

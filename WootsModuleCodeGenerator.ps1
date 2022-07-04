@@ -12,11 +12,11 @@
 #>
 
 $Template1SearchResource = 'Function Search-Woots{resource}($Parameter,$MaxItems=50) {return Search-WootsResource -resource "{resources}" -parameter $Parameter -MaxItem $MaxItems}'
-$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($MaxItems=50) { return Get-WootsSchoolResources -resource "{resources}" -MaxItem $MaxItems}'
-$Template3AddSchoolResource = 'Function Add-Woots{resource}($Parameter) {return Add-WootsSchoolResource -resource "{resources}" -parameter $Parameter}'
-$Template4GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResourceById -resource "{resources}" -id $id }'
-$Template5SetResource = 'Function Set-Woots{resource}($id,$Parameter) {return Set-WootsResourceById -resource "{resources}" -id $id -parameter $Parameter}'
-$Template6RemoveResource = 'Function Remove-Woots{resource}($id,$Parameter) {return Remove-WootsResourceById -resource "{resources}" -id $id -parameter $Parameter}'
+$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($MaxItems=50) { return Get-WootsAllResources -resource "{resources}" -MaxItem $MaxItems}'
+$Template3AddSchoolResource = 'Function Add-Woots{resource}($Parameter) {return Add-WootsResource -resource "{resources}" -parameter $Parameter}'
+$Template4GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResource -resource "{resources}" -id $id }'
+$Template5SetResource = 'Function Set-Woots{resource}($id,$Parameter) {return Set-WootsResource -resource "{resources}" -id $id -parameter $Parameter}'
+$Template6RemoveResource = 'Function Remove-Woots{resource}($id) {return Remove-WootsResource -resource "{resources}" -id $id}'
 $Template7GetResourceItem = 'Function Get-Woots{resource}{itemtype}($id) { return Get-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}"}'
 $Template8AddResourceItem = 'Function Add-Woots{resource}{itemtype}($id,$Parameter) {return Add-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'
 $Template9SetResourceItem = 'Function Set-Woots{resource}{itemtype}($id,$Parameter) {return Set-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'

@@ -87,7 +87,7 @@ function Get-ReponseLinks ($resphead) {
     return $links    
 }
 function Limit-Rate ($resphead) {
-    # beperk het tarief (vertaling voor "rate limit")
+    # Beperk de 
     if ($resphead["ratelimit-remaining"] -le 0) {
         $hersteltijd = [int]$resphead["ratelimit-reset"]
         if ($verbose) {Write-host ("Snelheidslimiet bereikt, wacht {0} seconden ..." -f $hersteltijd) -ForegroundColor Yellow}
@@ -111,7 +111,7 @@ Function NotYetImplemented {
 .OUTPUTS 
     retourneert een lijst (array) met items.
 #>
-function Invoke-MultiPageGet($Nextlink, $MaxItems = 50) {
+function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
     Assert-WootsInitialized
     #if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
     $getpage = 1
@@ -133,16 +133,24 @@ function Invoke-MultiPageGet($Nextlink, $MaxItems = 50) {
             return $data
         } 
         $data += $response.content | ConvertFrom-Json
-        $links = Get-ReponseLinks $response.Headers
+        #$links = Get-ReponseLinks $response.Headers
+        $links = @{}
+        $response.Headers["link"] -split ',' | ForEach-Object { # construct links hash table
+            $link = $_.trim(" ") -split ";"
+            $tag = ($link[1] -split "=")[1].Trim("`"")
+            $links[$tag] = $link[0].trim("< >")
+        }
+        #return $links    
+    
         Limit-Rate $response.Headers
         $getpage = [int]($response.Headers["current-page"]) + 1    
         if ($getpage -gt [int]$response.Headers["total-pages"]) {Break}
         if ($links.Keys -notcontains "next") {Break} 
         $nextlink = $links["next"]
-        if ($data.count -gt $MaxItems) {Break}
+        if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) {Break}
     }
     Show-Status $response.StatusCode $response.StatusDescription $data.count 
-    if ($data.count -gt $MaxItems) {
+    if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) {
         return ($data | Select-Object -First $MaxItems)
     }
     return $data
@@ -181,7 +189,7 @@ Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
 #endregion
 # ====================== PROTOTYPE FUNCTIONS ======================
 #region prototype functions
-Function Search-WootsResource($resource, $parameter, $MaxItems = 50) {
+Function Search-WootsResource($resource, $parameter, $MaxItems = -1) {
     <#
         GET /api/v2/search/{resource}/?query={name}:"{value}" {name}:{value}
         $parameters is een hashtable met zoekkenmerken, bijvoorbeeld: @{
@@ -199,35 +207,35 @@ Function Search-WootsResource($resource, $parameter, $MaxItems = 50) {
     return Invoke-MultiPageGet -Nextlink ("$apiurl/search/$resource/?query=$query" -f ($name, $value)) -MaxItems $MaxItems
 }
 
-Function Get-WootsSchoolResources ($resource, $MaxItems = 50) {
+Function Get-WootsAllResources ($resource, $MaxItems = -1) {
     # GET /api/v2/school/{school_id}/{resource}
     # haal data op, gebruik pagination, respecteer de ratelimit
     # $resource is één van:  roles, labels, classes, courses, departments, locations, periods, users
     if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
     return Invoke-MultiPageGet -Nextlink "$apiurl/schools/$school_id/$resource"  -MaxItems $MaxItems
 }
-Function Get-WootsResourceById ($resource, $id) {
+Function Get-WootsResource ($resource, $id) {
     # GET /api/v2/{resource}/{id}
     if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($id) " -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'GET' 
 }
 
-Function Add-WootsSchoolResource ($resource, $parameter) {
+Function Add-WootsResource ($resource, $parameter) {
     # POST /api/v2/schools/{school_id}/{resource} $parameter
     return Invoke-WootsApiCall -Uri  "$apiurl/schools/$school_id/$resource"  `
         -Method 'POST' -Body $parameter
 }
-Function Set-WootsResourceById($resource, $id, $parameter) {
+Function Set-WootsResource($resource, $id, $parameter) {
     # PATCH /api/v2/{resource}/{id} $parameter
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'PATCH' -Body $parameter
 }
 
-function Remove-WootsResourceById ($resource, $id) {
+function Remove-WootsResource ($resource, $id) {
     # DELETE /api/v2/{resource}/{id}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'DELETE'
 }
 
-Function Get-WootsResourceItem($Resource, $id, $ItemType, $MaxItems = 50) {
+Function Get-WootsResourceItem($Resource, $id, $ItemType, $MaxItems = -1) {
     # GET /api/v2/{resource}/{resource_id}/{itemtype} ; List resource items
     if ($verbose) {Write-Host "$(Get-FunctionName): $resource $id $itemtype" -NoNewline -ForegroundColor Blue}
     $url = "$apiurl/$Resource/$id/$ItemType"
