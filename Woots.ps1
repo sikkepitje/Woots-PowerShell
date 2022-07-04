@@ -98,9 +98,22 @@ Function NotYetImplemented {
     Throw "{0} is not yet implemented" -f (Get-FunctionName -StackNumber 2)
 }
 
-function Invoke-MultiPageGet($nextlink) {
+<#
+.SYNOPSIS
+    Invoke-WootsApiCall neemt een URI, doet herhaaldelijk een Invoke-WebRequest naar de API endpoint, 
+    totdat alle beschikbare items zijn opgehaald en retourneert alle items. Het doet rate limiting,
+    en vangt excepties af.
+.PARAMETER Nextlink
+    URI inclusief query parameters
+.PARAMETER MaxItems
+    Aantal maximaal op te halen items. LET OP: dit is niet exact, maar afgerond naar boven tot 
+    het aantal items per pagina vermenigvuldigd met het aantal opgehaalde paginas. 
+.OUTPUTS 
+    retourneert een lijst (array) met items.
+#>
+function Invoke-MultiPageGet($Nextlink, $MaxItems = 50) {
     Assert-WootsInitialized
-    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
+    #if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
     $getpage = 1
     $data = @()
     $done = $False
@@ -123,54 +136,33 @@ function Invoke-MultiPageGet($nextlink) {
         $links = Get-ReponseLinks $response.Headers
         Limit-Rate $response.Headers
         $getpage = [int]($response.Headers["current-page"]) + 1    
-        if ($getpage -gt [int]$response.Headers["total-pages"]) {$done = $true}
-        if ($links.Keys -notcontains "next") {$done = $true} else {
-            $nextlink = $links["next"]
-        }
+        if ($getpage -gt [int]$response.Headers["total-pages"]) {Break}
+        if ($links.Keys -notcontains "next") {Break} 
+        $nextlink = $links["next"]
+        if ($data.count -gt $MaxItems) {Break}
     }
     Show-Status $response.StatusCode $response.StatusDescription $data.count 
+    if ($data.count -gt $MaxItems) {
+        return ($data | Select-Object -First $MaxItems)
+    }
     return $data
 }
-#endregion
-# ====================== PROTOTYPE FUNCTIONS ======================
-#region prototype functions
-Function Search-WootsResource($resource, $parameter) {
-    <#
-        GET /api/v2/search/{resource}/?query={name}:"{value}" {name}:{value}
-        $parameters is een hashtable met zoekkenmerken, bijvoorbeeld: @{
-            name = "5H Tuareg"
-            trashed = "false"
-        }
-    #>    
-    Try {
-        $query = ($parameter.GetEnumerator() | ForEach-Object { "{0}:`"{1}`"" -f ($_.name, $_.value)}) -join " "
-    } 
-    Catch { # bescherm tegen verouderde functieparameters
-        Throw "Verkeerde parameters. Gebruik Search-WootsResource(`$resource, `$parameter)"
-    }
-    if ($verbose) {Write-Host "$(Get-FunctionName): ($resource) $query" -NoNewline -ForegroundColor Blue}
-    return Invoke-MultiPageGet -nextlink ("$apiurl/search/$resource/?query=$query" -f ($name, $value))
-}
-
-Function Get-WootsSchoolResources ($resource) {
-    # GET /api/v2/school/{school_id}/{resource}
-    # haal data op, gebruik pagination, respecteer de ratelimit
-    # $resource is één van:  roles, labels, classes, courses, departments, locations, periods, users
-    Assert-WootsInitialized
-    if ($verbose) {Write-Host "$(Get-FunctionName) : $resource " -NoNewline -ForegroundColor Blue}
-    return Invoke-MultiPageGet -nextlink "$apiurl/schools/$school_id/$resource"
-}
+<#
+.SYNOPSIS
+    Invoke-WootsApiCall neemt enkele parameters, doet een Invoke-WebRequest naar de API endpoint, 
+    en retourneert een enkel item. Het doet rate limiting en vangt excepties af.
+.PARAMETER Uri 
+    Uri is het endpoint van de API.
+.PARAMETER Method
+    Method bevat httpd-method, één van: GET, POST, PUT, PATCH, DELETE
+.PARAMETER Body
+    Body is een hashtable. Deze wordt meegestuurd in body van de aanvraag.
+.OUTPUTS
+    [PSCustomObject]  single item
+#>
 Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
-    <#
-    .INPUT $Uri 
-        Uri is het endpoint van de API.
-    .INPUT $method
-        Method bevat httpd-method, één van: GET, POST, PUT, PATCH, DELETE
-    .INPUT $Body
-        Body is een hashtable. Deze wordt meegestuurd in body van de aanvraag.
-    #>
     Assert-WootsInitialized
-    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
+    #if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
     $ProgressPreference = "SilentlyContinue"
     Try {
         $response = Invoke-WebRequest -Uri $Uri -Method $Method `
@@ -186,113 +178,65 @@ Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
     Limit-Rate $response.Headers
     return $response.content | ConvertFrom-Json
 }
+#endregion
+# ====================== PROTOTYPE FUNCTIONS ======================
+#region prototype functions
+Function Search-WootsResource($resource, $parameter, $MaxItems = 50) {
+    <#
+        GET /api/v2/search/{resource}/?query={name}:"{value}" {name}:{value}
+        $parameters is een hashtable met zoekkenmerken, bijvoorbeeld: @{
+            name = "5H Tuareg"
+            trashed = "false"
+        }
+    #>    
+    Try {
+        $query = ($parameter.GetEnumerator() | ForEach-Object { "{0}:`"{1}`"" -f ($_.name, $_.value)}) -join " "
+    } 
+    Catch { # bescherm tegen verouderde functieparameters
+        Throw "Verkeerde parameters. Gebruik Search-WootsResource(`$resource, `$parameter)"
+    }
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): ($query)" -NoNewline -ForegroundColor Blue}
+    return Invoke-MultiPageGet -Nextlink ("$apiurl/search/$resource/?query=$query" -f ($name, $value)) -MaxItems $MaxItems
+}
+
+Function Get-WootsSchoolResources ($resource, $MaxItems = 50) {
+    # GET /api/v2/school/{school_id}/{resource}
+    # haal data op, gebruik pagination, respecteer de ratelimit
+    # $resource is één van:  roles, labels, classes, courses, departments, locations, periods, users
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    return Invoke-MultiPageGet -Nextlink "$apiurl/schools/$school_id/$resource"  -MaxItems $MaxItems
+}
 Function Get-WootsResourceById ($resource, $id) {
     # GET /api/v2/{resource}/{id}
+    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($id) " -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'GET' 
-    Assert-WootsInitialized
-    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
-    $ProgressPreference = 'SilentlyContinue'
-    Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" -Method 'GET' `
-            -Headers $authorizationheader
-    }
-    catch [System.Net.WebException] {
-        Write-Error ("{0}: Exception caught! {1} {2}" -f (
-            (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
-        return $null
-    }
-    Show-Status $response.StatusCode $response.StatusDescription $response.content.count
-    Limit-Rate $response.Headers
-    return $response.content | ConvertFrom-Json
 }
 
 Function Add-WootsSchoolResource ($resource, $parameter) {
     # POST /api/v2/schools/{school_id}/{resource} $parameter
     return Invoke-WootsApiCall -Uri  "$apiurl/schools/$school_id/$resource"  `
         -Method 'POST' -Body $parameter
-    Assert-WootsInitialized
-    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
-    $ProgressPreference = 'SilentlyContinue'
-    Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/schools/$school_id/$resource" -Method 'POST' `
-        -Headers $authorizationheader -Body ($parameter | ConvertTo-Json) -ContentType "application/json" 
-    }
-    catch [System.Net.WebException] {
-        Write-Error ("{0}: Exception caught! {1} {2}" -f (
-            (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
-        return $null
-    }
-    Show-Status $response.StatusCode $response.StatusDescription $response.content.count
-    Limit-Rate $response.Headers
-    return $response.content | ConvertFrom-Json
 }
 Function Set-WootsResourceById($resource, $id, $parameter) {
     # PATCH /api/v2/{resource}/{id} $parameter
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'PATCH' -Body $parameter
-    Assert-WootsInitialized
-    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
-    $ProgressPreference = 'SilentlyContinue'
-    Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" `
-            -Method 'PATCH' -Headers $authorizationheader `
-            -Body ($parameter | ConvertTo-Json) -ContentType "application/json"
-    }
-    catch [System.Net.WebException] {
-        Write-Error ("{0}: Exception caught! {1} {2}" -f (
-            (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
-        return $null
-    }
-    Show-Status $response.StatusCode $response.StatusDescription $response.content.count
-    Limit-Rate $response.Headers
-    return $response.content | ConvertFrom-Json
 }
 
 function Remove-WootsResourceById ($resource, $id) {
     # DELETE /api/v2/{resource}/{id}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'DELETE'
-    Assert-WootsInitialized
-    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
-    $ProgressPreference = 'SilentlyContinue'
-    Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resource/$id" `
-            -Method 'DELETE' -Headers $authorizationheader
-    }
-    catch [System.Net.WebException] {
-        Write-Error ("{0}: Exception caught! {1} {2}" -f (
-            (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
-        return $null
-    }
-    Show-Status $response.StatusCode $response.StatusDescription $response.content.count
-    Limit-Rate $response.Headers
-    return $response.content | ConvertFrom-Json
 }
 
-Function Get-WootsResourceItem($Resource, $id, $ItemType) {
+Function Get-WootsResourceItem($Resource, $id, $ItemType, $MaxItems = 50) {
     # GET /api/v2/{resource}/{resource_id}/{itemtype} ; List resource items
     if ($verbose) {Write-Host "$(Get-FunctionName): $resource $id $itemtype" -NoNewline -ForegroundColor Blue}
     $url = "$apiurl/$Resource/$id/$ItemType"
     if ($verbose) {Write-Host "[$url]"  -NoNewline -ForegroundColor Blue}
-    return Invoke-MultiPageGet -nextlink $url
+    return Invoke-MultiPageGet -nextlink $url -MaxItems $MaxItems
 }
 Function Add-WootsResourceItem($resources, $id, $itemtype, $parameter) {
-    return Invoke-WootsApiCall -Uri "$apiurl/$resources/$id/$itemtype" -Method 'PATCH' -Body $parameter
     # POST /api/v2/{resource}/{resource_id}/{itemtype} $parameter ; Add item to resource
-    Assert-WootsInitialized
-    if ($verbose) {Write-Host " $(Get-FunctionName) " -NoNewline -ForegroundColor Blue}
-    $ProgressPreference = 'SilentlyContinue'
-    Try {
-        $response = Invoke-WebRequest -Uri "$apiurl/$resources/$id/$itemtype" -Method 'POST' `
-            -Headers $authorizationheader `
-            -Body ($parameter | ConvertTo-Json) -ContentType "application/json"
-    }
-    catch [System.Net.WebException] {
-        Write-Error ("{0}: Exception caught! {1} {2}" -f (
-            (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
-        return $null
-    }
-    Show-Status $response.StatusCode $response.StatusDescription $response.content.count
-    Limit-Rate $response.Headers
-    return $response.content | ConvertFrom-Json
+    return Invoke-WootsApiCall -Uri "$apiurl/$resources/$id/$itemtype" -Method 'PATCH' -Body $parameter
 }
 #endregion
 

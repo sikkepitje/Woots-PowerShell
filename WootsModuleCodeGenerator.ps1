@@ -11,15 +11,15 @@
     woots-generatedcode.ps1 : a PowerShell function for every Woots API call, to be part of the PowerShell Woots module Woots.ps1.
 #>
 
-$Template1SearchResource = 'Function Search-Woots{resource}($parameter) {return Search-WootsResource -resource "{resources}" -parameter $parameter}'
-$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($id) { return Get-WootsSchoolResources -resource "{resources}" }'
-$Template3AddSchoolResource = 'Function Add-Woots{resource}($parameter) {return Add-WootsSchoolResource -resource "{resources}" -parameter $parameter}'
+$Template1SearchResource = 'Function Search-Woots{resource}($Parameter,$MaxItems=50) {return Search-WootsResource -resource "{resources}" -parameter $Parameter -MaxItem $MaxItems}'
+$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($id,$MaxItems=50) { return Get-WootsSchoolResources -resource "{resources}" -MaxItem $MaxItems}'
+$Template3AddSchoolResource = 'Function Add-Woots{resource}($Parameter) {return Add-WootsSchoolResource -resource "{resources}" -parameter $Parameter}'
 $Template4GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResourceById -resource "{resources}" -id $id }'
-$Template5SetResource = 'Function Set-Woots{resource}($id,$parameter) {return Set-WootsResourceById -resource "{resources}" -id $id -parameter $parameter}'
-$Template6RemoveResource = 'Function Remove-Woots{resource}($id,$parameter) {return Remove-WootsResourceById -resource "{resources}" -id $id -parameter $parameter}'
+$Template5SetResource = 'Function Set-Woots{resource}($id,$Parameter) {return Set-WootsResourceById -resource "{resources}" -id $id -parameter $Parameter}'
+$Template6RemoveResource = 'Function Remove-Woots{resource}($id,$Parameter) {return Remove-WootsResourceById -resource "{resources}" -id $id -parameter $Parameter}'
 $Template7GetResourceItem = 'Function Get-Woots{resource}{itemtype}($id) { return Get-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}"}'
-$Template8AddResourceItem = 'Function Add-Woots{resource}{itemtype}($id,$parameter) {return Add-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $parameter}'
-$Template9SetResourceItem = 'Function Set-Woots{resource}{itemtype}($id,$parameter) {return Set-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $parameter}'
+$Template8AddResourceItem = 'Function Add-Woots{resource}{itemtype}($id,$Parameter) {return Add-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'
+$Template9SetResourceItem = 'Function Set-Woots{resource}{itemtype}($id,$Parameter) {return Set-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'
 $Template999NotYetImplemented = 'Function Invoke-Woots{apicall}() { Throw "This function is not yet implemented"}'
 
 $code = @()
