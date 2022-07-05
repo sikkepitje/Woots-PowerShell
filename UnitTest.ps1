@@ -5,11 +5,8 @@
     Eigen testfuncties
 #>
 
-
 $herePath = Split-Path -parent $MyInvocation.MyCommand.Definition
-. $herepath\woots.ps1 
-
-Initialize-WootsIniFile "$herepath\WootsConfig-Staging.ini"
+. "$herepath\WootsInit-Staging.ps1"
 
 Function Resultaat($tekst, $is, $verwacht) {
     Write-Host "Controle: $tekst, " -NoNewline -ForegroundColor yellow

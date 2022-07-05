@@ -36,14 +36,14 @@ Function Add-WootsQuestionBankTask($id,$Parameter) {return Add-WootsResourceItem
 Function Add-WootsUser($Parameter) {return Add-WootsResource -resource "users" -parameter $Parameter}
 Function Add-WootsUserCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "courses_users" -parameter $Parameter}
 Function Add-WootsUserGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "groups_users" -parameter $Parameter}
-Function Get-WootsAllClass($MaxItems=50) { return Get-WootsAllResources -resource "classes" -MaxItem $MaxItems}
-Function Get-WootsAllCourse($MaxItems=50) { return Get-WootsAllResources -resource "courses" -MaxItem $MaxItems}
-Function Get-WootsAllDepartment($MaxItems=50) { return Get-WootsAllResources -resource "departments" -MaxItem $MaxItems}
-Function Get-WootsAllLabel($MaxItems=50) { return Get-WootsAllResources -resource "labels" -MaxItem $MaxItems}
-Function Get-WootsAllLocation($MaxItems=50) { return Get-WootsAllResources -resource "locations" -MaxItem $MaxItems}
-Function Get-WootsAllPeriod($MaxItems=50) { return Get-WootsAllResources -resource "periods" -MaxItem $MaxItems}
-Function Get-WootsAllRol($MaxItems=50) { return Get-WootsAllResources -resource "roles" -MaxItem $MaxItems}
-Function Get-WootsAllUser($MaxItems=50) { return Get-WootsAllResources -resource "users" -MaxItem $MaxItems}
+Function Get-WootsAllClass($MaxItems=-1) { return Get-WootsAllResources -resource "classes" -MaxItem $MaxItems}
+Function Get-WootsAllCourse($MaxItems=-1) { return Get-WootsAllResources -resource "courses" -MaxItem $MaxItems}
+Function Get-WootsAllDepartment($MaxItems=-1) { return Get-WootsAllResources -resource "departments" -MaxItem $MaxItems}
+Function Get-WootsAllLabel($MaxItems=-1) { return Get-WootsAllResources -resource "labels" -MaxItem $MaxItems}
+Function Get-WootsAllLocation($MaxItems=-1) { return Get-WootsAllResources -resource "locations" -MaxItem $MaxItems}
+Function Get-WootsAllPeriod($MaxItems=-1) { return Get-WootsAllResources -resource "periods" -MaxItem $MaxItems}
+Function Get-WootsAllRol($MaxItems=-1) { return Get-WootsAllResources -resource "roles" -MaxItem $MaxItems}
+Function Get-WootsAllUser($MaxItems=-1) { return Get-WootsAllResources -resource "users" -MaxItem $MaxItems}
 Function Get-WootsAssignment($id) { return Get-WootsResource -resource "assignments" -id $id }
 Function Get-WootsAssignmentCover($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "cover"}
 Function Get-WootsAssignmentExercise($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "exercises"}
@@ -147,14 +147,14 @@ Function Remove-WootsTask($id) {return Remove-WootsResource -resource "tasks" -i
 Function Remove-WootsTimeslot($id) {return Remove-WootsResource -resource "timeslots" -id $id}
 Function Remove-WootsUser($id) {return Remove-WootsResource -resource "users" -id $id}
 Function Remove-WootsWebhook($id) {return Remove-WootsResource -resource "webhooks" -id $id}
-Function Search-WootsAssignment($Parameter,$MaxItems=50) {return Search-WootsResource -resource "assignments" -parameter $Parameter -MaxItem $MaxItems}
-Function Search-WootsCourse($Parameter,$MaxItems=50) {return Search-WootsResource -resource "courses" -parameter $Parameter -MaxItem $MaxItems}
-Function Search-WootsGroup($Parameter,$MaxItems=50) {return Search-WootsResource -resource "groups" -parameter $Parameter -MaxItem $MaxItems}
-Function Search-WootsQuestionBank($Parameter,$MaxItems=50) {return Search-WootsResource -resource "question_banks" -parameter $Parameter -MaxItem $MaxItems}
-Function Search-WootsQuestionBankAssignment($Parameter,$MaxItems=50) {return Search-WootsResource -resource "question_bank_assignments" -parameter $Parameter -MaxItem $MaxItems}
-Function Search-WootsResult($Parameter,$MaxItems=50) {return Search-WootsResource -resource "results" -parameter $Parameter -MaxItem $MaxItems}
-Function Search-WootsTimeslot($Parameter,$MaxItems=50) {return Search-WootsResource -resource "timeslots" -parameter $Parameter -MaxItem $MaxItems}
-Function Search-WootsUser($Parameter,$MaxItems=50) {return Search-WootsResource -resource "users" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsAssignment($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "assignments" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsCourse($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "courses" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsGroup($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "groups" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsQuestionBank($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "question_banks" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsQuestionBankAssignment($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "question_bank_assignments" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsResult($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "results" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsTimeslot($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "timeslots" -parameter $Parameter -MaxItem $MaxItems}
+Function Search-WootsUser($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "users" -parameter $Parameter -MaxItem $MaxItems}
 Function Set-WootsAssignment($id,$Parameter) {return Set-WootsResource -resource "assignments" -id $id -parameter $Parameter}
 Function Set-WootsAssignmentCover($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "cover" -parameter $Parameter}
 Function Set-WootsAssignmentPublication($id,$Parameter) {return Set-WootsResourceItem -resource "assignments" -id $id -itemtype "publication" -parameter $Parameter}

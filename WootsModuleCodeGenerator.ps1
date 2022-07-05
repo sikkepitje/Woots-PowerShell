@@ -11,8 +11,8 @@
     woots-generatedcode.ps1 : a PowerShell function for every Woots API call, to be part of the PowerShell Woots module Woots.ps1.
 #>
 
-$Template1SearchResource = 'Function Search-Woots{resource}($Parameter,$MaxItems=50) {return Search-WootsResource -resource "{resources}" -parameter $Parameter -MaxItem $MaxItems}'
-$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($MaxItems=50) { return Get-WootsAllResources -resource "{resources}" -MaxItem $MaxItems}'
+$Template1SearchResource = 'Function Search-Woots{resource}($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "{resources}" -parameter $Parameter -MaxItem $MaxItems}'
+$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($MaxItems=-1) { return Get-WootsAllResources -resource "{resources}" -MaxItem $MaxItems}'
 $Template3AddSchoolResource = 'Function Add-Woots{resource}($Parameter) {return Add-WootsResource -resource "{resources}" -parameter $Parameter}'
 $Template4GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResource -resource "{resources}" -id $id }'
 $Template5SetResource = 'Function Set-Woots{resource}($id,$Parameter) {return Set-WootsResource -resource "{resources}" -id $id -parameter $Parameter}'

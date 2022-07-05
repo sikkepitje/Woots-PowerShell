@@ -226,7 +226,7 @@ Function Get-WootsResourceItem($Resource, $id, $ItemType, $MaxItems = -1) {
 }
 Function Add-WootsResourceItem($resources, $id, $itemtype, $parameter) {
     # POST /api/v2/{resource}/{resource_id}/{itemtype} $parameter ; Add item to resource
-    return Invoke-WootsApiCall -Uri "$apiurl/$resources/$id/$itemtype" -Method 'PATCH' -Body $parameter
+    return Invoke-WootsApiCall -Uri "$apiurl/$resources/$id/$itemtype" -Method 'POST' -Body $parameter
 }
 #endregion
 
