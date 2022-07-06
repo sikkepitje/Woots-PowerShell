@@ -216,10 +216,10 @@ Function Remove-WootsResource ($resource, $id) {
 }
 Function Get-WootsResourceItem($Resource, $id, $ItemType, $MaxItems = -1) {
     # GET /api/v2/{resource}/{resource_id}/{itemtype} ; List resource items
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $id $itemtype" -NoNewline -ForegroundColor Blue}
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $Resource #$id $itemtype" -NoNewline -ForegroundColor Blue}
     return Invoke-MultiPageGet -nextlink "$apiurl/$Resource/$id/$ItemType" -MaxItems $MaxItems
 }
-Function Add-WootsResourceItem($resources, $id, $itemtype, $parameter) {
+Function Add-WootsResourceItem($resource, $id, $itemtype, $parameter) {
     # POST /api/v2/{resource}/{resource_id}/{itemtype} $parameter ; Add item to resource
     if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $id $itemtype" -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri "$apiurl/$resources/$id/$itemtype" -Method 'POST' -Body $parameter
