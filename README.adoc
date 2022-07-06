@@ -22,8 +22,11 @@ Import-Module "$PSScriptRoot\Woots.ps"
 ----
 
 Initializeer Woots door een aanroep naar ``Initialize-Woots``. Deze functie verwacht 3 parameters:
+
 * ``$Hostname``  : dit is de hostname van het endpoint, meestal 'app.woots.nl' . Dit wordt aangevuld tot 'https://app.woots.nl/api/v2'.
+
 * ``$School_id`` : numerieke ID van de school.
+
 * ``$Token`` : een string met een authorizatietoken. Ga naar https://app.woots.nl/users/tokens om een token aan te maken. Dit token wordt meegezonden in de request header van elke aanvraag.
 
 == Documentatie 
@@ -59,5 +62,7 @@ Alle functies retourneren wat er wordt opgehaald via de API aanvraag.
 == Extra's 
 
 Een deel van de code in de module is gegenereerd door een codegenerator. 
+
 * ``WootsModuleCodeGenerator.ps1`` : dit script genereert de code in ``Woots-generatedcode.ps1``. 
+
 * ``Woots-api-calls.csv`` : dit bestand wordt ingelezen door ``WootsModuleCodeGenerator.ps1``. 

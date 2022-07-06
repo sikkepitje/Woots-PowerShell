@@ -24,7 +24,7 @@ Function Resultaat($tekst, $is, $verwacht) {
 # test enkele bulkopdrachten
 $result = Get-WootsAllBackgroundJob
 $result = Get-WootsAllComment
-return
+
 $result = Get-WootsAllNotification
 $result = Get-WootsAllQuestionBank
 $result = Get-WootsAllWebhook
