@@ -108,7 +108,7 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
         }
         catch [System.Net.WebException] {
             Write-Error ("{0}: Exception caught! {1} {2}" -f (
-                (Get-FunctionName), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
+                (Get-FunctionName), $_.Exception.Message, $_.Exception.Response.StatusDescription))
             return $null
         }
         if ($response.content.Contains("<!DOCTYPE html>")) {
