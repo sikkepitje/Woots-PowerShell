@@ -39,19 +39,19 @@ Function Add-WootsQuestionBankTask($id,$Parameter) {return Add-WootsResourceItem
 Function Add-WootsUser($Parameter) {return Add-WootsResource -resource "users" -parameter $Parameter}
 Function Add-WootsUserCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "courses_users" -parameter $Parameter}
 Function Add-WootsUserGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "groups_users" -parameter $Parameter}
-Function Get-WootsAllBackgroundJob($MaxItems=-1) {return Get-WootsNoIdResource -resource "background_jobs -MaxItems $MaxItems}"}
+Function Get-WootsAllBackgroundJob($MaxItems=-1) {return Get-WootsNoIdResource -resource "background_jobs" -MaxItems $MaxItems}
 Function Get-WootsAllClass($MaxItems=-1) { return Get-WootsAllResources -resource "classes" -MaxItems $MaxItems}
-Function Get-WootsAllComment($MaxItems=-1) {return Get-WootsNoIdResource -resource "comments -MaxItems $MaxItems}"}
+Function Get-WootsAllComment($MaxItems=-1) {return Get-WootsNoIdResource -resource "comments" -MaxItems $MaxItems}
 Function Get-WootsAllCourse($MaxItems=-1) { return Get-WootsAllResources -resource "courses" -MaxItems $MaxItems}
 Function Get-WootsAllDepartment($MaxItems=-1) { return Get-WootsAllResources -resource "departments" -MaxItems $MaxItems}
 Function Get-WootsAllLabel($MaxItems=-1) { return Get-WootsAllResources -resource "labels" -MaxItems $MaxItems}
 Function Get-WootsAllLocation($MaxItems=-1) { return Get-WootsAllResources -resource "locations" -MaxItems $MaxItems}
-Function Get-WootsAllNotification($MaxItems=-1) {return Get-WootsNoIdResource -resource "notifications -MaxItems $MaxItems}"}
+Function Get-WootsAllNotification($MaxItems=-1) {return Get-WootsNoIdResource -resource "notifications" -MaxItems $MaxItems}
 Function Get-WootsAllPeriod($MaxItems=-1) { return Get-WootsAllResources -resource "periods" -MaxItems $MaxItems}
-Function Get-WootsAllQuestionBank($MaxItems=-1) {return Get-WootsNoIdResource -resource "question_banks -MaxItems $MaxItems}"}
+Function Get-WootsAllQuestionBank($MaxItems=-1) {return Get-WootsNoIdResource -resource "question_banks" -MaxItems $MaxItems}
 Function Get-WootsAllRole($MaxItems=-1) { return Get-WootsAllResources -resource "roles" -MaxItems $MaxItems}
 Function Get-WootsAllUser($MaxItems=-1) { return Get-WootsAllResources -resource "users" -MaxItems $MaxItems}
-Function Get-WootsAllWebhook($MaxItems=-1) {return Get-WootsNoIdResource -resource "webhooks -MaxItems $MaxItems}"}
+Function Get-WootsAllWebhook($MaxItems=-1) {return Get-WootsNoIdResource -resource "webhooks" -MaxItems $MaxItems}
 Function Get-WootsAssignment($id) { return Get-WootsResource -resource "assignments" -id $id }
 Function Get-WootsAssignmentCover($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "cover"}
 Function Get-WootsAssignmentExercise($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "exercises"}

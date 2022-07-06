@@ -22,11 +22,12 @@ Function Resultaat($tekst, $is, $verwacht) {
 # ======== MAIN ========
 
 # test enkele bulkopdrachten
+$result = Get-WootsAllQuestionBank
+
 $result = Get-WootsAllBackgroundJob
 $result = Get-WootsAllComment
 
 $result = Get-WootsAllNotification
-$result = Get-WootsAllQuestionBank
 $result = Get-WootsAllWebhook
 $result = Get-WootsAllRole
 

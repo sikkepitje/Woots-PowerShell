@@ -20,7 +20,7 @@ $Template6RemoveResource = 'Function Remove-Woots{resource}($id) {return Remove-
 $Template7GetResourceItem = 'Function Get-Woots{resource}{itemtype}($id) { return Get-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}"}'
 $Template8AddResourceItem = 'Function Add-Woots{resource}{itemtype}($id,$Parameter) {return Add-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'
 $Template9SetResourceItem = 'Function Set-Woots{resource}{itemtype}($id,$Parameter) {return Set-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'
-$Template10GetNoIdResources = 'Function Get-WootsAll{resource}($MaxItems=-1) {return Get-WootsNoIdResource -resource "{resources} -MaxItems $MaxItems}"}'
+$Template10GetNoIdResources = 'Function Get-WootsAll{resource}($MaxItems=-1) {return Get-WootsNoIdResource -resource "{resources}" -MaxItems $MaxItems}'
 $Template11AddNoIdResources = 'Function Add-WootsNoId{resource}() {return Add-WootsNoIdResource -resource "{resources}" -parameter $Parameter}'
 $Template999NotYetImplemented = 'Function Invoke-Woots{apicall}() { Throw "This function is not yet implemented"}'
 
