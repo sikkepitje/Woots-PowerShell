@@ -24,6 +24,9 @@ Function Add-WootsExerciseQuestion($id,$Parameter) {return Add-WootsResourceItem
 Function Add-WootsGroupGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "groups" -id $id -itemtype "groups_users" -parameter $Parameter}
 Function Add-WootsLabel($Parameter) {return Add-WootsResource -resource "labels" -parameter $Parameter}
 Function Add-WootsLocation($Parameter) {return Add-WootsResource -resource "locations" -parameter $Parameter}
+Function Add-WootsNoIdComment() {return Add-WootsNoIdResource -resource "comments" -parameter $Parameter}
+Function Add-WootsNoIdQuestionBank() {return Add-WootsNoIdResource -resource "question_banks" -parameter $Parameter}
+Function Add-WootsNoIdWebhook() {return Add-WootsNoIdResource -resource "webhooks" -parameter $Parameter}
 Function Add-WootsPeriod($Parameter) {return Add-WootsResource -resource "periods" -parameter $Parameter}
 Function Add-WootsPlanSubscription($id,$Parameter) {return Add-WootsResourceItem -resource "plans" -id $id -itemtype "subscriptions" -parameter $Parameter}
 Function Add-WootsPublisherPlan($id,$Parameter) {return Add-WootsResourceItem -resource "publishers" -id $id -itemtype "plans" -parameter $Parameter}
@@ -36,14 +39,19 @@ Function Add-WootsQuestionBankTask($id,$Parameter) {return Add-WootsResourceItem
 Function Add-WootsUser($Parameter) {return Add-WootsResource -resource "users" -parameter $Parameter}
 Function Add-WootsUserCoursesUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "courses_users" -parameter $Parameter}
 Function Add-WootsUserGroupsUser($id,$Parameter) {return Add-WootsResourceItem -resource "users" -id $id -itemtype "groups_users" -parameter $Parameter}
-Function Get-WootsAllClass($MaxItems=-1) { return Get-WootsAllResources -resource "classes" -MaxItem $MaxItems}
-Function Get-WootsAllCourse($MaxItems=-1) { return Get-WootsAllResources -resource "courses" -MaxItem $MaxItems}
-Function Get-WootsAllDepartment($MaxItems=-1) { return Get-WootsAllResources -resource "departments" -MaxItem $MaxItems}
-Function Get-WootsAllLabel($MaxItems=-1) { return Get-WootsAllResources -resource "labels" -MaxItem $MaxItems}
-Function Get-WootsAllLocation($MaxItems=-1) { return Get-WootsAllResources -resource "locations" -MaxItem $MaxItems}
-Function Get-WootsAllPeriod($MaxItems=-1) { return Get-WootsAllResources -resource "periods" -MaxItem $MaxItems}
-Function Get-WootsAllRol($MaxItems=-1) { return Get-WootsAllResources -resource "roles" -MaxItem $MaxItems}
-Function Get-WootsAllUser($MaxItems=-1) { return Get-WootsAllResources -resource "users" -MaxItem $MaxItems}
+Function Get-WootsAllBackgroundJob($MaxItems=-1) {return Get-WootsNoIdResource -resource "background_jobs -MaxItems $MaxItems}"}
+Function Get-WootsAllClass($MaxItems=-1) { return Get-WootsAllResources -resource "classes" -MaxItems $MaxItems}
+Function Get-WootsAllComment($MaxItems=-1) {return Get-WootsNoIdResource -resource "comments -MaxItems $MaxItems}"}
+Function Get-WootsAllCourse($MaxItems=-1) { return Get-WootsAllResources -resource "courses" -MaxItems $MaxItems}
+Function Get-WootsAllDepartment($MaxItems=-1) { return Get-WootsAllResources -resource "departments" -MaxItems $MaxItems}
+Function Get-WootsAllLabel($MaxItems=-1) { return Get-WootsAllResources -resource "labels" -MaxItems $MaxItems}
+Function Get-WootsAllLocation($MaxItems=-1) { return Get-WootsAllResources -resource "locations" -MaxItems $MaxItems}
+Function Get-WootsAllNotification($MaxItems=-1) {return Get-WootsNoIdResource -resource "notifications -MaxItems $MaxItems}"}
+Function Get-WootsAllPeriod($MaxItems=-1) { return Get-WootsAllResources -resource "periods" -MaxItems $MaxItems}
+Function Get-WootsAllQuestionBank($MaxItems=-1) {return Get-WootsNoIdResource -resource "question_banks -MaxItems $MaxItems}"}
+Function Get-WootsAllRole($MaxItems=-1) { return Get-WootsAllResources -resource "roles" -MaxItems $MaxItems}
+Function Get-WootsAllUser($MaxItems=-1) { return Get-WootsAllResources -resource "users" -MaxItems $MaxItems}
+Function Get-WootsAllWebhook($MaxItems=-1) {return Get-WootsNoIdResource -resource "webhooks -MaxItems $MaxItems}"}
 Function Get-WootsAssignment($id) { return Get-WootsResource -resource "assignments" -id $id }
 Function Get-WootsAssignmentCover($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "cover"}
 Function Get-WootsAssignmentExercise($id) { return Get-WootsResourceItem -resource "assignments" -id $id -itemtype "exercises"}
@@ -108,16 +116,8 @@ Function Get-WootsUser($id) { return Get-WootsResource -resource "users" -id $id
 Function Get-WootsUserCoursesUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "courses_users"}
 Function Get-WootsUserGroupsUser($id) { return Get-WootsResourceItem -resource "users" -id $id -itemtype "groups_users"}
 Function Get-WootsWebhook($id) { return Get-WootsResource -resource "webhooks" -id $id }
-Function Invoke-WootsGET__api_v2_background_jobs() { Throw "This function is not yet implemented"}
-Function Invoke-WootsGET__api_v2_comments() { Throw "This function is not yet implemented"}
-Function Invoke-WootsGET__api_v2_notifications() { Throw "This function is not yet implemented"}
 Function Invoke-WootsGET__api_v2_qti_results__id_() { Throw "This function is not yet implemented"}
-Function Invoke-WootsGET__api_v2_question_banks() { Throw "This function is not yet implemented"}
 Function Invoke-WootsGET__api_v2_question_banks__question_bank_id__question_bank_exercises_import() { Throw "This function is not yet implemented"}
-Function Invoke-WootsGET__api_v2_webhooks_() { Throw "This function is not yet implemented"}
-Function Invoke-WootsPOST__api_v2_comments() { Throw "This function is not yet implemented"}
-Function Invoke-WootsPOST__api_v2_question_banks() { Throw "This function is not yet implemented"}
-Function Invoke-WootsPOST__api_v2_webhooks_() { Throw "This function is not yet implemented"}
 Function Remove-WootsAssignment($id) {return Remove-WootsResource -resource "assignments" -id $id}
 Function Remove-WootsClass($id) {return Remove-WootsResource -resource "classes" -id $id}
 Function Remove-WootsComment($id) {return Remove-WootsResource -resource "comments" -id $id}

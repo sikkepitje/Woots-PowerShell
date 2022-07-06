@@ -3,6 +3,7 @@
 == Abstract
 
 Op deze Github vind je een PowerShell module voor het interfacing met Woots Web API v2. Dit is gebaseerd op de https://app.woots.nl/api/docs/index.html#/[Woots API documentatie].
+Op dit moment zijn 185 API aanroepen als functie geimplementeerd. Daarvan zijn 2 nog niet geimplementeerd. 
 
 
 == Gebruik
@@ -23,15 +24,13 @@ Import-Module "$PSScriptRoot\Woots.ps"
 Initializeer Woots door een aanroep naar ``Initialize-Woots``. Deze functie verwacht 3 parameters:
 * ``$Hostname``  : dit is de hostname van het endpoint, meestal 'app.woots.nl' . Dit wordt aangevuld tot 'https://app.woots.nl/api/v2'.
 * ``$School_id`` : numerieke ID van de school.
-* ``$Token`` : een string met het authorizatietoken voor de web API.
-
+* ``$Token`` : een string met een authorizatietoken. Ga naar https://app.woots.nl/users/tokens om een token aan te maken. Dit token wordt meegezonden in de request header van elke aanvraag.
 
 == Documentatie 
 
 Werp een blik op de functiedefinities in ``Woots-generatedCode.ps1`` om te zien welke functies er allemaal gedefinieerd zijn. 
 
-
-=== Standaard Functieparameters
+=== Functieparameters
 
 Alle functies slechts één of meer van de volgende parameters. 
 
@@ -53,6 +52,9 @@ $filter = @{
 }
 $result = Search-WootsCourse -Parameter $filter
 ----
+
+=== Functieretourwaarden
+Alle functies retourneren wat er wordt opgehaald via de API aanvraag.
 
 == Extra's 
 

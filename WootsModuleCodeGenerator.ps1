@@ -12,7 +12,7 @@
 #>
 
 $Template1SearchResource = 'Function Search-Woots{resource}($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "{resources}" -parameter $Parameter -MaxItem $MaxItems}'
-$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($MaxItems=-1) { return Get-WootsAllResources -resource "{resources}" -MaxItem $MaxItems}'
+$Template2GetSchoolResources = 'Function Get-WootsAll{resource}($MaxItems=-1) { return Get-WootsAllResources -resource "{resources}" -MaxItems $MaxItems}'
 $Template3AddSchoolResource = 'Function Add-Woots{resource}($Parameter) {return Add-WootsResource -resource "{resources}" -parameter $Parameter}'
 $Template4GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResource -resource "{resources}" -id $id }'
 $Template5SetResource = 'Function Set-Woots{resource}($id,$Parameter) {return Set-WootsResource -resource "{resources}" -id $id -parameter $Parameter}'
@@ -20,6 +20,8 @@ $Template6RemoveResource = 'Function Remove-Woots{resource}($id) {return Remove-
 $Template7GetResourceItem = 'Function Get-Woots{resource}{itemtype}($id) { return Get-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}"}'
 $Template8AddResourceItem = 'Function Add-Woots{resource}{itemtype}($id,$Parameter) {return Add-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'
 $Template9SetResourceItem = 'Function Set-Woots{resource}{itemtype}($id,$Parameter) {return Set-WootsResourceItem -resource "{resources}" -id $id -itemtype "{itemtypes}" -parameter $Parameter}'
+$Template10GetNoIdResources = 'Function Get-WootsAll{resource}($MaxItems=-1) {return Get-WootsNoIdResource -resource "{resources} -MaxItems $MaxItems}"}'
+$Template11AddNoIdResources = 'Function Add-WootsNoId{resource}() {return Add-WootsNoIdResource -resource "{resources}" -parameter $Parameter}'
 $Template999NotYetImplemented = 'Function Invoke-Woots{apicall}() { Throw "This function is not yet implemented"}'
 
 $code = @()
@@ -37,7 +39,8 @@ Function Get-SingleTag($tag) {
         } elseif ($tag.substring($tag.length-1) -eq "e") {
             if (!($tag.substring($tag.length-2) -eq "ve") `
                 -and !($tag.contains("exercis")) `
-                -and !($tag.contains("course"))) {
+                -and !($tag.contains("course")) `
+                -and !($tag.contains("role"))) {
                 $tag = $tag.substring(0,$tag.length-1)
             }
         }
@@ -139,8 +142,18 @@ foreach ($call in $api) {
             $call.code = $Template9SetResourceItem.replace("{resources}", $call.deel1).replace("{resource}", $resource).replace("{itemtypes}", $call.deel3).replace("{itemtype}", $itemtype)
             $call.category = 9
         }
+    } elseif (!$call.deel2) {
+        $resource = $singletons[$call.deel1]
+        if ($call.Method -eq "GET") {  
+            $call.code = $Template10GetNoIdResources.replace("{resources}", $call.deel1).replace("{resource}", $resource)
+            $call.category = 10
+        } elseif ($call.Method -eq "POST") {
+            $call.code = $Template11AddNoIdResources.replace("{resources}", $call.deel1).replace("{resource}", $resource)
+            $call.category = 11
+        }
     }
     if (!$call.Code) {
+        write-host ("NIET GEIMPLEMENTEERD: ({0}) {1}/{2}/{3}" -f ($call.Method, $call.deel1, $call.deel2, $call.deel3))
         $apicall = $call.Method + "_" + $call.URI.Replace("/","_").Replace("{","_").Replace("}","_")
         $call.code = $Template999NotYetImplemented.replace("{apicall}", $apicall)
     }
@@ -176,3 +189,4 @@ Write-Code ("# {0} functions implemented" -f $implementedcounter)
 Write-Host ("{0} functions implemented" -f $implementedcounter)
 $code | Set-Content -Path $codefile -Force 
 Write-Host "Generated code in file: $codefile"
+

@@ -19,6 +19,19 @@ Function Resultaat($tekst, $is, $verwacht) {
     }
 }
 
+# ======== MAIN ========
+
+# test enkele bulkopdrachten
+$result = Get-WootsAllBackgroundJob
+$result = Get-WootsAllComment
+return
+$result = Get-WootsAllNotification
+$result = Get-WootsAllQuestionBank
+$result = Get-WootsAllWebhook
+$result = Get-WootsAllRole
+
+return
+
 $users = Search-WootsUser @{last_name = "Abernathy"}
 Resultaat "Search-WootsUser zoek users" $users.count "6"
 
@@ -31,8 +44,6 @@ Resultaat "Set-User student_nummer" ($user.student_number -as [int]) $nummer
 Resultaat "Set-User student_nummer" (0 + $user.student_number) $nummer
 
 # Bewerkingen op courses
-$courses = Get-WootsAllCourse 
-Resultaat "Get-WootsAllCourse aantal items" $courses.count 50
 $courses = Search-WootsCourse @{trashed="false"} -MaxItems 20
 Resultaat "Search-WootsCourse aantal items" $courses.count 20
 $courses = Get-WootsAllCourse -MaxItems 1MB
@@ -57,5 +68,4 @@ Resultaat "Set-WootsCourse trashed=false" $result.trashed $False
 $result = Remove-WootsCourse -id $cid
 $result = Get-WootsCourse -id $cid
 Resultaat "Remove-WootsCourse" $result.trashed $True
-
 

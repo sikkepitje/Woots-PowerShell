@@ -97,7 +97,6 @@ Function NotYetImplemented {
 #>
 Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
     Assert-WootsInitialized
-    #if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
     $getpage = 1
     $data = @()
     $done = $False
@@ -152,7 +151,6 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
 #>
 Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
     Assert-WootsInitialized
-    #if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 3) " -NoNewline -ForegroundColor Blue}
     $ProgressPreference = "SilentlyContinue"
     Try {
         $response = Invoke-WebRequest -Uri $Uri -Method $Method `
@@ -201,32 +199,40 @@ Function Get-WootsResource ($resource, $id) {
     if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($id) " -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'GET' 
 }
-
 Function Add-WootsResource ($resource, $parameter) {
     # POST /api/v2/schools/{school_id}/{resource} $parameter
-    return Invoke-WootsApiCall -Uri  "$apiurl/schools/$school_id/$resource"  `
-        -Method 'POST' -Body $parameter
+    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    return Invoke-WootsApiCall -Uri  "$apiurl/schools/$school_id/$resource" -Method 'POST' -Body $parameter
 }
 Function Set-WootsResource($resource, $id, $parameter) {
     # PATCH /api/v2/{resource}/{id} $parameter
+    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($id)  " -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'PATCH' -Body $parameter
 }
-
 Function Remove-WootsResource ($resource, $id) {
     # DELETE /api/v2/{resource}/{id}
+    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($id)  " -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri "$apiurl/$resource/$id" -Method 'DELETE'
 }
-
 Function Get-WootsResourceItem($Resource, $id, $ItemType, $MaxItems = -1) {
     # GET /api/v2/{resource}/{resource_id}/{itemtype} ; List resource items
-    if ($verbose) {Write-Host "$(Get-FunctionName): $resource $id $itemtype" -NoNewline -ForegroundColor Blue}
-    $url = "$apiurl/$Resource/$id/$ItemType"
-    if ($verbose) {Write-Host "[$url]"  -NoNewline -ForegroundColor Blue}
-    return Invoke-MultiPageGet -nextlink $url -MaxItems $MaxItems
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $id $itemtype" -NoNewline -ForegroundColor Blue}
+    return Invoke-MultiPageGet -nextlink "$apiurl/$Resource/$id/$ItemType" -MaxItems $MaxItems
 }
 Function Add-WootsResourceItem($resources, $id, $itemtype, $parameter) {
     # POST /api/v2/{resource}/{resource_id}/{itemtype} $parameter ; Add item to resource
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $id $itemtype" -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri "$apiurl/$resources/$id/$itemtype" -Method 'POST' -Body $parameter
+}
+Function Get-WootsNoIdResource ($resource, $MaxItems = -1) {
+    # GET /api/v2/{resource}
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    return Invoke-MultiPageGet -nextlink "$apiurl/$resource" -MaxItems $MaxItems
+}
+Function Add-WootsNoIdResource ($resource, $parameter) {
+    # POST /api/v2/{resource} $parameter
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    return Invoke-WootsApiCall -Uri  "$apiurl/$resource" -Method 'POST' -Body $parameter
 }
 #endregion
 
