@@ -6,28 +6,40 @@ Op deze Github vind je een PowerShell module voor het interfacing met Woots Web 
 Op dit moment zijn 185 API aanroepen als functie geimplementeerd. Daarvan zijn 2 nog niet geimplementeerd. 
 
 
+== Installatie
+
+De module bestaat uit drie bestanden:  ``Woots.psm1``, ``Woots.psd1`` en  ``Woots-generatedcode.ps1``. 
+
+. Bepaal de PowerShell modulemap waar je de Woots module wilt toevoegen. 
+. Maak hierin een submap ``Woots``. 
+. Download de bestanden ``Woots.psm1``, ``Woots.psd1`` en  ``Woots-generatedcode.ps1`` en plaats deze in een PowerShell modulemap. 
+
+[NOTE]
+====
+Een modulemap voor Windows PowerShell tot en met versie 5.1 is bijvoorbeeld ``C:\Users\username\Documents\WindowsPowerShell\Modules``. Raadpleeg de environment variabele ``$ENV:PSModulePath`` om te zien waar de modulemappen op jouw computer staan. 
+====
+
 == Gebruik
 
-De module bestaat uit twee bestaden:  ``Woots.ps1`` en  ``Woots-generatedcode.ps1``. Download beide bestanden in je werkmap. 
-Je kunt de module in je scripts gebruiken door de module te importeren bijvoorbeeld als volgt.
+Je kunt de module in je scripts gebruiken door de module te importeren als volgt.
 
 [source,PowerShell]
 ----
-Import-Module .\Woots.ps1
-----
-of 
-[source,PowerShell]
-----
-Import-Module "$PSScriptRoot\Woots.ps"
+Import-Module Woots
 ----
 
 Initializeer Woots door een aanroep naar ``Initialize-Woots``. Deze functie verwacht 3 parameters:
 
-* ``$Hostname``  : dit is de hostname van het endpoint, meestal 'app.woots.nl' . Dit wordt aangevuld tot 'https://app.woots.nl/api/v2'.
+* ``$Hostname``  : 
+Dit is de hostname deel van de Woots API endpoint URL. In geval van https://app.woots.nl/api/v2,
+dan is dit het deel "app.woots.nl".
+* ``$School_id`` :
+Dit is een unieke nummer voor de schoolomgeving in Woots. De school_id is zichtbaar in de Wootsportal
+onder Mijn account > API-token.
+* ``$Token`` :
+Dit is een hexadecimale string van 30 tekens waarmee toegang tot de Woots API wordt geauthoriseerd. 
+Je kunt deze aanmaken in de Wootsportal  onder Mijn account > API-token. 
 
-* ``$School_id`` : numerieke ID van de school.
-
-* ``$Token`` : een string met een authorizatietoken. Ga naar https://app.woots.nl/users/tokens om een token aan te maken. Dit token wordt meegezonden in de request header van elke aanvraag.
 
 == Documentatie 
 
