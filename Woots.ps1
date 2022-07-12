@@ -1,57 +1,23 @@
 <#
-    Woots.psm1
-    8-5-2022 Paul Wiegmans
-
+    .SYNOPSIS
     Een PowerShell module voor het besturen van de Woots web API
-
-    Snelle vertaling tussen API en PS module:
-    [GET] List users     :  Get-WootsAllUsers
-    [POST] Create User   :  Add-WootsUser
-    [GET] show user      :  Get-WootsUser
-    [PATCH] update user  :  Set-WootsUser
-    [DELETE] delete user :  Remove-WootsUser
-    [GET] Search users   :  Search-WootsUser
-
-    Wijzigingen:
-    24-6-2022
-    * New-WootsFunction hernoemd naar Add-WootsFunction
-    * verwijderd -MaxItems parameters;  niet nodig
-    * toegevoegd generieke functie Get-WootsResourceById 
-    1-7-2022
-    * Search-WootsResource accepteert meer dan één zoekkenmerk
-    * toegevoegd: Add-ResourceItem
-    * toegevoegd: Get-ResourceItem
-    * generieke parameternamen $parameter
-    
-    https://www.youtube.com/watch?v=7mEmQgGowMY
-    gebruik Invoke-RestMethod 
-    try {
-        Invoke-RestMethod
-    }
-    Catch {
-        $_.exception.response
-    }
+    .DESCRIPTION
+    .NOTES
+        FunctionName : 
+        Created by   : Paul Wiegmans
+        Date Coded   : 8-5-2022
+    .LINK
+        https://github.com/sikkepitje/Woots-PowerShell
 #>
-$script:apiurl = $null # "https://app.woots.nl/api/v2"
+$script:apiurl = $null
 $script:school_id = $null
 $script:authorizationheader = $null
 $script:verbose = $True
 
-# ====================== UTILITY Functions ======================
+# ====================== UTILITY Functions (voor intern gebruik) ======================
 #region utility Functions
 Function Get-FunctionName ([int]$StackNumber = 1) {
     return [string]$(Get-PSCallStack)[$StackNumber].FunctionName
-}
-Function Initialize-Woots ($hostname, $school_id, $token) {
-    if ($hostname) {
-        $script:apiurl =  "https://$hostname/api/v2"
-    }
-    $script:school_id = $school_id
-    $script:authorizationheader = @{
-        "accept" = "application/json"
-        "authorization" = "Bearer $token" 
-    }
-    $ProgressPreference = 'SilentlyContinue'    # Subsequent calls do not display UI. Inschakelen voor hele script ??
 }
 Function Assert-WootsInitialized(){
     $msg="Er is geen {0} gedefinieerd. Initializeer Woots eerst!"
@@ -66,6 +32,7 @@ Function Show-Status($StatusCode, $StatusDescription, $count) {
 }
 Function Limit-Rate ($resphead) {
     if ($resphead["ratelimit-remaining"] -le 0) {
+        Write-Host "..." -ForegroundColor Red -NoNewline 
         $hersteltijd = [int]$resphead["ratelimit-reset"]
         if ($verbose) {Write-host ("Snelheidslimiet bereikt, wacht {0} seconden ..." -f $hersteltijd) -ForegroundColor Yellow}
         Start-Sleep $hersteltijd
@@ -73,12 +40,6 @@ Function Limit-Rate ($resphead) {
 }
 Function NotYetImplemented {
     Throw "{0} is not yet implemented" -f (Get-FunctionName -StackNumber 2)
-}
-Function Set-WootsLastError ($Status) {
-    $lasterror = "{0} {1}" -f ($Status.Exception.Message, $Status.Exception.Response.StatusDescription)
-}
-Function Get-WootsLastError {
-    $lasterror
 }
 <#
 .SYNOPSIS
@@ -240,8 +201,46 @@ Function Add-WootsNoIdResource ($Resource, $parameter) {
 Ik kan dit niet testen. Ik mag blijkbaar Add-WootsClass, Remove-WootsClass en Set-WootsClass
 niet gebruiken in een Wootsomgeving waar klassen zijn gesynchroniseerd met Magister #>
 
+# ====================== PUBLISHED FUNCTIONS ======================
+#region public function
+Function Initialize-Woots ($hostname, $school_id, $token) {
+<#
+    .SYNOPSIS
+    Deze function accepteer een aantal parameters die vereist zijn om te kunnen werken met Woots API.
+    .DESCRIPTION
+    .PARAMETER hostname
+    Dit is de hostname deel van de Woots API endpoint URL. In geval van https://app.woots.nl/api/v2,
+    dan is dit het deel "app.woots.nl".
+    .PARAMETER school_id
+    Dit is een unieke nummer voor de schoolomgeving in Woots. De school_id is zichtbaar in de Wootsportal
+    onder Mijn account > API-token.
+    .PARAMETER token
+    Dit is een hexadecimale string van 30 tekens waarmee toegang tot de Woots API wordt geauthoriseerd. 
+    Je kunt deze aanmaken in de Wootsportal  onder Mijn account > API-token. 
+    .EXAMPLE
+    .INPUTS
+    .OUTPUTS
+
+#>
+        if ($hostname) {
+        $script:apiurl =  "https://$hostname/api/v2"
+    }
+    $script:school_id = $school_id
+    $script:authorizationheader = @{
+        "accept" = "application/json"
+        "authorization" = "Bearer $token" 
+    }
+    $ProgressPreference = 'SilentlyContinue'    # Subsequent calls do not display UI. Inschakelen voor hele script ??
+}
+Function Set-WootsLastError ($Status) {
+    $lasterror = "{0} {1}" -f ($Status.Exception.Message, $Status.Exception.Response.StatusDescription)
+}
+Function Get-WootsLastError {
+    $lasterror
+}
+#endregion
 # ====================== CODE GENERATOR OUTPUT ======================
 
 . (Join-Path $PSScriptRoot "Woots-generatedcode.ps1")
 
-# ====================== NOG MEER CODE ======================
+# ====================== THAT'S ALL FOLKS ======================
