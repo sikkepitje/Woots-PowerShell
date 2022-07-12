@@ -27,14 +27,9 @@ $result = Get-WootsAllQuestionBank
 $result = Get-WootsAllBackgroundJob
 $result = Get-WootsAllComment
 
-$result = Get-WootsAllNotification
-$result = Get-WootsAllWebhook
-$result = Get-WootsAllRole
-
-return
 
 $users = Search-WootsUser @{last_name = "Abernathy"}
-Resultaat "Search-WootsUser zoek users" $users.count "6"
+Resultaat "Search-WootsUser zoek users" $users.count "5"
 
 # Bewerkingen op users
 $uid = 1428571 # Wilbur van der Abernathy

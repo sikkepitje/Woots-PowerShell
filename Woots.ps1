@@ -32,10 +32,10 @@
         $_.exception.response
     }
 #>
-$apiurl = $null # "https://app.woots.nl/api/v2"
-$school_id = $null
-$authorizationheader = $null
-$verbose = $True
+$script:apiurl = $null # "https://app.woots.nl/api/v2"
+$script:school_id = $null
+$script:authorizationheader = $null
+$script:verbose = $True
 
 # ====================== UTILITY Functions ======================
 #region utility Functions
@@ -53,17 +53,11 @@ Function Initialize-Woots ($hostname, $school_id, $token) {
     }
     $ProgressPreference = 'SilentlyContinue'    # Subsequent calls do not display UI. Inschakelen voor hele script ??
 }
-Function Initialize-WootsIniFile ($Path) {
-    if (!(test-path -path $Path)) {
-        Throw "$(Get-FunctionName): Path not found: $Path "
-    }
-    $config = Get-Content -Path $Path | ConvertFrom-StringData
-    Initialize-Woots -hostname $config.hostname -School_Id $config.School_id -Token $config.Token    
-}
 Function Assert-WootsInitialized(){
-    if (!$school_id) { Throw "Geen School_id"}
-    if (!$authorizationheader) { Throw "Geen token"}
-    if (!$apiurl) { Throw "Geen APIURL"} 
+    $msg="Er is geen {0} gedefinieerd. Initializeer Woots eerst!"
+    if (!$school_id) { Throw ($msg -f "school_id")}
+    if (!$authorizationheader) { Throw ($msg -f "token")}
+    if (!$apiurl) { Throw ($msg -f "Hostname")} 
 }
 Function Show-Status($StatusCode, $StatusDescription, $count) {
     if ($verbose) {
@@ -71,7 +65,6 @@ Function Show-Status($StatusCode, $StatusDescription, $count) {
     }
 }
 Function Limit-Rate ($resphead) {
-    # Beperk de 
     if ($resphead["ratelimit-remaining"] -le 0) {
         $hersteltijd = [int]$resphead["ratelimit-reset"]
         if ($verbose) {Write-host ("Snelheidslimiet bereikt, wacht {0} seconden ..." -f $hersteltijd) -ForegroundColor Yellow}
@@ -81,7 +74,12 @@ Function Limit-Rate ($resphead) {
 Function NotYetImplemented {
     Throw "{0} is not yet implemented" -f (Get-FunctionName -StackNumber 2)
 }
-
+Function Set-WootsLastError ($Status) {
+    $lasterror = "{0} {1}" -f ($Status.Exception.Message, $Status.Exception.Response.StatusDescription)
+}
+Function Get-WootsLastError {
+    $lasterror
+}
 <#
 .SYNOPSIS
     Invoke-WootsApiCall neemt een URI, doet herhaaldelijk een Invoke-WebRequest naar de API endpoint, 
@@ -109,6 +107,7 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
         catch [System.Net.WebException] {
             Write-Error ("{0}: Exception caught! {1} {2}" -f (
                 (Get-FunctionName), $_.Exception.Message, $_.Exception.Response.StatusDescription))
+            Set-WootsLastError -Status $_
             return $null
         }
         if ($response.content.Contains("<!DOCTYPE html>")) {
@@ -160,6 +159,7 @@ Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
             (Get-FunctionName -StackNumber 2), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
+        Set-WootsLastError -Status $_
         return $null
     }
     Show-Status $response.StatusCode $response.StatusDescription $response.content.count
