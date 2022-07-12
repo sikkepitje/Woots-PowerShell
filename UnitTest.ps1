@@ -3,6 +3,8 @@
 
     dit moet de module Woots testen. Hoe doen we dat?
     Eigen testfuncties
+
+    AANPASSEN AAN EIGEN OMGEVING
 #>
 
 $herePath = Split-Path -parent $MyInvocation.MyCommand.Definition
@@ -23,10 +25,8 @@ Function Resultaat($tekst, $is, $verwacht) {
 
 # test enkele bulkopdrachten
 $result = Get-WootsAllQuestionBank
-
 $result = Get-WootsAllBackgroundJob
 $result = Get-WootsAllComment
-
 
 $users = Search-WootsUser @{last_name = "Abernathy"}
 Resultaat "Search-WootsUser zoek users" $users.count "5"
