@@ -5,6 +5,9 @@
 Op deze Github vind je een PowerShell module voor het interfacing met Woots Web API v2. Dit is gebaseerd op de https://app.woots.nl/api/docs/index.html#/[Woots API documentatie].
 Op dit moment zijn 185 API aanroepen als functie geimplementeerd. Daarvan zijn 2 nog niet geimplementeerd. 
 
+== Vereisten
+
+Woots PowerShell module vereist PowerShell 5, PowerShell 7 of hoger.
 
 == Installatie
 
