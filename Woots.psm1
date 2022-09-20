@@ -12,7 +12,7 @@
 $script:apiurl = $null
 $script:school_id = $null
 $script:authorizationheader = $null
-$script:verbose = $True
+$script:verbose = $False
 
 # ====================== UTILITY Functions (voor intern gebruik) ======================
 #region utility Functions
@@ -84,8 +84,15 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
         } 
     
         Limit-Rate $response.Headers
-        $getpage = [int]($response.Headers["current-page"]) + 1    
-        if ($getpage -gt [int]$response.Headers["total-pages"]) {Break}
+        if ($PSVersionTable.PSVersion.Major -ge 6) {
+            $currentpage = $response.Headers["current-page"][0] -as [int]
+            $totalpages = $response.Headers["total-pages"][0] -as [int]
+        } else {
+            $currentpage = $response.Headers["current-page"] -as [int]
+            $totalpages = $response.Headers["total-pages"] -as [int]
+        }
+        $getpage = $currentpage + 1    
+        if ($getpage -gt $totalpages) {Break}
         if ($links.Keys -notcontains "next") {Break} 
         $nextlink = $links["next"]
         if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) {Break}
