@@ -81,3 +81,8 @@ Een deel van de code in de module is gegenereerd door een codegenerator.
 * ``WootsModuleCodeGenerator.ps1`` : dit script genereert de code in ``Woots-generatedcode.ps1``. 
 
 * ``Woots-api-calls.csv`` : dit bestand wordt ingelezen door ``WootsModuleCodeGenerator.ps1``. 
+
+
+== Changes
+
+* 20230802 : added "charset=utf-8" to contenttype of Invoke-WebRequest to be able to send special chars in names and such.
