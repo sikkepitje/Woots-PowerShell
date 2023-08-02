@@ -8,6 +8,9 @@
         Date Coded   : 8-5-2022
     .LINK
         https://github.com/sikkepitje/Woots-PowerShell
+    .NOTES 
+        change 
+        20230802 : added "charset=utf-8" to contenttype of Invoke-WebRequest.
 #>
 $script:apiurl = $null
 $script:school_id = $null
@@ -122,7 +125,7 @@ Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
     Try {
         $response = Invoke-WebRequest -Uri $Uri -Method $Method `
             -Headers $authorizationheader `
-            -Body ($Body | ConvertTo-Json) -ContentType "application/json"
+            -Body ($Body | ConvertTo-Json) -ContentType "application/json; charset=utf-8"
     }
     catch [System.Net.WebException] {
         Write-Error ("{0}: Exception caught! {1} {2}" -f (
