@@ -28,7 +28,7 @@ $swaggerurl = 'https://app.woots.nl/api/docs/v2/swagger.yaml'
 $teller = 0
 $api = @() 
 $code = @()
-$allowedmethods = 'get', 'put', 'patch', 'delete'
+$allowedmethods = 'get', 'post', 'put', 'patch', 'delete'
 
 $Template20SearchResource = 'Function Search-Woots{resource}($Parameter,$MaxItems=-1) {return Search-WootsResource -resource "{resources}" -parameter $Parameter -MaxItem $MaxItems}'
 $Template30GetResource = 'Function Get-Woots{resource}($id) { return Get-WootsResource -resource "{resources}" -id $id }'
