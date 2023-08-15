@@ -205,6 +205,14 @@ Function Add-WootsNoIdResource ($Resource, $parameter) {
     if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $resource " -NoNewline -ForegroundColor Blue}
     return Invoke-WootsApiCall -Uri  "$apiurl/$Resource" -Method 'POST' -Body $parameter
 }
+Function Get-WootsLogsResource ($Resource, $Id, $MaxItems = -1) {
+    # GET /api/v2/logs/{resource}/{id}
+    # haal data op, gebruik pagination, respecteer de ratelimit
+    # $resource is één van:  assignments, courses, courses_users, responses, results, schools, submissions, subsets, users
+    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    return Invoke-MultiPageGet -Nextlink "$apiurl/logs/$Resource/$Id"  -MaxItems $MaxItems
+}
+
 #endregion
 
 <#  Add-WootsClass, Remove-WootsClass, Set-WootsClass

@@ -86,3 +86,10 @@ Een deel van de code in de module is gegenereerd door een codegenerator.
 == Changes
 
 * 20230802 : added "charset=utf-8" to contenttype of Invoke-WebRequest to be able to send special chars in names and such.
+
+=== WootsModuleCodeGenerator.ps1
+
+* 20230815 Extract api calls automatically from  https://stage.woots.nl/api/docs/v2/swagger.yaml
+* 20230815 Added generation date and openapi version umber in generated code
+* 20230815 added API call for logs
+* 20230815 output code sorted and grouped by category 
