@@ -56,9 +56,10 @@ Function Get-SingleTag($tag) {
         }
         elseif ($tag.substring($tag.length - 1) -eq "e") {
             if (!($tag.substring($tag.length - 2) -eq "ve") `
-                    -and !($tag.contains("exercis")) `
-                    -and !($tag.contains("course")) `
-                    -and !($tag.contains("role"))) {
+                    -and !($tag.endswith("exercise")) `
+                    -and !($tag.endswith("response")) `
+                    -and !($tag.endswith("course")) `
+                    -and !($tag.endswith("role"))) {
                 $tag = $tag.substring(0, $tag.length - 1)
             }
         }
