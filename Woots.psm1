@@ -22,11 +22,11 @@ $script:verbose = $False
 Function Get-FunctionName ([int]$StackNumber = 1) {
     return [string]$(Get-PSCallStack)[$StackNumber].FunctionName
 }
-Function Assert-WootsInitialized(){
-    $msg="Er is geen {0} gedefinieerd. Initializeer Woots eerst!"
-    if (!$school_id) { Throw ($msg -f "school_id")}
-    if (!$authorizationheader) { Throw ($msg -f "token")}
-    if (!$apiurl) { Throw ($msg -f "Hostname")} 
+Function Assert-WootsInitialized() {
+    $msg = "Er is geen {0} gedefinieerd. Initializeer Woots eerst!"
+    if (!$school_id) { Throw ($msg -f "school_id") }
+    if (!$authorizationheader) { Throw ($msg -f "token") }
+    if (!$apiurl) { Throw ($msg -f "Hostname") } 
 }
 Function Show-Status($StatusCode, $StatusDescription, $count) {
     if ($verbose) {
@@ -34,10 +34,13 @@ Function Show-Status($StatusCode, $StatusDescription, $count) {
     }
 }
 Function Limit-Rate ($resphead) {
-    if ($resphead["ratelimit-remaining"] -le 0) {
-        Write-Host "..." -ForegroundColor Red -NoNewline 
-        $hersteltijd = [int]$resphead["ratelimit-reset"]
-        if ($verbose) {Write-host ("Snelheidslimiet bereikt, wacht {0} seconden ..." -f $hersteltijd) -ForegroundColor Yellow}
+    if ($resphead["ratelimit-remaining"][0] -le 0) {
+        Write-Host "." -ForegroundColor Red -NoNewline 
+        $hersteltijd = 1 + $resphead["ratelimit-reset"][0]
+        if ($verbose) { 
+            Write-host ("Snelheidslimiet bereikt, wacht {0} seconden ..." -f $hersteltijd) -ForegroundColor Yellow 
+        }
+        Write-Host "Rate limiting is actief, delay is ($hersteltijd)"
         Start-Sleep $hersteltijd
     }
 }
@@ -63,7 +66,7 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
     $data = @()
     $done = $False
     while (!$done) {
-        if ($verbose) {write-host "." -NoNewline -ForegroundColor Blue}
+        if ($verbose) { write-host "." -NoNewline -ForegroundColor Blue }
         $ProgressPreference = 'SilentlyContinue' 
         Try {
             $response = Invoke-WebRequest -Uri $nextlink -Method 'GET' -Headers $authorizationheader 
@@ -90,15 +93,16 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
         if ($PSVersionTable.PSVersion.Major -ge 6) {
             $currentpage = $response.Headers["current-page"][0] -as [int]
             $totalpages = $response.Headers["total-pages"][0] -as [int]
-        } else {
+        }
+        else {
             $currentpage = $response.Headers["current-page"] -as [int]
             $totalpages = $response.Headers["total-pages"] -as [int]
         }
         $getpage = $currentpage + 1    
-        if ($getpage -gt $totalpages) {Break}
-        if ($links.Keys -notcontains "next") {Break} 
+        if ($getpage -gt $totalpages) { Break }
+        if ($links.Keys -notcontains "next") { Break } 
         $nextlink = $links["next"]
-        if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) {Break}
+        if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) { Break }
     }
     Show-Status $response.StatusCode $response.StatusDescription $data.count 
     if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) {
@@ -119,7 +123,7 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
 .OUTPUTS
     [PSCustomObject]  single item
 #>
-Function Invoke-WootsApiCall($Uri, $Method, $Body=$null) {
+Function Invoke-WootsApiCall($Uri, $Method, $Body = $null) {
     Assert-WootsInitialized
     $ProgressPreference = "SilentlyContinue"
     Try {
@@ -149,12 +153,13 @@ Function Search-WootsResource($Resource, $Parameter, $MaxItems = -1) {
         }
     #>    
     Try {
-        $query = ($Parameter.GetEnumerator() | ForEach-Object { "{0}:`"{1}`"" -f ($_.name, $_.value)}) -join " "
+        $query = ($Parameter.GetEnumerator() | ForEach-Object { "{0}:`"{1}`"" -f ($_.name, $_.value) }) -join " "
     } 
-    Catch { # bescherm tegen verouderde functieparameters
+    Catch {
+        # bescherm tegen verouderde functieparameters
         Throw "Verkeerde parameters. Gebruik Search-WootsResource(`$Resource, `$Parameter)"
     }
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): ($query)" -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host "$(Get-FunctionName -StackNumber 2): ($query)" -NoNewline -ForegroundColor Blue }
     return Invoke-MultiPageGet -Nextlink ("$apiurl/search/$resource/?query=$query" -f ($name, $value)) -MaxItems $MaxItems
 }
 
@@ -162,54 +167,54 @@ Function Get-WootsAllResources ($Resource, $MaxItems = -1) {
     # GET /api/v2/school/{school_id}/{resource}
     # haal data op, gebruik pagination, respecteer de ratelimit
     # $resource is één van:  roles, labels, classes, courses, departments, locations, periods, users
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue }
     return Invoke-MultiPageGet -Nextlink "$apiurl/schools/$school_id/$Resource"  -MaxItems $MaxItems
 }
 Function Get-WootsResource ($Resource, $id) {
     # GET /api/v2/{resource}/{id}
-    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($id) " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host " $(Get-FunctionName -StackNumber 2) : ($id) " -NoNewline -ForegroundColor Blue }
     return Invoke-WootsApiCall -Uri "$apiurl/$Resource/$id" -Method 'GET' 
 }
 Function Add-WootsResource ($Resource, $Parameter) {
     # POST /api/v2/schools/{school_id}/{resource} $Parameter
-    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host " $(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue }
     return Invoke-WootsApiCall -Uri  "$apiurl/schools/$school_id/$Resource" -Method 'POST' -Body $Parameter
 }
 Function Set-WootsResource($Resource, $Id, $Parameter) {
     # PATCH /api/v2/{resource}/{id} $Parameter
-    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($Id)  " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host " $(Get-FunctionName -StackNumber 2) : ($Id)  " -NoNewline -ForegroundColor Blue }
     return Invoke-WootsApiCall -Uri "$apiurl/$Resource/$id" -Method 'PATCH' -Body $Parameter
 }
 Function Remove-WootsResource ($Resource, $Id) {
     # DELETE /api/v2/{resource}/{id}
-    if ($verbose) {Write-Host " $(Get-FunctionName -StackNumber 2) : ($Id)  " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host " $(Get-FunctionName -StackNumber 2) : ($Id)  " -NoNewline -ForegroundColor Blue }
     return Invoke-WootsApiCall -Uri "$apiurl/$Resource/$Id" -Method 'DELETE'
 }
 Function Get-WootsResourceItem($Resource, $Id, $ItemType, $MaxItems = -1) {
     # GET /api/v2/{resource}/{resource_id}/{itemtype} ; List resource items
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $Resource #$Id $itemtype" -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host "$(Get-FunctionName -StackNumber 2): $Resource #$Id $itemtype" -NoNewline -ForegroundColor Blue }
     return Invoke-MultiPageGet -nextlink "$apiurl/$Resource/$Id/$ItemType" -MaxItems $MaxItems
 }
 Function Add-WootsResourceItem($Resource, $Id, $Itemtype, $Parameter) {
     # POST /api/v2/{resource}/{resource_id}/{itemtype} $Parameter ; Add item to resource
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $Resource #$Id $itemtype" -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host "$(Get-FunctionName -StackNumber 2): $Resource #$Id $itemtype" -NoNewline -ForegroundColor Blue }
     return Invoke-WootsApiCall -Uri "$apiurl/$Resource/$Id/$itemtype" -Method 'POST' -Body $Parameter
 }
 Function Get-WootsNoIdResource ($Resource, $MaxItems = -1) {
     # GET /api/v2/{resource}
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $resource " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host "$(Get-FunctionName -StackNumber 2): $resource " -NoNewline -ForegroundColor Blue }
     return Invoke-MultiPageGet -nextlink "$apiurl/$Resource" -MaxItems $MaxItems
 }
 Function Add-WootsNoIdResource ($Resource, $parameter) {
     # POST /api/v2/{resource} $parameter
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2): $resource " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host "$(Get-FunctionName -StackNumber 2): $resource " -NoNewline -ForegroundColor Blue }
     return Invoke-WootsApiCall -Uri  "$apiurl/$Resource" -Method 'POST' -Body $parameter
 }
 Function Get-WootsLogsResource ($Resource, $Id, $MaxItems = -1) {
     # GET /api/v2/logs/{resource}/{id}
     # haal data op, gebruik pagination, respecteer de ratelimit
     # $resource is één van:  assignments, courses, courses_users, responses, results, schools, submissions, subsets, users
-    if ($verbose) {Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue}
+    if ($verbose) { Write-Host "$(Get-FunctionName -StackNumber 2) " -NoNewline -ForegroundColor Blue }
     return Invoke-MultiPageGet -Nextlink "$apiurl/logs/$Resource/$Id"  -MaxItems $MaxItems
 }
 
@@ -222,7 +227,7 @@ niet gebruiken in een Wootsomgeving waar klassen zijn gesynchroniseerd met Magis
 # ====================== PUBLISHED FUNCTIONS ======================
 #region public function
 Function Initialize-Woots ($hostname, $school_id, $token) {
-<#
+    <#
     .SYNOPSIS
     Intialiseer parameters nodig om te kunnen werken met de Woots API.
     .DESCRIPTION
@@ -240,12 +245,12 @@ Function Initialize-Woots ($hostname, $school_id, $token) {
     .OUTPUTS
 
 #>
-        if ($hostname) {
-        $script:apiurl =  "https://$hostname/api/v2"
+    if ($hostname) {
+        $script:apiurl = "https://$hostname/api/v2"
     }
     $script:school_id = $school_id
     $script:authorizationheader = @{
-        "accept" = "application/json"
+        "accept"        = "application/json"
         "authorization" = "Bearer $token" 
     }
     $ProgressPreference = 'SilentlyContinue'    # Subsequent calls do not display UI. Inschakelen voor hele script ??
