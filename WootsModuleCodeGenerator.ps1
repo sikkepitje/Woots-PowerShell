@@ -18,10 +18,12 @@
     * output code sorted and grouped by category 
 
     TO DO    
+    * HTML documentatie, die PS functie koppelt aan URI/method
 #>
 
 $herePath = Split-Path -parent $MyInvocation.MyCommand.Definition
 $codefile = (Join-Path $herepath "Woots-generatedcode.ps1")
+$htmlfile = (Join-Path $herepath "Woots-documentatie.html")
 
 # download en analyseer swagger.yaml van Woots website
 $swaggerurl = 'https://app.woots.nl/api/docs/v2/swagger.yaml'
@@ -97,6 +99,7 @@ catch [System.Net.WebException] {
 }
 Write-Host 'Omzetten YAML...'
 $swag = $response.content | ConvertFrom-Yaml
+Write-Host "OpenAPI $($swag.openapi)"
 
 foreach ($url in $swag.paths.Keys) {
     foreach ($method in $allowedmethods) {
@@ -236,11 +239,11 @@ ForEach ($call in $api) {
 $functionlist = $api | Select-Object -ExpandProperty Function | Sort-Object
 $difflist = Compare-Object -ReferenceObject $functionlist -DifferenceObject ($functionlist | Sort-Object -Unique)
 if ($difflist) {
-    Write-Host "Warning: Duplicate function names found for:" -ForegroundColor Red
+    Write-Host "Duplicaten gevonden voor functies:" -ForegroundColor Red
     Write-host $difflist.InputObject
 }
 else {
-    Write-Host "No Duplicate function names" -ForegroundColor Green
+    Write-Host "Geen duplicaten in functienamen" -ForegroundColor Green
 }
 
 # Genereer uitvoer 

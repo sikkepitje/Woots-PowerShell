@@ -11,7 +11,7 @@ $herePath = Split-Path -parent $MyInvocation.MyCommand.Definition
 . "$herepath\WootsInit-Staging.ps1"
 
 Function Resultaat($tekst, $is, $verwacht) {
-    Write-Host "Controle: $tekst, " -NoNewline -ForegroundColor yellow
+    Write-Host "Controle: $tekst, " -NoNewline -ForegroundColor white
     Write-Host "Is $is " -NoNewline -ForegroundColor yellow 
     write-host "Verwacht $verwacht " -NoNewline -ForegroundColor cyan
     if ($is -eq $verwacht) {
@@ -51,6 +51,9 @@ Resultaat "Course course_code gewijzigd" $result.course_code "Naam gewijzigd"
 $result = Set-WootsCourse -id $cid -parameter @{name = "5H Tuareg"; course_code = ""}
 $result = Get-WootsCourse -id $cid
 Resultaat "Course naam gewijzigd" $result.name "5H Tuareg"
+
+# Bewerkingen op coursesclasses 
+# nog te ontwikkelen...
 
 # undelete/delete course
 $cid = 160972  # trashed course "5H Tuareg"

@@ -11,11 +11,17 @@
     .NOTES 
         change 
         20230802 : added "charset=utf-8" to contenttype of Invoke-WebRequest.
+        20231013: 
+          Limit-Rate: detectie van lege header.
+          Invoke-WootsApiCall: detectie van lege content.
+          Betere afhandeling van HTTP errors.
+
 #>
 $script:apiurl = $null
 $script:school_id = $null
 $script:authorizationheader = $null
 $script:verbose = $False
+$timeout = 5 # Invoke-Webrequest timeout seconden
 
 # ====================== UTILITY Functions (voor intern gebruik) ======================
 #region utility Functions
@@ -28,39 +34,41 @@ Function Assert-WootsInitialized() {
     if (!$authorizationheader) { Throw ($msg -f "token") }
     if (!$apiurl) { Throw ($msg -f "Hostname") } 
 }
-Function Show-Status($StatusCode, $StatusDescription, $count) {
+Function Show-Status($respons, $count) {
     if ($verbose) {
-        Write-Host (" {0} {1} ({2} records)" -f ($StatusCode, $StatusDescription, $count)) -ForegroundColor Blue
+        Write-Host (" {0} {1} ({2} records)" -f ($response.StatusCode, $response.StatusDescription, $count)) -ForegroundColor Blue
     }
 }
 Function Limit-Rate ($resphead) {
-    if ($resphead["ratelimit-remaining"][0] -le 0) {
-        Write-Host "." -ForegroundColor Red -NoNewline 
-        $hersteltijd = 1 + $resphead["ratelimit-reset"][0]
-        if ($verbose) { 
-            Write-host ("Snelheidslimiet bereikt, wacht {0} seconden ..." -f $hersteltijd) -ForegroundColor Yellow 
+    if ($resphead) {
+        if ($resphead["ratelimit-remaining"][0] -le 0) {
+            Write-Host "." -ForegroundColor Red -NoNewline 
+            $hersteltijd = 1 + $resphead["ratelimit-reset"][0]
+            if ($verbose) { 
+                Write-host ("Snelheidslimiet bereikt, wacht {0} seconden ..." -f $hersteltijd) -ForegroundColor Yellow 
+            }
+            Write-Host "Rate limiting is actief, delay is ($hersteltijd)"
+            Start-Sleep $hersteltijd
         }
-        Write-Host "Rate limiting is actief, delay is ($hersteltijd)"
-        Start-Sleep $hersteltijd
     }
 }
 Function NotYetImplemented {
     Throw "{0} is not yet implemented" -f (Get-FunctionName -StackNumber 2)
 }
-<#
-.SYNOPSIS
-    Invoke-WootsApiCall neemt een URI, doet herhaaldelijk een Invoke-WebRequest naar de API endpoint, 
-    totdat alle beschikbare items zijn opgehaald en retourneert alle items. Het doet rate limiting,
-    en vangt excepties af.
-.PARAMETER Nextlink
-    URI inclusief query parameters
-.PARAMETER MaxItems
-    Aantal maximaal op te halen items. LET OP: dit is niet exact, maar afgerond naar boven tot 
-    het aantal items per pagina vermenigvuldigd met het aantal opgehaalde paginas. 
-.OUTPUTS 
-    retourneert een lijst (array) met items.
-#>
 Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
+    <#
+    .SYNOPSIS
+        Invoke-WootsApiCall neemt een URI, doet herhaaldelijk een Invoke-WebRequest naar de API endpoint, 
+        totdat alle beschikbare items zijn opgehaald en retourneert alle items. Het doet rate limiting,
+        en vangt excepties af.
+    .PARAMETER Nextlink
+        URI inclusief query parameters
+    .PARAMETER MaxItems
+        Aantal maximaal op te halen items. LET OP: dit is niet exact, maar afgerond naar boven tot 
+        het aantal items per pagina vermenigvuldigd met het aantal opgehaalde paginas. 
+    .OUTPUTS 
+        retourneert een lijst (array) met items.
+    #>
     Assert-WootsInitialized
     $getpage = 1
     $data = @()
@@ -69,14 +77,25 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
         if ($verbose) { write-host "." -NoNewline -ForegroundColor Blue }
         $ProgressPreference = 'SilentlyContinue' 
         Try {
-            $response = Invoke-WebRequest -Uri $nextlink -Method 'GET' -Headers $authorizationheader 
+            $response = Invoke-WebRequest -Uri $nextlink -Method 'GET' -Headers $authorizationheader -TimeoutSec $timeout -ErrorAction:Stop
         }
         catch [System.Net.WebException] {
-            Write-Error ("{0}: Exception caught! {1} {2}" -f (
-                (Get-FunctionName), $_.Exception.Message, $_.Exception.Response.StatusDescription))
-            Set-WootsLastError -Status $_
+            $fout = "{0}: WebException {1} {2}" -f (
+                (Get-FunctionName -StackNumber 3), 
+                $_.Exception.Response.StatusCode, 
+                $_.Exception.Response.StatusDescription)
+            Set-WootsLastError -Status $fout
             return $null
         }
+        Catch [System.Net.Http.HttpRequestException] {
+            $fout = "{0}: HTTP error {1} {2} {3}" -f (
+            (Get-FunctionName -StackNumber 3), 
+                $_.Exception.Response.StatusCode.value__, 
+                $_.Exception.Response.StatusCode, 
+                $_)
+            Set-WootsLastError -Status $fout
+            return $null
+        }    
         if ($response.content.Contains("<!DOCTYPE html>")) {
             Write-Error "Onverwacht antwoord; niet ingelogd of een andere fout"
             return $data
@@ -104,42 +123,57 @@ Function Invoke-MultiPageGet($Nextlink, $MaxItems = -1) {
         $nextlink = $links["next"]
         if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) { Break }
     }
-    Show-Status $response.StatusCode $response.StatusDescription $data.count 
+    Show-Status $response $data.count 
     if ($MaxItems -ge 0 -and $data.count -gt $MaxItems) {
         return ($data | Select-Object -First $MaxItems)
     }
     return $data
 }
-<#
-.SYNOPSIS
-    Invoke-WootsApiCall neemt enkele parameters, doet een Invoke-WebRequest naar de API endpoint, 
-    en retourneert een enkel item. Het doet rate limiting en vangt excepties af.
-.PARAMETER Uri 
-    Uri is het endpoint van de API.
-.PARAMETER Method
-    Method bevat httpd-method, één van: GET, POST, PUT, PATCH, DELETE
-.PARAMETER Body
-    Body is een hashtable. Deze wordt meegestuurd in body van de aanvraag.
-.OUTPUTS
-    [PSCustomObject]  single item
-#>
 Function Invoke-WootsApiCall($Uri, $Method, $Body = $null) {
+    <#
+    .SYNOPSIS
+        Invoke-WootsApiCall neemt enkele parameters, doet een Invoke-WebRequest naar de API endpoint, 
+        en retourneert een enkel item. Het doet rate limiting en vangt excepties af.
+    .PARAMETER Uri 
+        Uri is het endpoint van de API.
+    .PARAMETER Method
+        Method bevat httpd-method, één van: GET, POST, PUT, PATCH, DELETE
+    .PARAMETER Body
+        Body is een hashtable. Deze wordt meegestuurd in body van de aanvraag.
+    .OUTPUTS
+        [PSCustomObject]  single item
+#>
     Assert-WootsInitialized
     $ProgressPreference = "SilentlyContinue"
+    $response = $null
     Try {
         $response = Invoke-WebRequest -Uri $Uri -Method $Method `
             -Headers $authorizationheader `
-            -Body ($Body | ConvertTo-Json) -ContentType "application/json; charset=utf-8"
+            -Body ($Body | ConvertTo-Json) -ContentType "application/json; charset=utf-8" -TimeoutSec $timeout -ErrorAction:Stop
     }
     catch [System.Net.WebException] {
-        Write-Error ("{0}: Exception caught! {1} {2}" -f (
-            (Get-FunctionName -StackNumber 2), $_.Exception.Response.StatusCode, $_.Exception.Response.StatusDescription))
-        Set-WootsLastError -Status $_
+        $fout = "{0}: WebException {1} {2}" -f (
+            (Get-FunctionName -StackNumber 3), 
+            $_.Exception.Response.StatusCode, 
+            $_.Exception.Response.StatusDescription)
+        Set-WootsLastError -Status $fout
+        return $null
+    } 
+    Catch [System.Net.Http.HttpRequestException] {
+        $fout = "{0}: HTTP error {1} {2} {3}" -f (
+            (Get-FunctionName -StackNumber 3), 
+            $_.Exception.Response.StatusCode.value__, 
+            $_.Exception.Response.StatusCode, 
+            $_)
+        Set-WootsLastError -Status $fout
         return $null
     }
-    Show-Status $response.StatusCode $response.StatusDescription $response.content.count
+    Show-Status $response $response.content.count
     Limit-Rate $response.Headers
-    return $response.content | ConvertFrom-Json
+    if ($response.content) {
+        return $response.content | ConvertFrom-Json
+    }
+    return $null
 }
 #endregion
 # ====================== PROTOTYPE FunctionS ======================
@@ -188,7 +222,7 @@ Function Set-WootsResource($Resource, $Id, $Parameter) {
 Function Remove-WootsResource ($Resource, $Id) {
     # DELETE /api/v2/{resource}/{id}
     if ($verbose) { Write-Host " $(Get-FunctionName -StackNumber 2) : ($Id)  " -NoNewline -ForegroundColor Blue }
-    return Invoke-WootsApiCall -Uri "$apiurl/$Resource/$Id" -Method 'DELETE'
+    return Invoke-WootsApiCall -Uri "$apiurl/$Resource/$Id" -Method 'DELETE' -Body ""
 }
 Function Get-WootsResourceItem($Resource, $Id, $ItemType, $MaxItems = -1) {
     # GET /api/v2/{resource}/{resource_id}/{itemtype} ; List resource items
@@ -229,22 +263,21 @@ niet gebruiken in een Wootsomgeving waar klassen zijn gesynchroniseerd met Magis
 Function Initialize-Woots ($hostname, $school_id, $token) {
     <#
     .SYNOPSIS
-    Intialiseer parameters nodig om te kunnen werken met de Woots API.
+        Intialiseer parameters nodig om te kunnen werken met de Woots API.
     .DESCRIPTION
     .PARAMETER hostname
-    Dit is de hostname deel van de Woots API endpoint URL. In geval van https://app.woots.nl/api/v2,
-    dan is dit het deel "app.woots.nl".
+        Dit is de hostname deel van de Woots API endpoint URL. In geval van https://app.woots.nl/api/v2,
+        dan is dit het deel "app.woots.nl".
     .PARAMETER school_id
-    Dit is het unieke nummer van de schoolomgeving in Woots. De school_id is zichtbaar in de Wootsportal
-    onder Mijn account > API-token.
+        Dit is het unieke nummer van de schoolomgeving in Woots. De school_id is zichtbaar in de Wootsportal
+        onder Mijn account > API-token.
     .PARAMETER token
-    Dit is een hexadecimale string van 30 tekens waarmee toegang tot de Woots API wordt geauthoriseerd. 
-    Je kunt deze aanmaken in de Wootsportal  onder Mijn account > API-token. 
+        Dit is een hexadecimale string van 30 tekens waarmee toegang tot de Woots API wordt geauthoriseerd. 
+        Je kunt deze aanmaken in de Wootsportal  onder Mijn account > API-token. 
     .EXAMPLE
     .INPUTS
     .OUTPUTS
-
-#>
+    #>
     if ($hostname) {
         $script:apiurl = "https://$hostname/api/v2"
     }
@@ -256,11 +289,10 @@ Function Initialize-Woots ($hostname, $school_id, $token) {
     $ProgressPreference = 'SilentlyContinue'    # Subsequent calls do not display UI. Inschakelen voor hele script ??
 }
 Function Set-WootsLastError ($Status) {
-    # ik weet echt niet meer wat ik hiermee van plan was.
-    $script:lasterror = "{0} {1}" -f ($Status.Exception.Message, $Status.Exception.Response.StatusDescription)
+    $global:wootslasterror = $status
 }
 Function Get-WootsLastError {
-    $lasterror
+    return $global:wootslasterror 
 }
 #endregion
 # ====================== INCLUDE CODE GENERATOR OUTPUT ======================
